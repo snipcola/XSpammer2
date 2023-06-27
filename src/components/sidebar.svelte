@@ -1,5 +1,10 @@
 <script lang='ts'>
     import './sidebar.css';
+    import { logsActive as _logsActive, content as _content } from '../stores';
+
+    let logsActive;
+    
+    _logsActive.subscribe((value) => logsActive = value);
 
     import Button from './button.svelte';
     import { type IconDefinition, faHome, faBoxesStacked, faTerminal, faLink } from '@fortawesome/free-solid-svg-icons';
@@ -7,11 +12,15 @@
 
     class Tab {
         label: string;
+        active: boolean;
         icon: IconDefinition;
+        onClick: () => void;
 
-        constructor(label, icon = faLink) {
+        constructor(label, icon = faLink, active = false, onClick = () => {}) {
             this.label = label || 'Button';
+            this.active = active;
             this.icon = icon;
+            this.onClick = onClick;
         }
     };
 
@@ -30,9 +39,32 @@
     };
 
     const tabs = [
-        new Tab('Home', faHome),
-        new Tab('Instances', faBoxesStacked),
-        new Tab('Logs', faTerminal)
+        new Tab('Home', faHome, true, function () {
+            const home = document.querySelector('.tab-home');
+            const instances = document.querySelector('.tab-instances');
+
+            home.classList.add('tab-active');
+            instances.classList.remove('tab-active');
+
+            _content.set('home');
+        }),
+        new Tab('Instances', faBoxesStacked, false, function () {
+            const home = document.querySelector('.tab-home');
+            const instances = document.querySelector('.tab-instances');
+
+            home.classList.remove('tab-active');
+            instances.classList.add('tab-active');
+
+            _content.set('instances');
+        }),
+        new Tab('Logs', faTerminal, logsActive, function () {
+            const currentLogsActive = logsActive;
+            const logs = document.querySelector('.tab-logs');
+
+            _logsActive.set(!currentLogsActive);
+
+            logs.classList.toggle('tab-active');
+        })
     ];
 
     const buttons = [
@@ -41,14 +73,14 @@
     ];
 </script>
 
-<div class='sidebar'>
+<div class='sidebar container'>
     <div class='branding'>
         <img alt='XSpammer 2' src='images/icon-text.png' class='icon'>
         <p class='info'>Snipcola ~ v0.0.1</p>
     </div>
     <div class='tabs'>
         {#each tabs as tab}
-            <Button customClass='tab' label={tab.label} size='lg' variant='secondary' iconLeft={tab.icon} />
+            <Button customClass={`tab tab-${tab.label.toLowerCase()} ${tab.active && 'tab-active'}`} label={tab.label} size='lg' variant='secondary' iconLeft={tab.icon} onClick={tab.onClick} />
         {/each}
     </div>
     <div class='buttons'>

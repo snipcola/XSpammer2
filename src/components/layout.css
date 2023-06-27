@@ -5,7 +5,7 @@ main {
 }
 
 /* Containers */
-main > * {
+.container {
     padding: var(--container-padding);
     height: calc(100vh - (2 * var(--body-padding)));
     border-radius: var(--border-radius);
@@ -18,7 +18,26 @@ main > * {
     width: var(--sidebar-width) !important;
 }
 
-/* Content */
-.content {
+/* Right */
+.right {
     width: var(--content-width) !important;
+}
+
+.right .logs {
+    display: none;
+}
+
+.right.logs-active {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.right.logs-active .content {
+    height: calc(62vh - (2 * var(--body-padding)));
+}
+
+.right.logs-active .logs {
+    height: calc(40vh - (2 * var(--body-padding)));
+    display: block;
 }

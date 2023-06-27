@@ -46,3 +46,8 @@
     cursor: initial !important;
     height: 1.5rem !important;
 }
+
+.tab-active {
+    color: var(--primary);
+    opacity: 50% !important;
+}

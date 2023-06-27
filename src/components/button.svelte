@@ -13,9 +13,10 @@
     export let iconRight: IconDefinition = null;
 
     export let customClass: string = '';
+    export let onClick: () => void = () => {};
 </script>
 
-<button class={`button size-${size} variant-${variant} ${customClass}`}>
+<button class={`button size-${size} variant-${variant} ${customClass}`} on:click={onClick}>
     {#if iconLeft}
         <Icon icon={iconLeft} />
     {/if}
