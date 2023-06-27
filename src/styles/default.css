@@ -31,6 +31,10 @@
 
     --button-lg-padding: .5rem 1.75rem;
     --button-lg-font-size: 1rem;
+
+    --input-color: #111214;
+    --input-padding: .5rem .75rem;
+    --input-font-size: .95rem;
 }
 
 /* Fonts */
@@ -42,7 +46,7 @@
 }
 
 /* Text */
-button, a, p, h1, h2, h3, h4, h5, h6 {
+input, li, button, a, p, h1, h2, h3, h4, h5, h6 {
     font-family: 'Assistant', Arial, sans-serif !important;
     font-weight: 300;
 
@@ -54,4 +58,10 @@ button, a, p, h1, h2, h3, h4, h5, h6 {
 body {
     background-color: var(--background-color);
     padding: var(--body-padding);
+}
+
+/* Global */
+* {
+    user-select: none !important;
+    -webkit-user-drag: none !important;
 }

@@ -41,21 +41,21 @@
     const tabs = [
         new Tab('Home', faHome, true, function () {
             const home = document.querySelector('.tab-home');
-            const instances = document.querySelector('.tab-instances');
+            const bots = document.querySelector('.tab-bots');
 
             home.classList.add('tab-active');
-            instances.classList.remove('tab-active');
+            bots.classList.remove('tab-active');
 
             _content.set('home');
         }),
-        new Tab('Instances', faBoxesStacked, false, function () {
+        new Tab('Bots', faBoxesStacked, false, function () {
             const home = document.querySelector('.tab-home');
-            const instances = document.querySelector('.tab-instances');
+            const bots = document.querySelector('.tab-bots');
 
             home.classList.remove('tab-active');
-            instances.classList.add('tab-active');
+            bots.classList.add('tab-active');
 
-            _content.set('instances');
+            _content.set('bots');
         }),
         new Tab('Logs', faTerminal, logsActive, function () {
             const currentLogsActive = logsActive;

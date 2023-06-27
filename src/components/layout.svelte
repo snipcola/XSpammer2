@@ -3,16 +3,14 @@
     import Sidebar from './sidebar.svelte';
 
     import Home from '../content/home.svelte';
-    import Instances from '../content/instances.svelte';
+    import Bots from '../content/bots.svelte';
 
     import { logsActive as _logsActive, content as _content } from '../stores';
 
     let logsActive;
+    let content;
     
     _logsActive.subscribe((value) => logsActive = value);
-
-    let content;
-
     _content.subscribe((value) => content = value);
 </script>
 
@@ -22,10 +20,12 @@
         <div class='content container'>
             {#if content === 'home'}
                 <Home />
-            {:else if content === 'instances'}
-                <Instances />
+            {:else if content === 'bots'}
+                <Bots />
             {/if}
         </div>
-        <div class='logs container'></div>
+        <div class='logs container'>
+            <p>Logs</p>
+        </div>
     </div>
 </main>

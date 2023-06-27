@@ -34,10 +34,10 @@ main {
 }
 
 .right.logs-active .content {
-    height: calc(62vh - (2 * var(--body-padding)));
+    height: 70%;
 }
 
 .right.logs-active .logs {
-    height: calc(40vh - (2 * var(--body-padding)));
+    height: 30%;
     display: block;
 }

@@ -1,0 +1,22 @@
+/* Input */
+.input {
+    all: unset;
+    margin-top: .5rem;
+
+    background-color: var(--input-color);
+    padding: var(--input-padding);
+
+    font-size: var(--input-font-size);
+    width: 20rem;
+
+    transition: .1s;
+    border-bottom: 1px solid;
+}
+
+.input:hover, .input:focus {
+    opacity: 75%;
+}
+
+.input:focus {
+    border-bottom: 1px solid var(--primary-color);
+}
