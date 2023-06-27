@@ -1,0 +1,23 @@
+/* Main */
+main {
+    display: flex;
+    gap: var(--container-gap);
+}
+
+/* Containers */
+main > * {
+    padding: var(--container-padding);
+    height: calc(100vh - (2 * var(--body-padding)));
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-dark);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.sidebar {
+    flex-basis: var(--sidebar-flex-basis);
+}
+
+.content {
+    flex-basis: var(--content-flex-basis);
+}

@@ -8,10 +8,18 @@
     --primary-color: #5F85DB;
     --primary-color-light: #90B8F8;
 
-    --body-padding: 1rem;
+    --body-padding: .5rem;
 
     --text-color: white;
     --text-margin: 0;
+
+    --container-gap: .5rem;
+    --container-padding: 1rem;
+
+    --sidebar-flex-basis: 25%;
+    --content-flex-basis: 75%;
+    
+    --border-radius: 5px;
 }
 
 /* Fonts */
