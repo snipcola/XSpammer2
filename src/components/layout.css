@@ -11,15 +11,14 @@ main > * {
     border-radius: var(--border-radius);
     background-color: var(--background-color-dark);
     box-sizing: border-box;
-    width: 100%;
 }
 
 /* Sidebar */
 .sidebar {
-    flex-basis: var(--sidebar-flex-basis);
+    width: var(--sidebar-width) !important;
 }
 
 /* Content */
 .content {
-    flex-basis: var(--content-flex-basis);
+    width: var(--content-width) !important;
 }

@@ -1,0 +1,48 @@
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+/* Branding Icon */
+.branding .icon {
+    width: 100%;
+}
+
+/* Branding Info */
+.branding .info {
+    margin-top: -.25rem;
+    font-size: .9rem;
+    opacity: 75%;
+}
+
+/* Link */
+.link {
+    text-decoration: none;
+}
+
+/* Buttons */
+.buttons, .tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Button */
+.button {
+    width: 5rem !important;
+}
+
+/* Tabs */
+.tabs {
+    gap: 10px;
+}
+
+/* Tab */
+.tab {
+    cursor: initial !important;
+    height: 1.5rem !important;
+}
