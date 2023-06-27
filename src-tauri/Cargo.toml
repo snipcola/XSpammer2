@@ -1,0 +1,18 @@
+[package]
+name = "xspammer"
+version = "0.0.1"
+description = "Discord spammer application."
+authors = ["Snipcola"]
+license = "MIT"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "1.4", features = [] }
+
+[dependencies]
+tauri = { version = "1.4", features = ["shell-open"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]
