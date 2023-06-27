@@ -7,7 +7,7 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "xspammer",
+    "productName": "XSpammer",
     "version": "0.0.1"
   },
   "tauri": {
@@ -38,8 +38,8 @@
         "fullscreen": false,
         "resizable": false,
         "title": "XSpammer",
-        "width": 800,
-        "height": 600
+        "width": 750,
+        "height": 450
       }
     ]
   }

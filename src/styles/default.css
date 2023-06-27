@@ -1,0 +1,38 @@
+@import './normalize.min.css';
+
+/* Variables */
+:root {
+    --background-color: #353941;
+    --background-color-dark: #26282B;
+
+    --primary-color: #5F85DB;
+    --primary-color-light: #90B8F8;
+
+    --body-padding: 1rem;
+
+    --text-color: white;
+    --text-margin: 0;
+}
+
+/* Fonts */
+@font-face {
+    font-family: 'Assistant';
+    src: url('../fonts/assistant.ttf') format('truetype');
+    font-weight: 1 999;
+    font-stretch: 75% 200%;
+}
+
+/* Text */
+a, p, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Assistant', Arial, sans-serif;
+    font-weight: 300;
+
+    margin: var(--text-margin);
+    color: var(--text-color);
+}
+
+/* Body */
+body {
+    background-color: var(--background-color);
+    padding: var(--body-padding);
+}

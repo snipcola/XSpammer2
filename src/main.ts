@@ -1,6 +1,6 @@
-import './styles.css';
-import App from './App.svelte';
+import './styles/default.css';
+import Main from './main.svelte';
 
-export default new App({
-  target: document.getElementById('app')
+export default new Main({
+  target: document.getElementById('main')
 });
