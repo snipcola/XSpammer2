@@ -14,10 +14,12 @@ main > * {
     width: 100%;
 }
 
+/* Sidebar */
 .sidebar {
     flex-basis: var(--sidebar-flex-basis);
 }
 
+/* Content */
 .content {
     flex-basis: var(--content-flex-basis);
 }
