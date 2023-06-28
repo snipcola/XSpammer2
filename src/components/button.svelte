@@ -1,19 +1,18 @@
-<script lang='ts'>
+<script>
     import './button.css';
 
     import Icon from 'svelte-fa';
-    import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
-    export let label: string = 'Button';
+    export let label = 'Button';
 
-    export let variant: 'secondary' | 'primary' = 'secondary';
-    export let size: 'sm' | 'md' | 'lg' = 'sm';
+    export let variant = 'secondary';
+    export let size = 'sm';
 
-    export let iconLeft: IconDefinition = null;
-    export let iconRight: IconDefinition = null;
+    export let iconLeft = null;
+    export let iconRight = null;
 
-    export let customClass: string = '';
-    export let onClick: () => void = () => {};
+    export let customClass = '';
+    export let onClick = () => {};
 </script>
 
 <button class={`button size-${size} variant-${variant} ${customClass}`} on:click={onClick}>

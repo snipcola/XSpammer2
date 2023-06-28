@@ -1,12 +1,10 @@
-<script lang='ts'>
+<script>
     import './input.css';
 
-    export let label: string = 'Input';
-    export let placeholder: string = null;
-
-    export let size: 'sm' | 'md' | 'lg' = 'sm';
-    export let customClass: string = '';
+    export let label = 'Input';
+    export let placeholder = null;
+    export let customClass = '';
 </script>
 
 <h3 class='input-label'>{label}</h3>
-<input class={`input size-${size} ${customClass}`} placeholder={placeholder} />
+<input class={`input ${customClass}`} placeholder={placeholder} />

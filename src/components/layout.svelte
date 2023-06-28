@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script>
     import './layout.css';
     import Sidebar from './sidebar.svelte';
 

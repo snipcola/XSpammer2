@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script>
     import './sidebar.css';
     import { logsActive as _logsActive, content as _content } from '../stores';
 
@@ -7,14 +7,14 @@
     _logsActive.subscribe((value) => logsActive = value);
 
     import Button from './button.svelte';
-    import { type IconDefinition, faHome, faBoxesStacked, faTerminal, faLink } from '@fortawesome/free-solid-svg-icons';
+    import { faHome, faBoxesStacked, faTerminal, faLink } from '@fortawesome/free-solid-svg-icons';
     import { faDiscord, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
     class Tab {
-        label: string;
-        active: boolean;
-        icon: IconDefinition;
-        onClick: () => void;
+        label;
+        active;
+        icon;
+        onClick;
 
         constructor(label, icon = faLink, active = false, onClick = () => {}) {
             this.label = label || 'Button';
@@ -25,10 +25,10 @@
     };
 
     class _Button {
-        label: string;
-        variant: 'secondary' | 'primary';
-        icon: IconDefinition;
-        link: string;
+        label;
+        variant;
+        icon;
+        link;
 
         constructor(label, variant, icon = faLink, link) {
             this.label = label || 'Button';

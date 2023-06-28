@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script>
     import './modal.css';
 
     export let active = true;

@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script>
     import './bots.css';
 
     import Icon from 'svelte-fa';
