@@ -1,3 +1,5 @@
+import Alert from '../components/alert';
+
 export default function () {
     return (
         <>

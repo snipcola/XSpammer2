@@ -25,6 +25,7 @@
 
 .right .logs {
     display: none;
+    overflow-y: auto;
 }
 
 .right.logs-active {
@@ -34,10 +35,15 @@
 }
 
 .right.logs-active .content {
-    height: 70%;
+    height: 70vh;
 }
 
 .right.logs-active .logs {
-    height: 30%;
+    height: 24vh;
     display: block;
+}
+
+/* Content */
+.content {
+    overflow-y: auto;
 }

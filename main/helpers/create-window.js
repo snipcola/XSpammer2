@@ -68,6 +68,7 @@ export default function createWindow(windowName, options) {
   win = new BrowserWindow({
     ...state,
     ...options,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

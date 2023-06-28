@@ -1,5 +1,5 @@
 import Layout from '../components/layout';
 
-export default function () {
+export default function () {  
   return <Layout />;
 };

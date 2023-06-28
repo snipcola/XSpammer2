@@ -35,6 +35,15 @@
     --input-color: #111214;
     --input-padding: .5rem .75rem;
     --input-font-size: .95rem;
+
+    --alert-success: #2ecc71;
+    --alert-success-bg: #04140b;
+
+    --alert-warning: #f39c12;
+    --alert-warning-bg: #180f01;
+
+    --alert-danger: #e74c3c;
+    --alert-danger-bg: #190503;
 }
 
 /* Fonts */
@@ -64,4 +73,14 @@ body {
 * {
     user-select: none !important;
     -webkit-user-drag: none !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background: var(--input-color);
 }
