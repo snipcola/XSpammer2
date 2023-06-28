@@ -47,3 +47,8 @@
     transform: scale(0.95);
     opacity: 50%;
 }
+
+/* Button Icon */
+.button .icon {
+    height: 60%;
+}

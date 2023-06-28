@@ -4,7 +4,6 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    text-align: center;
 }
 
 /* Branding Icon */
@@ -14,6 +13,7 @@
 
 /* Branding Info */
 .branding .info {
+    text-align: center;
     margin-top: -.25rem;
     font-size: .9rem;
     opacity: 75%;
@@ -34,6 +34,7 @@
 /* Button */
 .button {
     width: 5rem !important;
+    height: 1.25rem !important;
 }
 
 /* Tabs */
