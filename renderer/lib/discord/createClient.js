@@ -1,14 +1,18 @@
-import { Client } from 'tomori-discord';
+import Client from 'eris';
+import { timeoutPromise } from '../timeout';
 
 export default async function (token) {
     try {
-        const client = new Client();
+        const client = new Client(`Bot ${token}`, { intents: ['all'] });
+        const clientReadyPromise = new Promise((resolve) => client.on('ready', async function () {
+            resolve(client);
+        }));
 
-        await client.login(token);
+        await Promise.race([client.connect(), timeoutPromise(2500)]);
 
-        return client;
+        return await Promise.race([clientReadyPromise, timeoutPromise(2500)]);
     }
-    catch {
+    catch (err) {
         return false;
     };
 };

@@ -16,9 +16,12 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
+    "eris": "^0.17.2",
+    "erlpack": "^0.1.4",
+    "eventemitter3": "^5.0.1",
     "moment": "^2.29.4",
-    "snowtransfer": "^0.7.1",
-    "tomori-discord": "^11.5.9"
+    "pako": "^2.1.0",
+    "sodium-native": "^4.0.4"
   },
   "devDependencies": {
     "electron": "^21.3.3",

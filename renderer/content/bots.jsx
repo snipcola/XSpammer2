@@ -81,7 +81,7 @@ export default function ({ }) {
             setTimeout(function () {
                 setBotAlerts({ ...botAlerts, [id]: false });
                 enableElements(_context);
-            }, 1500);
+            }, 3000);
         }
         else setContext({
             ...context,
@@ -150,7 +150,15 @@ export default function ({ }) {
                             <div className={styles.text}>
                                 <h3 className={styles.tag}>{bot.tag}</h3>
                                 <p className={styles.id}>Id: <b>{bot.id}</b></p>
-                                <Alert variant='warning' description={'Failed to connect to bot.'} style={{ marginTop: '1rem', display: botAlerts[bot.id] ? 'flex' : 'none' }} />
+                                <Alert variant='warning' description={(
+                                    <>
+                                        <p>Failed to connect to bot; possible reasons:</p>
+                                        <ul>
+                                            <li>Invalid token.</li>
+                                            <li>Not enabled all intents.</li>
+                                        </ul>
+                                    </>
+                                )} style={{ marginTop: '1rem', display: botAlerts[bot.id] ? 'flex' : 'none' }} />
                             </div>
                             <div className={styles.buttons}>
                                 <Button label='Connect' iconLeft={faServer} variant='primary' size='sm' onClick={() => connectBot(bot.id)} />
