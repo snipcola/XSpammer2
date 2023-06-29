@@ -1,30 +1,25 @@
-/* import moment from 'moment';
+import moment from 'moment';
+import { SnowTransfer as Client } from 'snowtransfer';
 
 export default async function (token) {
     try {
-        const { client, gateway } = createClient(token);
+        const client = new Client(token);
+        const info = await client.user.getSelf();
 
-        await gateway.connect();
+        let avatarURL;
 
-        const user = await client.api.users.getCurrent();
+        if (info.avatar) avatarURL = `https://cdn.discordapp.com/avatars/${info.id}/${info.avatar}`;
+        else if (info.discriminator) avatarURL = `https://cdn.discordapp.com/embed/avatars/${info.discriminator % 5}.png`;
+        else avatarURL = 'https://cdn.discordapp.com/embed/avatars/1.png';
 
-        console.log(user);
-
-        const info = {
-            avatarURL: user.avatar(),
-            tag: user.username,
-            createdAt: moment(user.).format('YYYY-MM-DD, HH:MM:SS')
+        return {
+            avatarURL,
+            id: info.id,
+            tag: info.discriminator ? `${info.username}#${info.discriminator}` : `@${info.username}`,
+            createdAt: moment((parseInt(info.id) / 4194304) + 1420070400000).format('YYYY-MM-DD, HH:MM:SS')
         };
-
-        await gateway.destroy();
-
-        return info ?? false;
     }
-    catch {
+    catch (err) {
         return false;
     };
-}; */
-
-export default async function (_) {
-    return false;
 };

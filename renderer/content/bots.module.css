@@ -85,3 +85,50 @@
 .bot-preview .description {
     margin-top: .25rem;
 }
+
+/* Bots */
+.bots {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.bot {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    width: 100%;
+
+    background-color: var(--input-color);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+}
+
+.bot .avatar {
+    border-radius: 100%;
+    min-height: 50px !important;
+}
+
+.bot .info {
+    margin-left: 1rem;
+}
+
+.bot .tag {
+    font-size: 1.25rem;
+}
+
+.bot .id {
+    font-size: .9rem;
+    opacity: 75%;
+}
+
+.bot .buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: .75rem;
+}
+
+.bot .trashButton {
+    background-color: var(--alert-danger)
+}

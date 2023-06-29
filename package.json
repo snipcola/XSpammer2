@@ -16,7 +16,8 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "snowtransfer": "^0.7.1"
   },
   "devDependencies": {
     "electron": "^21.3.3",
