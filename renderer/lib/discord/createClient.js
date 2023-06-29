@@ -1,11 +1,10 @@
-import { SnowTransfer as Client } from 'snowtransfer';
+import { Client } from 'tomori-discord';
 
 export default async function (token) {
     try {
-        const client = new Client(token);
+        const client = new Client();
 
-        // Errors if invalid token
-        await client.user.getSelf();
+        await client.login(token);
 
         return client;
     }

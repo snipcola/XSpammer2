@@ -17,7 +17,8 @@
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "moment": "^2.29.4",
-    "snowtransfer": "^0.7.1"
+    "snowtransfer": "^0.7.1",
+    "tomori-discord": "^11.5.9"
   },
   "devDependencies": {
     "electron": "^21.3.3",

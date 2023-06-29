@@ -44,6 +44,9 @@
 
     --alert-danger: #e74c3c;
     --alert-danger-bg: #190503;
+
+    --tab-bg-color: #606161;
+    --tab-bg-color-light: #7b7c7c;
 }
 
 /* Fonts */

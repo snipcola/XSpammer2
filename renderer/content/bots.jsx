@@ -74,10 +74,9 @@ export default function ({ }) {
         setBotAlerts({ ...botAlerts, [id]: false });
 
         const bot = findBot(id);
-        const info = await validateToken(bot?.token || '');
         const client = await createClient(bot?.token || '');
 
-        if (bot && (!info || !client)) {
+        if (bot && !client) {
             setBotAlerts({ ...botAlerts, [id]: true });
             setTimeout(function () {
                 setBotAlerts({ ...botAlerts, [id]: false });
@@ -86,9 +85,9 @@ export default function ({ }) {
         }
         else setContext({
             ...context,
+            client,
             sidebarDisabled: true,
             elementsDisabled: false,
-            bot: { info, client },
             content: 'bot'
         });
     };
