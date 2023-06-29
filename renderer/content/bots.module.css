@@ -4,49 +4,10 @@
 }
 
 /* Add Bot */
-.add-bot {
-    all: unset;
-    
-    display: flex;
-    align-items: center;
-    gap: 15px;
-
+.add-bot {    
     border: 1px dashed var(--primary-color);
-    border-radius: var(--border-radius);
+    background-color: transparent !important;
     color: var(--primary-color) !important;
-
-    width: fit-content;
-    font-size: .95rem;
-    padding: .3rem 1.5rem;
-
-    transition: .1s;
-    cursor: pointer;
-}
-
-.add-bot .icon-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px dashed var(--primary-color);
-    border-radius: 100%;
-
-    padding: .25rem;
-}
-
-.add-bot .icon {
-    font-size: .6rem;
-    height: .6rem;
-    color: var(--primary-color);
-}
-
-.add-bot:hover {
-    opacity: 75%;
-}
-
-.add-bot:active {
-    opacity: 50%;
-    transform: scale(0.95);
 }
 
 /* Title */

@@ -44,11 +44,15 @@
 
 /* Tab */
 .tab {
-    cursor: initial !important;
     height: 1.5rem !important;
 }
 
 .tab-active {
     color: var(--primary);
     opacity: 50% !important;
+}
+
+.tab-disabled {
+    pointer-events: none !important;
+    opacity: 25% !important;
 }

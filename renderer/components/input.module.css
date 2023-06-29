@@ -4,13 +4,14 @@
     margin-top: .5rem;
 
     background-color: var(--input-color);
+    border-radius: var(--border-radius);
     padding: var(--input-padding);
 
     font-size: var(--input-font-size);
     width: 20rem;
 
     transition: .1s;
-    border-bottom: 1px solid;
+    border: 1px solid transparent;
 }
 
 .input:disabled {
@@ -23,5 +24,5 @@
 }
 
 .input:focus {
-    border-bottom: 1px solid var(--primary-color);
+    border-color: var(--primary-color);
 }

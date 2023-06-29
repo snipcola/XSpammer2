@@ -24,6 +24,9 @@
 .modal .container {
     padding: 0;
     height: fit-content;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-dark);
+    box-sizing: border-box;
 }
 
 /* Modal Content */

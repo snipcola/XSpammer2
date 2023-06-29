@@ -9,9 +9,8 @@ import { useContext } from 'react';
 import { Context, setContextData } from '../lib/context';
 
 class Tab {
-    constructor(label = 'Button', icon = faLink, active = false, onClick = () => {}) {
+    constructor(label = 'Button', icon = faLink, onClick = () => {}) {
         this.label = label;
-        this.active = active;
         this.icon = icon;
         this.onClick = onClick;
     }
@@ -31,29 +30,11 @@ export default function ({ customClass }) {
     const [context] = _context;
 
     const tabs = [
-        new Tab('Home', faHome, true, function () {
-            const home = document.querySelector(`#tab-home`);
-            const bots = document.querySelector(`#tab-bots`);
-    
-            home.classList.add(styles['tab-active']);
-            bots.classList.remove(styles['tab-active']);
-    
+        new Tab('Home', faHome, function () {    
             setContextData(_context, 'content', 'home');
         }),
-        new Tab('Bots', faBoxesStacked, false, function () {
-            const home = document.querySelector(`#tab-home`);
-            const bots = document.querySelector(`#tab-bots`);
-    
-            home.classList.remove(styles['tab-active']);
-            bots.classList.add(styles['tab-active']);
-    
+        new Tab('Bots', faBoxesStacked, function () {    
             setContextData(_context, 'content', 'bots');
-        }),
-        new Tab('Logs', faTerminal, context.logsActive, function () {
-            const logs = document.querySelector(`#tab-logs`);
-    
-            setContextData(_context, 'logsActive', !context.logsActive);
-            logs.classList.toggle(styles['tab-active']);
         })
     ];
     
@@ -71,7 +52,7 @@ export default function ({ customClass }) {
             <div className={styles.tabs}>
                 {tabs.map((tab) => {
                     return (
-                        <Button key={tab.label} id={`tab-${tab.label.toLowerCase()}`} customClass={`${styles.button} ${styles.tab} ${tab.active && styles['tab-active']}`} label={tab.label} size='lg' variant='secondary' iconLeft={tab.icon} onClick={tab.onClick} />
+                        <Button key={tab.label} id={`tab-${tab.label.toLowerCase()}`} customClass={`${styles.button} ${styles.tab} ${context.content === tab.label.toLowerCase() && styles['tab-active']} ${context.sidebarDisabled && styles['tab-disabled']}`} label={tab.label} size='lg' variant='secondary' iconLeft={tab.icon} onClick={tab.onClick} />
                     );
                 })}
             </div>

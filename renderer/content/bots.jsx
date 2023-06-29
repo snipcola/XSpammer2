@@ -1,5 +1,4 @@
 import styles from './bots.module.css';
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
 import { faPlus, faServer, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import Modal from '../components/modal';
@@ -16,10 +15,12 @@ import { showAlert, resetAlert } from '../lib/alert/alert';
 import { getBots, addBot, removeBot, findBot } from '../lib/store';
 
 import Image from 'next/image';
+import createClient from '../lib/discord/createClient';
 import validateToken from '../lib/discord/validateToken';
 
-export default function ({ customClass }) {
+export default function ({ }) {
     const _context = useContext(Context);
+    const [context, setContext] = _context;
 
     const [token, setToken] = useState('');
     const [addBotModalActive, setAddBotModalActive] = useState(false);
@@ -73,17 +74,23 @@ export default function ({ customClass }) {
         setBotAlerts({ ...botAlerts, [id]: false });
 
         const bot = findBot(id);
+        const info = await validateToken(bot?.token || '');
+        const client = await createClient(bot?.token || '');
 
-        if (bot && !(await validateToken(bot.token))) {
+        if (bot && (!info || !client)) {
             setBotAlerts({ ...botAlerts, [id]: true });
             setTimeout(function () {
                 setBotAlerts({ ...botAlerts, [id]: false });
                 enableElements(_context);
             }, 1500);
         }
-        else {
-            enableElements(_context);
-        };
+        else setContext({
+            ...context,
+            sidebarDisabled: true,
+            elementsDisabled: false,
+            bot: { info, client },
+            content: 'bot'
+        });
     };
 
     return (
@@ -91,7 +98,6 @@ export default function ({ customClass }) {
             {/* Add Bot Modal */}
             <Modal
                 active={addBotModalActive}
-                customClass={customClass}
                 footer={
                     <>
                         <Button label='Continue' variant='primary' size='md' onClick={checkToken} />
@@ -100,13 +106,12 @@ export default function ({ customClass }) {
                 }
             >
                 <Input label='Token' value={token} onInput={(e) => setToken(e.target.value)} />
-                <Alert variant={addBotModalAlert.variant} title={addBotModalAlert.title} description={addBotModalAlert.description} style={{ marginTop: '1rem', display: addBotModalAlert.visible ? 'flex' : 'none' }} />
+                <Alert variant={addBotModalAlert.variant} description={addBotModalAlert.description} style={{ marginTop: '1rem', display: addBotModalAlert.visible ? 'flex' : 'none' }} />
             </Modal>
 
             {/* Confirm Bot Modal */}
             <Modal
                 active={confirmBotModalAlert}
-                customClass={customClass}
                 footer={
                     <>
                         <Button label='Continue' variant='primary' size='md' onClick={_addBot} />
@@ -130,27 +135,23 @@ export default function ({ customClass }) {
             <div className={styles.title}>
                 <h3>Bots</h3>
                 <Button
-                    label={
-                        <>
-                            <div className={styles['icon-container']}>
-                                <Icon className={styles.icon} icon={faPlus} />
-                            </div>
-                            Add Bot
-                        </>
-                    }
-                    className={styles['add-bot']}
+                    size='sm'
+                    label='Add Bot'
+                    iconLeft={faPlus}
+                    customClass={styles['add-bot']}
                     onClick={() => { resetAlert(_addBotModalAlert); setToken(''); setAddBotModalActive(true); }}
                 />
             </div>
+
             <div className={styles.bots}>
                 {bots.map((bot) => (
-                    <div className={styles.bot}>
+                    <div className={styles.bot} key={bot.id}>
                         <Image className={styles.avatar} src={bot.avatarURL} width={50} height={50} />
                         <div className={styles.info}>
                             <div className={styles.text}>
                                 <h3 className={styles.tag}>{bot.tag}</h3>
                                 <p className={styles.id}>Id: <b>{bot.id}</b></p>
-                                <Alert variant='danger' title={'Failed to connect'} description={'Possible that token changed.'} style={{ marginTop: '1rem', display: botAlerts[bot.id] ? 'flex' : 'none' }} />
+                                <Alert variant='warning' description={'Failed to connect to bot.'} style={{ marginTop: '1rem', display: botAlerts[bot.id] ? 'flex' : 'none' }} />
                             </div>
                             <div className={styles.buttons}>
                                 <Button label='Connect' iconLeft={faServer} variant='primary' size='sm' onClick={() => connectBot(bot.id)} />

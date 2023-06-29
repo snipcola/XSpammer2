@@ -1,0 +1,13 @@
+/* Title */
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Sign Out */
+.exit {    
+    border: 1px dashed var(--alert-danger);
+    background-color: var(--alert-danger-bg) !important;
+    color: var(--alert-danger) !important;
+}

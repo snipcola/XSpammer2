@@ -3,6 +3,7 @@ import Sidebar from './sidebar';
 
 import Home from '../content/home';
 import Bots from '../content/bots';
+import Bot from '../content/bot';
 
 import { useContext } from 'react';
 import { Context } from '../lib/context';
@@ -10,17 +11,17 @@ import { Context } from '../lib/context';
 export default function () {
     const [context] = useContext(Context);
 
+    let content;
+
+    if (context.content === 'home') content = <Home />;
+    else if (context.content === 'bots') content = <Bots />;
+    else if (context.content === 'bot') content = <Bot />;
+    else content = <p>Not found</p>;
+
     return (
         <main className={styles.main}>
             <Sidebar customClass={`${styles.sidebar} ${styles.container}`} />
-            <div className={`${styles.right} ${context.logsActive && styles['logs-active']}`}>
-                <div className={`${styles.content} ${styles.container}`}>
-                    {context.content === 'home' ? <Home /> : <Bots customClass={styles.container} />}
-                </div>
-                <div className={`${styles.logs} ${styles.container}`}>
-                    <p>Logs</p>
-                </div>
-            </div>
+            <div className={`${styles.content} ${styles.container}`}>{content}</div>
         </main>
     );
 };

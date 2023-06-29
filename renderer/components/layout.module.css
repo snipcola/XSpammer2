@@ -18,32 +18,8 @@
     width: var(--sidebar-width) !important;
 }
 
-/* Right */
-.right {
-    width: var(--content-width) !important;
-}
-
-.right .logs {
-    display: none;
-    overflow-y: auto;
-}
-
-.right.logs-active {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-}
-
-.right.logs-active .content {
-    height: 70vh;
-}
-
-.right.logs-active .logs {
-    height: 24vh;
-    display: block;
-}
-
 /* Content */
 .content {
+    width: var(--content-width) !important;
     overflow-y: auto;
 }
