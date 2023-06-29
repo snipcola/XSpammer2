@@ -74,8 +74,8 @@ body {
 
 /* Global */
 * {
-    user-select: none !important;
-    -webkit-user-drag: none !important;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 /* Scrollbar */

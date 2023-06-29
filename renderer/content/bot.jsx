@@ -34,7 +34,7 @@ export default function () {
                     size='sm'
                     label='Exit'
                     iconLeft={faPowerOff}
-                    customClass={styles['exit']}
+                    customClass={styles.exit}
                     onClick={exit}
                 />
             </div>
@@ -62,7 +62,22 @@ export default function () {
                         </div>
                     </div>
                     <div className={styles.logs}>
-
+                        <div className={styles.title}>
+                            <h4>Logs</h4>
+                            <div className={styles.buttons}>
+                                <Button
+                                    size='sm'
+                                    label='Clear'
+                                    customClass={styles.button}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Copy'
+                                    customClass={styles.button}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.text}></div>
                     </div>
                 </div>
             ) : <Alert variant='warning' description='No bot is currently connected.' style={{ marginTop: '1rem' }} />}

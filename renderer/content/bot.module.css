@@ -15,20 +15,62 @@
 /* Flex */
 .flex {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     margin-top: .75rem;
+    height: calc(100% - 2.38rem);
 }
 
 /* Content */
 .content {
-    width: fit-content;
-    width: 60%;
+    max-height: 61.5%;
+    height: 100%;
+    overflow-y: auto;
 }
 
 /* Logs */
 .logs {
-    padding: 1rem;
-    margin-left: 5%;
-    width: 35%;
+    background-color: #171616;
+    border-radius: var(--border-radius);
+
+    height: 6rem;
+    padding: .5rem 1rem;
+}
+
+.logs * {
+    user-select: text !important;
+}
+
+.logs .buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.logs .button {
+    background-color: var(--tab-bg-color);
+    padding: .1rem .5rem;
+}
+
+.logs .text {
+    margin-top: .5rem;
+    background-color: #000000;
+    height: 4rem;
+
+    box-sizing: border-box;
+    padding: .25rem;
+    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.logs .text::-webkit-scrollbar {
+    background: var(--tab-bg-color);
+}
+
+.logs .text::-webkit-scrollbar-thumb {
+    background: white;
 }
 
 /* Tabs */
@@ -51,7 +93,6 @@
     transition: .1s;
     color: white;
     border-right: 1px solid var(--background-color);
-    font-size: .85rem;
 }
 
 .tab:last-child {
