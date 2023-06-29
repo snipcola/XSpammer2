@@ -22,13 +22,6 @@ export default function () {
 
     async function exit () {
         await client.disconnect();
-
-        setContext({
-            ...context,
-            sidebarDisabled: false,
-            content: 'bots',
-            client: null
-        });
     };
 
     const [currentTab, setCurrentTab] = useState('servers');
@@ -72,6 +65,15 @@ export default function () {
 
         clipboard.writeText(text);
     };
+
+    client.on('disconnect', function () {
+        setContext({
+            ...context,
+            sidebarDisabled: false,
+            content: 'bots',
+            client: null
+        });
+    });
 
     return (
         <>
