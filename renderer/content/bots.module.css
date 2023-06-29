@@ -55,3 +55,33 @@
     align-items: center;
     justify-content: space-between;
 }
+
+/* Bot Preview */
+.bot-preview {
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    border: 1px dashed var(--primary-color);
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+.bot-preview .image {
+    border: 2px dotted var(--primary-color) !important;
+    border-radius: 100%;
+}
+
+.bot-preview .info {
+    opacity: 85%;
+    margin-left: 1rem;
+}
+
+.bot-preview .tag {
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+.bot-preview .description {
+    margin-top: .25rem;
+}

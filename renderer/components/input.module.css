@@ -13,6 +13,11 @@
     border-bottom: 1px solid;
 }
 
+.input:disabled {
+    opacity: 25%;
+    pointer-events: none;
+}
+
 .input:hover, .input:focus {
     opacity: 75%;
 }

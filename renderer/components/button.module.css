@@ -12,6 +12,11 @@
     gap: 10px;
 }
 
+.button:disabled {
+    opacity: 25%;
+    pointer-events: none;
+}
+
 /* Button Sizes */
 .button.size-sm {
     padding: var(--button-sm-padding);

@@ -1,15 +1,30 @@
-import { Client } from 'tomori-discord';
+/* import moment from 'moment';
 
 export default async function (token) {
-    const client = new Client({ intents: [] });
-    
     try {
-        await client.login(token);
-        await client.destroy();
+        const { client, gateway } = createClient(token);
 
-        return true;
+        await gateway.connect();
+
+        const user = await client.api.users.getCurrent();
+
+        console.log(user);
+
+        const info = {
+            avatarURL: user.avatar(),
+            tag: user.username,
+            createdAt: moment(user.).format('YYYY-MM-DD, HH:MM:SS')
+        };
+
+        await gateway.destroy();
+
+        return info ?? false;
     }
     catch {
         return false;
     };
+}; */
+
+export default async function (_) {
+    return false;
 };

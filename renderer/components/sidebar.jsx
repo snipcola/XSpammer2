@@ -5,6 +5,9 @@ import { faHome, faBoxesStacked, faTerminal, faLink } from '@fortawesome/free-so
 import { faDiscord, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import Button from './button';
 
+import { useContext } from 'react';
+import { Context, setContextData } from '../lib/context';
+
 class Tab {
     constructor(label = 'Button', icon = faLink, active = false, onClick = () => {}) {
         this.label = label;
@@ -23,7 +26,10 @@ class _Button {
     }
 };
 
-export default function ({ customClass, setContent, logsActive, setLogsActive }) {
+export default function ({ customClass }) {
+    const _context = useContext(Context);
+    const [context] = _context;
+
     const tabs = [
         new Tab('Home', faHome, true, function () {
             const home = document.querySelector(`#tab-home`);
@@ -32,7 +38,7 @@ export default function ({ customClass, setContent, logsActive, setLogsActive })
             home.classList.add(styles['tab-active']);
             bots.classList.remove(styles['tab-active']);
     
-            setContent('home');
+            setContextData(_context, 'content', 'home');
         }),
         new Tab('Bots', faBoxesStacked, false, function () {
             const home = document.querySelector(`#tab-home`);
@@ -41,12 +47,12 @@ export default function ({ customClass, setContent, logsActive, setLogsActive })
             home.classList.remove(styles['tab-active']);
             bots.classList.add(styles['tab-active']);
     
-            setContent('bots');
+            setContextData(_context, 'content', 'bots');
         }),
-        new Tab('Logs', faTerminal, logsActive, function () {
+        new Tab('Logs', faTerminal, context.logsActive, function () {
             const logs = document.querySelector(`#tab-logs`);
     
-            setLogsActive(!logsActive);
+            setContextData(_context, 'logsActive', !context.logsActive);
             logs.classList.toggle(styles['tab-active']);
         })
     ];
