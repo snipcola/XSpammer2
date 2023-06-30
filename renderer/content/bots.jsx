@@ -91,13 +91,19 @@ export default function () {
                     ...context,
                     sidebarDisabled: false,
                     content: 'bots',
-                    client: null
+                    bot: {
+                        client: null,
+                        servers: null
+                    }
                 });
             });
-            
+                        
             setContext({
                 ...context,
-                client,
+                bot: {
+                    client,
+                    servers: client.guilds
+                },
                 sidebarDisabled: true,
                 elementsDisabled: false,
                 content: 'bot'
