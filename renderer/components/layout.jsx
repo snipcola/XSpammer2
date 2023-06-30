@@ -13,10 +13,19 @@ export default function () {
 
     let content;
 
-    if (context.content === 'home') content = <Home />;
-    else if (context.content === 'bots') content = <Bots />;
-    else if (context.content === 'bot') content = <Bot />;
-    else content = <p>Not found</p>;
+    switch (context.content) {
+        case 'home':
+            content = <Home />;
+            break;
+        case 'bots':
+            content = <Bots />;
+            break;
+        case 'bot':
+            content = <Bot />;
+            break;
+        default:
+            content = <p>Not found</p>;
+    };
 
     return (
         <main className={styles.main}>

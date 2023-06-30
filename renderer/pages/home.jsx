@@ -13,7 +13,7 @@ export default function Page ({ data }) {
 };
 
 export async function getStaticProps () {
-  const data = { elementsDisabled: false, content: 'home', sidebarDisabled: false, client: null };
+  const data = { elementsDisabled: false, content: 'bots', sidebarDisabled: false, client: null };
 
   return {
     props: { data }

@@ -8,7 +8,7 @@ import Button from '../components/button';
 import defaultAlertValues from '../lib/alert/defaultAlertValues';
 import Alert from '../components/alert';
 
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Context, disableElements, enableElements } from '../lib/context';
 import { showAlert, resetAlert } from '../lib/alert/alert';
 
@@ -18,7 +18,7 @@ import Image from 'next/image';
 import createClient from '../lib/discord/createClient';
 import validateToken from '../lib/discord/validateToken';
 
-export default function ({ }) {
+export default function () {
     const _context = useContext(Context);
     const [context, setContext] = _context;
 
@@ -31,8 +31,10 @@ export default function ({ }) {
     const [botPreviewInfo, setBotPreviewInfo] = useState({ avatarURL: '', tag: '', createdAt: '' });
     const [confirmBotModalAlert, setConfirmBotModalActive] = useState(false);
 
-    const [bots, setBots] = useState(getBots());
+    const [bots, setBots] = useState([]);
     const [botAlerts, setBotAlerts] = useState([]);
+
+    useEffect(() => setBots(getBots()), []);
 
     async function checkToken () {
         disableElements(_context);
@@ -83,13 +85,24 @@ export default function ({ }) {
                 enableElements(_context);
             }, 3000);
         }
-        else setContext({
-            ...context,
-            client,
-            sidebarDisabled: true,
-            elementsDisabled: false,
-            content: 'bot'
-        });
+        else {
+            client.on('disconnect', function () {
+                setContext({
+                    ...context,
+                    sidebarDisabled: false,
+                    content: 'bots',
+                    client: null
+                });
+            });
+            
+            setContext({
+                ...context,
+                client,
+                sidebarDisabled: true,
+                elementsDisabled: false,
+                content: 'bot'
+            });
+        };
     };
 
     return (
@@ -105,7 +118,7 @@ export default function ({ }) {
                 }
             >
                 <Input label='Token' value={token} onInput={(e) => setToken(e.target.value)} />
-                <Alert variant={addBotModalAlert.variant} description={addBotModalAlert.description} style={{ marginTop: '1rem', display: addBotModalAlert.visible ? 'flex' : 'none' }} />
+                <Alert variant={addBotModalAlert.variant} description={<p>{addBotModalAlert.description}</p>} style={{ marginTop: '1rem', display: addBotModalAlert.visible ? 'flex' : 'none' }} />
             </Modal>
 
             {/* Confirm Bot Modal */}

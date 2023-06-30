@@ -8,7 +8,7 @@ export default function ({
 }) {
     return (
         <div className={`${styles.alert} ${styles[`variant-${variant}`]}`} {...props}>
-            <p className={styles.description}>{description}</p>
+            <div className={styles.description}>{description}</div>
         </div>
     );
 };
