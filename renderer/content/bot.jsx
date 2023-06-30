@@ -194,7 +194,7 @@ export default function () {
                                 </div>
                                 <div className={styles.buttons}>
                                     {selectedServer?.id === server?.id ? (
-                                        <Button label='Selected' disabled={true} customClass={`${styles.button} ${styles.selected}`} iconLeft={faCheck} variant='primary' size='sm' />
+                                        <Button label='Selected' disabled={true} customClass={styles.button} iconLeft={faCheck} variant='primary' size='sm' />
                                     ) : (
                                         <Button label='Select' customClass={styles.button} iconLeft={faCheck} variant='secondary' size='sm' onClick={() => selectServer(server.id)} />
                                     )}
@@ -290,7 +290,7 @@ export default function () {
                     <div className={styles.content}>{(tabs.find((tab) => tab.label.toLowerCase() === currentTab) || tabs.find((tab) => tab.label.toLowerCase() === 'servers')).content}</div>
                     <div className={styles.logs}>
                         <div className={styles.title}>
-                            <h4>Logs</h4>
+                            <h5>Logs</h5>
                             <div className={styles.buttons}>
                                 <Button
                                     size='sm'
@@ -298,7 +298,7 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={() => {
                                         setCount(count + 1);
-                                        addLog(<p><span style={{ color: 'cyan' }}>[Snipcola: Community Server]</span> Banned <b>Username#1234 ({count})</b></p>);
+                                        addLog(<p><span style={{ color: 'cyan' }}>[Snipcola: Community Server]</span> <span style={{ color: 'lightgreen' }}>Banned <b>Username#1234 ({count})</b></span></p>);
                                     }}
                                 />
                                 <Button
