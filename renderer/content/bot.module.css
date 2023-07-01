@@ -179,3 +179,16 @@
     padding: .25rem .75rem;
     font-size: .75rem;
 }
+
+/* Checkbox */
+.checkboxContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkboxContainer .checkbox {
+    display: block;
+    width: 1.15rem;
+    height: 1.15rem;
+}

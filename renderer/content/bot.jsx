@@ -37,7 +37,8 @@ export default function () {
         emojis: null,
         stickers: null,
         bans: null,
-        templates: null
+        templates: null,
+        invites: null
     });
 
     const [serverAlerts, setServerAlerts] = useState([]);
@@ -66,7 +67,8 @@ export default function () {
                     emojis: null,
                     stickers: null,
                     bans: null,
-                    templates: null
+                    templates: null,
+                    invites: null
                 });
             };
 
@@ -156,6 +158,24 @@ export default function () {
             }
             catch { }; 
         });
+
+        client.on('inviteCreate', async function (server) {
+            try {
+                const invites = await server.getInvites();
+
+                setSelectedServerInfo((state) => ({ ...state, invites }));
+            }
+            catch { }; 
+        });
+
+        client.on('inviteDelete', async function (server) {
+            try {
+                const invites = await server.getInvites();
+
+                setSelectedServerInfo((state) => ({ ...state, invites }));
+            }
+            catch { }; 
+        });
     }, [selectedServer, setContext, setSelectedServer, setSelectedServerInfo]);
 
     function addLog (log) {
@@ -189,6 +209,7 @@ export default function () {
 
             const bans = await server.getBans();
             const templates = await server.getTemplates();
+            const invites = await server.getInvites();
 
             setSelectedServer(server);
             setSelectedServerInfo({
@@ -198,7 +219,8 @@ export default function () {
                 emojis,
                 stickers,
                 bans,
-                templates
+                templates,
+                invites
             });
 
             enableElements(_context);
@@ -278,6 +300,24 @@ export default function () {
         }
     ];
 
+    const channelColumns = [
+        {
+            name: 'Id',
+            selector: row => row.id,
+            sortable: true
+        },
+        {
+            name: 'Name',
+            selector: row => row.name,
+            sortable: true
+        },
+        {
+            name: 'Type',
+            selector: row => row.type,
+            sortable: true
+        }
+    ];
+
     const roleColumns = [
         {
             name: 'Id',
@@ -314,6 +354,24 @@ export default function () {
         }
     ];
 
+    const inviteColumns = [
+        {
+            name: 'Code',
+            selector: row => row.id,
+            sortable: true
+        },
+        {
+            name: 'Channel',
+            selector: row => row.channel,
+            sortable: true
+        },
+        {
+            name: 'Uses',
+            selector: row => row.uses,
+            sortable: true
+        }
+    ];
+
     const templateColumns = [
         {
             name: 'Code',
@@ -338,6 +396,9 @@ export default function () {
     const [selectedBanUsers, setSelectedBanUsers] = useState([]);
     const handleBanUserSelected = useCallback((s) => setSelectedBanUsers(s.selectedRows), []);
 
+    const [selectedInvites, setSelectedInvites] = useState([]);
+    const handleInviteSelected = useCallback((s) => setSelectedInvites(s.selectedRows), []);
+
     const [selectedTemplates, setSelectedTemplates] = useState([]);
     const handleTemplateSelected = useCallback((s) => setSelectedTemplates(s.selectedRows), []);
 
@@ -346,6 +407,9 @@ export default function () {
 
     const [selectedAddRoles, setSelectedAddRoles] = useState([]);
     const handleAddRoleSelected = useCallback((s) => setSelectedAddRoles(s.selectedRows), []);
+
+    const [selectedChannels, setSelectedChannels] = useState([]);
+    const handleChannelSelected = useCallback((s) => setSelectedChannels(s.selectedRows), []);
 
     const [userNicknameModalActive, setUserNicknameModalActive] = useState(false);
     const [userNicknameValue, setUserNicknameValue] = useState('');
@@ -382,7 +446,7 @@ export default function () {
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function user () {
+            selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -428,7 +492,7 @@ export default function () {
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function user () {
+            selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -449,7 +513,7 @@ export default function () {
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     try {
-                        await member.kick(userKickReasonValue);
+                        await member.kick(userKickReasonValue || undefined);
     
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -472,7 +536,7 @@ export default function () {
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function user () {
+            selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -494,7 +558,7 @@ export default function () {
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     try {
-                        await member.ban(userBanValue && userBanValue !== "" ? parseInt(userBanValue) : 0, userBanReasonValue);
+                        await member.ban(userBanValue && userBanValue !== "" ? parseInt(userBanValue) : 0, userBanReasonValue || undefined);
     
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -517,7 +581,7 @@ export default function () {
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function user () {
+            selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -529,13 +593,14 @@ export default function () {
 
     const [userDMModalActive, setUserDMModalActive] = useState(false);
     const [userDMValue, setUserDMValue] = useState('');
+    const [userDMAmountValue, setUserDMAmountValue] = useState('');
 
     async function usersDM () {
         setUserDMModalActive(false);
 
         try {
             const members = await selectedServer.fetchMembers({ userIDs: selectedUsers.map((u) => u?.id) });
-            const promises = members.map(function (member) {
+            const promises = [...Array(userDMAmountValue && userDMAmountValue !== "" ? parseInt(userDMAmountValue) : 1)].map(() => members.map(function (member) {
                 return new Promise(async function (resolve) {
                     try {
                         const dmChannel = await member.user.getDMChannel();
@@ -558,12 +623,12 @@ export default function () {
 
                     resolve();
                 });
-            });
+            }));
 
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function user () {
+            selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -823,6 +888,40 @@ export default function () {
         await Promise.all(promises);
     };
 
+    const [serverInviteDeleteModalActive, setServerInviteDeleteModalActive] = useState(false);
+    const [serverInviteDeleteReasonValue, setServerInviteDeleteReasonValue] = useState('');
+
+    async function serverInvitesDelete () {
+        setServerInviteDeleteModalActive(false);
+
+        const promises = selectedInvites.map(function (invite) {
+            return new Promise(async function (resolve) {
+                try {
+                    await selectedServerInfo?.invites
+                        ?.find((_invite) => invite.id === _invite.code)
+                        ?.delete(serverInviteDeleteReasonValue || undefined);
+    
+                    addLog(<p>
+                        <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                        <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                        <span style={{ color: 'lightgreen' }}>Deleted invite <b>"{invite.id}"</b> (reason: <b>"{serverInviteDeleteReasonValue}"</b>)</span>
+                    </p>);
+                }
+                catch {
+                    addLog(<p>
+                        <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                        <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                        <span style={{ color: 'crimson' }}>Failed to delete invite <b>"{invite.id}"</b> (reason: <b>"{serverInviteDeleteReasonValue}"</b>)</span>
+                    </p>);
+                };
+
+                resolve();
+            });
+        });
+
+        await Promise.all(promises);
+    };
+
     const [userRemoveRoleModalActive, setUserRemoveRoleModalActive] = useState(false);
     const [userRemoveRoleReasonValue, setUserRemoveRoleReasonValue] = useState('');
 
@@ -836,19 +935,19 @@ export default function () {
                     const rolePromises = selectedRemoveRoles.map(function (role) {
                         return new Promise(async function (resolve) {
                             try {
-                                await member.removeRole(role.id, userRemoveRoleReasonValue);
+                                await member.removeRole(role.id, userRemoveRoleReasonValue || undefined);
             
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                                    <span style={{ color: 'lightgreen' }}>Removed role <b>"{role.name}"</b> from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>{userRemoveRoleReasonValue}</b>)</span>
+                                    <span style={{ color: 'lightgreen' }}>Removed role <b>"{role.name}"</b> from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
                                 </p>);
                             }
                             catch {
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                                    <span style={{ color: 'crimson' }}>Failed to remove role <b>"{role.name}"</b> from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>{userRemoveRoleReasonValue}</b>)</span>
+                                    <span style={{ color: 'crimson' }}>Failed to remove role <b>"{role.name}"</b> from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
                                 </p>);
                             };
 
@@ -864,11 +963,11 @@ export default function () {
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function user () {
+            selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crimson' }}>Failed to remove <b>{selectedRemoveRoles.length}</b> roles from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>{userRemoveRoleReasonValue}</b>)</span>
+                    <span style={{ color: 'crimson' }}>Failed to remove <b>{selectedRemoveRoles.length}</b> roles from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
                 </p>);
             });
         };
@@ -887,19 +986,19 @@ export default function () {
                     const rolePromises = selectedAddRoles.map(function (role) {
                         return new Promise(async function (resolve) {
                             try {
-                                await member.addRole(role.id, userAddRoleReasonValue);
+                                await member.addRole(role.id, userAddRoleReasonValue || undefined);
             
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                                    <span style={{ color: 'lightgreen' }}>Added role <b>"{role.name}"</b> to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>{userAddRoleReasonValue}</b>)</span>
+                                    <span style={{ color: 'lightgreen' }}>Added role <b>"{role.name}"</b> to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
                                 </p>);
                             }
                             catch {
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                                    <span style={{ color: 'crimson' }}>Failed to add role <b>"{role.name}"</b> to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>{userAddRoleReasonValue}</b>)</span>
+                                    <span style={{ color: 'crimson' }}>Failed to add role <b>"{role.name}"</b> to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
                                 </p>);
                             };
 
@@ -915,11 +1014,261 @@ export default function () {
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function user () {
+            selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crimson' }}>Failed to add <b>{selectedAddRoles.length}</b> roles to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>{userAddRoleReasonValue}</b>)</span>
+                    <span style={{ color: 'crimson' }}>Failed to add <b>{selectedAddRoles.length}</b> roles to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [channelMessageModalActive, setChannelMessageModalActive] = useState(false);
+    const [channelMessageValue, setChannelMessageValue] = useState('');
+    const [channelMessageAmountValue, setChannelMessageAmountValue] = useState('');
+
+    async function channelMessage () {
+        setChannelMessageModalActive(false);
+
+        try {
+            const channels = await selectedServer?.channels
+                ?.filter((channel) => selectedChannels?.find((_channel) => channel?.id === _channel?.id))
+                ?.filter((channel) => channel?.createMessage);
+
+            const promises = [...Array(channelMessageAmountValue && channelMessageAmountValue !== "" ? parseInt(channelMessageAmountValue) : 1)].map(() => channels.map(function (channel) {
+                return new Promise(async function (resolve) {
+                    try {
+                        await channel.createMessage({ content: channelMessageValue, allowedMentions: { everyone: true } });
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Messaged in <b>{channel.name}</b>: <b>{channelMessageValue}</b></span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to message in <b>{channel.name}</b>: <b>{channelMessageValue}</b></span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            }));
+
+            await Promise.all(...promises);
+        }
+        catch {
+            selectedChannels.forEach(function (channel) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to message in <b>{channel.name}</b>: <b>{channelMessageValue}</b></span>
+                </p>);
+            });
+        };
+    };
+
+    const [channelPurgeModalActive, setChannelPurgeModalActive] = useState(false);
+    const [channelPurgeValue, setChannelPurgeValue] = useState('');
+    const [channelPurgeReasonValue, setChannelPurgeReasonValue] = useState('');
+
+    async function channelPurge () {
+        setChannelPurgeModalActive(false);
+
+        try {
+            const channels = await selectedServer?.channels
+                ?.filter((channel) => selectedChannels?.find((_channel) => channel?.id === _channel?.id))
+                ?.filter((channel) => channel?.purge);
+
+            const promises = channels.map(function (channel) {
+                return new Promise(async function (resolve) {
+                    try {
+                        await channel.purge({ limit: channelPurgeValue && channelPurgeValue !== "" ? parseInt(channelPurgeValue) : -1, reason: channelPurgeReasonValue || undefined });
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Purged channel <b>"{channel.name}"</b> (limit: {channelPurgeValue && channelPurgeValue !== "" ? parseInt(channelPurgeValue) : -1}, reason: <b>"{channelPurgeReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to purge channel <b>"{channel.name}"</b> (limit: {channelPurgeValue && channelPurgeValue !== "" ? parseInt(channelPurgeValue) : -1}, reason: <b>"{channelPurgeReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedChannels.forEach(function (channel) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to purge channel <b>"{channel.name}"</b> (limit: {channelPurgeValue && channelPurgeValue !== "" ? parseInt(channelPurgeValue) : -1}, reason: <b>"{channelPurgeReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [channelCreateInviteModalActive, setChannelCreateInviteModalActive] = useState(false);
+    const [channelCreateInviteMaxAgeValue, setChannelCreateInviteMaxAgeValue] = useState('');
+    const [channelCreateInviteMaxUsesValue, setChannelCreateInviteMaxUsesValue] = useState('');
+    const [channelCreateInviteTemporaryValue, setChannelCreateInviteTemporaryValue] = useState(false);
+    const [channelCreateInviteUniqueValue, setChannelCreateInviteUniqueValue] = useState(false);
+    const [channelCreateInviteReasonValue, setChannelCreateInviteReasonValue] = useState(false);
+
+    async function channelCreateInvite () {
+        setChannelCreateInviteModalActive(false);
+
+        try {
+            const channels = await selectedServer?.channels
+                ?.filter((channel) => selectedChannels?.find((_channel) => channel?.id === _channel?.id))
+                ?.filter((channel) => channel?.createInvite);
+
+            const promises = channels.map(function (channel) {
+                return new Promise(async function (resolve) {
+                    try {
+                        const invite = await channel.createInvite({
+                            maxAge: channelCreateInviteMaxAgeValue ? channelCreateInviteMaxAgeValue * 24 * 60 * 60 : undefined,
+                            maxUses: channelCreateInviteMaxUsesValue || undefined,
+                            temporary: channelCreateInviteTemporaryValue || undefined,
+                            unique: channelCreateInviteUniqueValue || undefined,
+                            reason: channelCreateInviteReasonValue || undefined
+                        });
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Created invite for channel <b>"{channel.name}"</b> (code: <b>"{invite.code}"</b>, max age: <b>"{channelCreateInviteMaxAgeValue}"</b>, max uses: <b>"{channelCreateInviteMaxUsesValue}"</b>, temporary?: <b>"{channelCreateInviteTemporaryValue.toString()}"</b>, unique?: <b>"{channelCreateInviteUniqueValue.toString()}"</b>, reason: <b>"{channelCreateInviteReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to create invite for channel <b>"{channel.name}"</b> (max age: <b>"{channelCreateInviteMaxAgeValue}"</b>, max uses: <b>"{channelCreateInviteMaxUsesValue}"</b>, temporary?: <b>"{channelCreateInviteTemporaryValue.toString()}"</b>, unique?: <b>"{channelCreateInviteUniqueValue.toString()}"</b>, reason: <b>"{channelCreateInviteReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedChannels.forEach(function (channel) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to create invite for channel <b>"{channel.name}"</b> (max age: <b>"{channelCreateInviteMaxAgeValue}"</b>, max uses: <b>"{channelCreateInviteMaxUsesValue}"</b>, temporary?: <b>"{channelCreateInviteTemporaryValue.toString()}"</b>, unique?: <b>"{channelCreateInviteUniqueValue.toString()}"</b>, reason: <b>"{channelCreateInviteReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [channelDeleteModalActive, setChannelDeleteModalActive] = useState(false);
+    const [channelDeleteReasonValue, setChannelDeleteReasonValue] = useState('');
+
+    async function channelDelete () {
+        setChannelDeleteModalActive(false);
+
+        try {
+            const channels = await selectedServer?.channels
+                ?.filter((channel) => selectedChannels?.find((_channel) => channel?.id === _channel?.id))
+                ?.filter((channel) => channel?.delete);
+
+            const promises = channels.map(function (channel) {
+                return new Promise(async function (resolve) {
+                    try {
+                        await channel.delete(channelDeleteReasonValue || undefined);
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Deleted <b>{channel.name}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crismon' }}>Failed to delete <b>{channel.name}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedChannels.forEach(function (channel) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crismon' }}>Failed to delete <b>{channel.name}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [channelRenameModalActive, setChannelRenameModalActive] = useState(false);
+    const [channelRenameValue, setChannelRenameValue] = useState('');
+    const [channelRenameReasonValue, setChannelRenameReasonValue] = useState('');
+
+    async function channelRename () {
+        setChannelRenameModalActive(false);
+
+        try {
+            const channels = await selectedServer?.channels
+                ?.filter((channel) => selectedChannels?.find((_channel) => channel?.id === _channel?.id))
+                ?.filter((channel) => channel?.delete);
+
+            const promises = channels.map(function (channel) {
+                return new Promise(async function (resolve) {
+                    try {
+                        const channelName = channel.name;
+
+                        await channel.edit({ name: channelRenameValue }, channelRenameReasonValue || undefined);
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Renamed <b>{channelName}</b> to <b>{channel.name}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to rename <b>{channel.name}</b> to <b>{channelRenameValue}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedChannels.forEach(function (channel) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to rename <b>{channel.name}</b> to <b>{channelRenameValue}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
                 </p>);
             });
         };
@@ -1004,7 +1353,7 @@ export default function () {
                             </>
                         }
                     >
-                        <Input label='Days of inactivity to prune (optional)' value={serverPruneValue} onInput={(e) => setServerPruneValue(e.target.value)} />
+                        <Input label='Days of inactivity to prune' value={serverPruneValue} onInput={(e) => setServerPruneValue(e.target.value)} />
                         <div style={{ marginTop: '1rem' }}><Input value={serverPruneReasonValue} onInput={(e) => setServerPruneReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
                     
@@ -1022,7 +1371,7 @@ export default function () {
                                     size='sm'
                                     label='Prune (avoid overuse)'
                                     customClass={styles.button}
-                                    onClick={() => { setServerPruneValue(''); setServerPruneReasonValue(''); setServerPruneModalActive(true) }}
+                                    onClick={() => { setServerPruneValue('7'); setServerPruneReasonValue(''); setServerPruneModalActive(true) }}
                                 />
                                 <Button
                                     size='sm'
@@ -1059,6 +1408,19 @@ export default function () {
                     >
                         <div style={{ marginTop: '1rem' }}><Input value={serverUnbanReasonValue} onInput={(e) => setServerUnbanReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
+                    
+                    {/* Delete Invite Modal */}
+                    <Modal
+                        active={serverInviteDeleteModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={serverInvitesDelete} />
+                                <Button label='Cancel' size='md' onClick={() => { setServerInviteDeleteModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <div style={{ marginTop: '1rem' }}><Input value={serverInviteDeleteReasonValue} onInput={(e) => setServerInviteDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
 
                     {/* Bans */}
                     <div className={styles.title} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
@@ -1088,6 +1450,36 @@ export default function () {
                         pagination
                         paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
                         onSelectedRowsChange={handleBanUserSelected}
+                    />
+
+                    {/* Invites */}
+                    <div className={styles.title} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
+                        <h4>Invites</h4>
+                        <div className={styles.buttons}>
+                                <Button
+                                    size='sm'
+                                    label='Delete'
+                                    customClass={styles.button}
+                                    onClick={() => { setServerInviteDeleteReasonValue(''); setServerInviteDeleteModalActive(true) }}
+                                />
+                        </div>
+                    </div>
+
+                    <Table
+                        theme='dark'
+                        columns={inviteColumns}
+                        data={selectedServerInfo?.invites
+                            ?.map((invite) => ({
+                                id: invite.code,
+                                channel: invite.channel.name,
+                                uses: invite.uses
+                            }))}
+                        dense
+                        selectableRowsHighlight
+                        selectableRows
+                        pagination
+                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                        onSelectedRowsChange={handleInviteSelected}
                     />
 
                     {/* Templates */}
@@ -1150,6 +1542,7 @@ export default function () {
                         }
                     >
                         <Input multiLine={true} label='Message' value={userDMValue} onInput={(e) => setUserDMValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem'}}><Input label='Amount' value={userDMAmountValue} onInput={(e) => setUserDMAmountValue(e.target.value)} /></div>
                     </Modal>
 
                     {/* Nickname Modal */}
@@ -1263,7 +1656,7 @@ export default function () {
                             </>
                         }
                     >
-                        <Input label='Days to delete messages for (e.g. 1, optional)' value={userBanValue} onInput={(e) => setUserBanValue(e.target.value)} />
+                        <Input label='Days to delete messages' value={userBanValue} onInput={(e) => setUserBanValue(e.target.value)} />
                         <div style={{ marginTop: '1rem' }}><Input value={userBanReasonValue} onInput={(e) => setUserBanReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
 
@@ -1275,7 +1668,7 @@ export default function () {
                                     size='sm'
                                     label='DM'
                                     customClass={styles.button}
-                                    onClick={() => { setUserDMValue(''); setUserDMModalActive(true) }}
+                                    onClick={() => { setUserDMValue(''); setUserDMAmountValue('1'); setUserDMModalActive(true) }}
                                 />
                                 <Button
                                     size='sm'
@@ -1311,7 +1704,7 @@ export default function () {
                                     size='sm'
                                     label='Ban'
                                     customClass={styles.button}
-                                    onClick={() => { setUserBanValue(''); setUserBanReasonValue(''); setUserBanModalActive(true) }}
+                                    onClick={() => { setUserBanValue('0'); setUserBanReasonValue(''); setUserBanModalActive(true) }}
                                 />
                         </div>
                     </div>
@@ -1342,7 +1735,173 @@ export default function () {
             icon: faList,
             content: selectedServer ? (
                 <>
-                    {selectedServerInfo?.channels?.map((channel) => <p>{channel?.name} ({channel?.id})</p>)}
+                    {/* Message Modal */}
+                    <Modal
+                        active={channelMessageModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={channelMessage} />
+                                <Button label='Cancel' size='md' onClick={() => { setChannelMessageModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input multiLine={true} label='Message' value={channelMessageValue} onInput={(e) => setChannelMessageValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem'}}><Input label='Amount' value={channelMessageAmountValue} onInput={(e) => setChannelMessageAmountValue(e.target.value)} /></div>
+                    </Modal>
+
+                    {/* Purge Modal */}
+                    <Modal
+                        active={channelPurgeModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={channelPurge} />
+                                <Button label='Cancel' size='md' onClick={() => { setChannelPurgeModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input label='Message limit (-1 for no limit)' value={channelPurgeValue} onInput={(e) => setChannelPurgeValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem' }}><Input value={channelPurgeReasonValue} onInput={(e) => setChannelPurgeReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Create Invite Modal */}
+                    <Modal
+                        active={channelCreateInviteModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={channelCreateInvite} />
+                                <Button label='Cancel' size='md' onClick={() => { setChannelCreateInviteModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input label='Max age (days, optional)' value={channelCreateInviteMaxAgeValue} onInput={(e) => setChannelCreateInviteMaxAgeValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem' }}><Input label='Max uses (number, optional)' value={channelCreateInviteMaxUsesValue} onInput={(e) => setChannelCreateInviteMaxUsesValue(e.target.value)} /></div>
+                        <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
+                            <h3 className={styles.label}>Temporary membership (optional)</h3>
+                            <input className={styles.checkbox} type='checkbox' checked={channelCreateInviteTemporaryValue} onChange={(e) => setChannelCreateInviteTemporaryValue(e.target.checked)} />
+                        </div>
+                        <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
+                            <h3 className={styles.label}>Unique invite (optional)</h3>
+                            <input className={styles.checkbox} type='checkbox' checked={channelCreateInviteUniqueValue} onChange={(e) => setChannelCreateInviteUniqueValue(e.target.checked)} />
+                        </div>
+                        <div style={{ marginTop: '1rem' }}><Input value={channelCreateInviteReasonValue} onInput={(e) => setChannelCreateInviteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Rename Modal */}
+                    <Modal
+                        active={channelRenameModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={channelRename} />
+                                <Button label='Cancel' size='md' onClick={() => { setChannelRenameModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input value={channelRenameValue} onInput={(e) => setChannelRenameValue(e.target.value)} label='Name' customClass={styles.input} />
+                        <div style={{ marginTop: '1rem' }}><Input value={channelRenameReasonValue} onInput={(e) => setChannelRenameReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Delete Modal */}
+                    <Modal
+                        active={channelDeleteModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={channelDelete} />
+                                <Button label='Cancel' size='md' onClick={() => { setChannelDeleteModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <div style={{ marginTop: '1rem' }}><Input value={channelDeleteReasonValue} onInput={(e) => setChannelDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Channels */}
+                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                        <h4>Channels</h4>
+                        <div className={styles.buttons}>
+                                <Button
+                                    size='sm'
+                                    label='Message'
+                                    customClass={styles.button}
+                                    onClick={() => { setChannelMessageValue(''); setChannelMessageAmountValue('1'); setChannelMessageModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Purge'
+                                    customClass={styles.button}
+                                    onClick={() => { setChannelPurgeValue('-1'); setChannelPurgeReasonValue(''); setChannelPurgeModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Invite'
+                                    customClass={styles.button}
+                                    onClick={() => { setChannelCreateInviteMaxAgeValue(''); setChannelCreateInviteMaxUsesValue(''); setChannelCreateInviteTemporaryValue(false); setChannelCreateInviteUniqueValue(false); setChannelCreateInviteReasonValue(''); setChannelCreateInviteModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Rename'
+                                    customClass={styles.button}
+                                    onClick={() => { setChannelRenameValue(''); setChannelRenameReasonValue(''); setChannelRenameModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Create'
+                                    customClass={styles.button}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Delete'
+                                    customClass={styles.button}
+                                    onClick={() => { setChannelDeleteReasonValue(''); setChannelDeleteModalActive(true) }}
+                                />
+                        </div>
+                    </div>
+
+                    <Table
+                        theme='dark'
+                        columns={channelColumns}
+                        data={selectedServerInfo?.channels
+                            ?.map((channel) => ({
+                                id: channel.id,
+                                name: channel.name,
+                                type: (function () {
+                                    const type = channel.type;
+
+                                    switch (type) {
+                                        case 0:
+                                            return 'Text'
+                                        case 1:
+                                            return 'DM'
+                                        case 2:
+                                            return 'Voice'
+                                        case 3:
+                                            return 'Group DM'
+                                        case 4:
+                                            return 'Category'
+                                        case 5:
+                                            return 'Announcement'
+                                        case 10:
+                                            return 'Announcement Thread'
+                                        case 11:
+                                            return 'Public Thread'
+                                        case 12:
+                                            return 'Private Thread'
+                                        case 13:
+                                            return 'Stage Voice'
+                                        case 14:
+                                            return 'Directory'
+                                        case 15:
+                                            return 'Forum'
+                                        default:
+                                            return 'Unknown'
+                                    };
+                                })()
+                            }))}
+                        dense
+                        selectableRowsHighlight
+                        selectableRows
+                        pagination
+                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                        onSelectedRowsChange={handleChannelSelected}
+                    />
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         },
