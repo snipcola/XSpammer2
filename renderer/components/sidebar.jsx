@@ -47,7 +47,7 @@ export default function ({ customClass }) {
         <div className={`${styles.sidebar} ${customClass}`}>
             <div className={styles.branding}>
                 <Image alt='XSpammer 2' src='/images/icon-text.png' className={styles.icon} width={200} height={50} />
-                <p className={styles.info}>Snipcola ~ v0.0.1</p>
+                <p className={styles.info}>Snipcola ~ v0.0.2</p>
             </div>
             <div className={styles.tabs}>
                 {tabs.map((tab) => {
