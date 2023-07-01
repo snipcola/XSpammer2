@@ -5,6 +5,17 @@
     justify-content: space-between;
 }
 
+.title .buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.title .button {
+    background-color: var(--tab-bg-color);
+    padding: .1rem .5rem;
+    font-size: .85rem;
+}
+
 /* Sign Out */
 .exit {    
     border: 1px dashed var(--alert-danger);
@@ -29,7 +40,7 @@
     max-height: 62%;
     height: 100%;
     overflow-y: auto;
-    padding-right: 1rem;
+    padding-right: .5rem;
     border-radius: var(--border-radius);
 }
 

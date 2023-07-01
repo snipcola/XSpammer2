@@ -10,8 +10,8 @@ export default async function (token) {
             const info = {
                 avatarURL: client.user.avatar ? client.user.avatarURL : client.user.defaultAvatarURL,
                 id: client.user.id,
-                tag: client.user.discriminator ? `${client.user.username}#${client.user.discriminator}` : client.user.username,
-                createdAt: moment(client.user.createdAt).format('YYYY-MM-DD, HH:MM:SS')
+                tag: client.user.discriminator !== '0' ? `${client.user.username}#${client.user.discriminator}` : client.user.username,
+                createdAt: moment(client.user.createdAt).format('YYYY-MM-DD, HH:mm:ss')
             };
 
             await client.disconnect();

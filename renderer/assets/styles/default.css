@@ -47,6 +47,9 @@
 
     --tab-bg-color: #606161;
     --tab-bg-color-light: #7b7c7c;
+
+    --table-bg-color: #32353a;
+    --table-head-bg-color: #16181c;
 }
 
 /* Fonts */
@@ -58,8 +61,11 @@
 }
 
 /* Text */
-input, li, button, a, p, h1, h2, h3, h4, h5, h6 {
+* {
     font-family: 'Assistant', Arial, sans-serif !important;
+}
+
+textarea, th, tr, input, li, button, a, p, h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
 
     color: var(--text-color) !important;

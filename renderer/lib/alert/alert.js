@@ -9,5 +9,5 @@ export function resetAlert (alert) {
 export function showAlert (_alert, variant, title, description) {
     const [alert, setAlert] = _alert;
 
-    setAlert({ ...alert, visible: true, variant, title, description })
+    setAlert((state) => ({ ...state, visible: true, variant, title, description }));
 };

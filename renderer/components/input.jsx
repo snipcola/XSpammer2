@@ -7,6 +7,7 @@ export default function ({
     label = 'Button',
     placeholder = null,
     customClass = '',
+    multiLine = false,
     ...props
 }) {
     const [context] = useContext(Context);
@@ -14,7 +15,11 @@ export default function ({
     return (
         <>
             <h3 className={styles['input-label']}>{label}</h3>
-            <input disabled={context.elementsDisabled} className={`${styles.input} ${customClass}`} placeholder={placeholder} {...props} />
+            {multiLine ? (
+                <textarea disabled={context.elementsDisabled} className={`${styles.input} ${customClass}`} placeholder={placeholder} {...props} />
+            ) : (
+                <input disabled={context.elementsDisabled} className={`${styles.input} ${customClass}`} placeholder={placeholder} {...props} />
+            )}
         </>
     );
 };

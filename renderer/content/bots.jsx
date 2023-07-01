@@ -1,5 +1,5 @@
 import styles from './bots.module.css';
-import { faPlus, faServer, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faPlus, faServer, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import Modal from '../components/modal';
 import Input from '../components/input';
@@ -73,33 +73,33 @@ export default function () {
 
     async function connectBot (id) {
         disableElements(_context);
-        setBotAlerts({ ...botAlerts, [id]: false });
+        setBotAlerts((state) => ({ ...state, [id]: false }));
 
         const bot = findBot(id);
         const client = await createClient(bot?.token || '');
 
         if (bot && !client) {
-            setBotAlerts({ ...botAlerts, [id]: true });
+            setBotAlerts((state) => ({ ...state, [id]: true }));
             setTimeout(function () {
-                setBotAlerts({ ...botAlerts, [id]: false });
+                setBotAlerts((state) => ({ ...state, [id]: false }));
                 enableElements(_context);
             }, 3000);
         }
         else {
             client.on('disconnect', function () {
-                setContext({
-                    ...context,
+                setContext((state) => ({
+                    ...state,
                     sidebarDisabled: false,
                     content: 'bots',
                     bot: {
                         client: null,
                         servers: null
                     }
-                });
+                }));
             });
                         
-            setContext({
-                ...context,
+            setContext((state) => ({
+                ...state,
                 bot: {
                     client,
                     servers: client.guilds
@@ -107,7 +107,7 @@ export default function () {
                 sidebarDisabled: true,
                 elementsDisabled: false,
                 content: 'bot'
-            });
+            }));
         };
     };
 
@@ -152,13 +152,21 @@ export default function () {
             {/* Content */}
             <div className={styles.title}>
                 <h3>Bots</h3>
-                <Button
-                    size='sm'
-                    label='Add Bot'
-                    iconLeft={faPlus}
-                    customClass={styles['add-bot']}
-                    onClick={() => { resetAlert(_addBotModalAlert); setToken(''); setAddBotModalActive(true); }}
-                />
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <Button
+                        size='sm'
+                        label='Discord Developer Portal'
+                        iconLeft={faLink}
+                        onClick={() => { window.open('https://discord.com/developers/applications') }}
+                    />
+                    <Button
+                        size='sm'
+                        label='Add Bot'
+                        iconLeft={faPlus}
+                        customClass={styles['add-bot']}
+                        onClick={() => { resetAlert(_addBotModalAlert); setToken(''); setAddBotModalActive(true) }}
+                    />
+                </div>
             </div>
 
             <div className={styles.bots}>

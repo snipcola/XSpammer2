@@ -16,13 +16,16 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
-    "eris": "^0.17.2",
+    "eris": "0.17.2",
     "erlpack": "^0.1.4",
     "eventemitter3": "^5.0.1",
     "ignore-loader": "^0.1.2",
     "moment": "^2.29.4",
     "pako": "^2.1.0",
+    "react-data-table-component": "^7.5.3",
+    "react-use-open-file-dialog": "^1.0.2",
     "sodium-native": "^4.0.4",
+    "styled-components": "^6.0.1",
     "zlib-sync": "^0.1.8"
   },
   "devDependencies": {
