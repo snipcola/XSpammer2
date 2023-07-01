@@ -394,6 +394,42 @@ export default function () {
             sortable: true
         }
     ];
+
+    const emojiColumns = [
+        {
+            name: 'Name',
+            selector: row => row.name,
+            sortable: true
+        },
+        {
+            name: 'Available',
+            selector: row => row.available,
+            sortable: true
+        },
+        {
+            name: 'Id',
+            selector: row => row.id,
+            sortable: true
+        }
+    ];
+
+    const stickerColumns = [
+        {
+            name: 'Name',
+            selector: row => row.name,
+            sortable: true
+        },
+        {
+            name: 'Available',
+            selector: row => row.available,
+            sortable: true
+        },
+        {
+            name: 'Id',
+            selector: row => row.id,
+            sortable: true
+        }
+    ];
     
     const [selectedUsers, setSelectedUsers] = useState([]);
     const handleUserSelected = useCallback((s) => setSelectedUsers(s.selectedRows), []);
@@ -424,6 +460,12 @@ export default function () {
 
     const [selectedAddMembers, setSelectedAddMembers] = useState([]);
     const handleAddMemberSelected = useCallback((s) => setSelectedAddMembers(s.selectedRows), []);
+
+    const [selectedEmojis, setSelectedEmojis] = useState([]);
+    const handleEmojiSelected = useCallback((s) => setSelectedEmojis(s.selectedRows), []);
+
+    const [selectedStickers, setSelectedStickers] = useState([]);
+    const handleStickerSelected = useCallback((s) => setSelectedStickers(s.selectedRows), []);
 
     const [userNicknameModalActive, setUserNicknameModalActive] = useState(false);
     const [userNicknameValue, setUserNicknameValue] = useState('');
@@ -1217,7 +1259,7 @@ export default function () {
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                            <span style={{ color: 'crismon' }}>Failed to delete channel <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
+                            <span style={{ color: 'crimson' }}>Failed to delete channel <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
                         </p>);
                     };
 
@@ -1232,7 +1274,7 @@ export default function () {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crismon' }}>Failed to delete channel <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
+                    <span style={{ color: 'crimson' }}>Failed to delete channel <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
                 </p>);
             });
         };
@@ -1351,7 +1393,7 @@ export default function () {
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                            <span style={{ color: 'crismon' }}>Failed to delete role <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleDeleteReasonValue}"</b>)</span>
+                            <span style={{ color: 'crimson' }}>Failed to delete role <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleDeleteReasonValue}"</b>)</span>
                         </p>);
                     };
 
@@ -1366,7 +1408,7 @@ export default function () {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crismon' }}>Failed to delete role <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleDeleteReasonValue}"</b>)</span>
+                    <span style={{ color: 'crimson' }}>Failed to delete role <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleDeleteReasonValue}"</b>)</span>
                 </p>);
             });
         };
@@ -1562,6 +1604,288 @@ export default function () {
         };
     };
 
+    const [emojiRenameModalActive, setEmojiRenameModalActive] = useState(false);
+    const [emojiRenameValue, setEmojiRenameValue] = useState('');
+    const [emojiRenameReasonValue, setEmojiRenameReasonValue] = useState('');
+
+    async function emojiRename () {
+        setEmojiRenameModalActive(false);
+
+        try {
+            const promises = selectedEmojis.map(function (emoji) {
+                return new Promise(async function (resolve) {
+                    try {
+                        const emojiName = emoji.name;
+                        const _emoji = await selectedServer?.editEmoji(emoji?.id, { name: emojiRenameValue }, emojiRenameReasonValue || null);
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Renamed emoji <b>"{emojiName}"</b> to <b>"{_emoji.name}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiRenameReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch (err) {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to rename emoji <b>"{emoji.name}"</b> to <b>"{emojiRenameValue}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiRenameReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedEmojis.forEach(function (emoji) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to rename emoji <b>"{emoji.name}"</b> to <b>"{emojiRenameValue}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiRenameReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [stickerRenameModalActive, setStickerRenameModalActive] = useState(false);
+    const [stickerRenameValue, setStickerRenameValue] = useState('');
+    const [stickerRenameReasonValue, setStickerRenameReasonValue] = useState('');
+
+    async function stickerRename () {
+        setStickerRenameModalActive(false);
+
+        try {
+            const promises = selectedStickers.map(function (sticker) {
+                return new Promise(async function (resolve) {
+                    try {
+                        const stickerName = sticker.name;
+                        const _sticker = await selectedServer?.editSticker(sticker?.id, { name: stickerRenameValue }, stickerRenameReasonValue || null);
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Renamed sticker <b>"{stickerName}"</b> to <b>"{_sticker.name}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerRenameReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch (err) {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to rename sticker <b>"{sticker.name}"</b> to <b>"{stickerRenameValue}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerRenameReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedStickers.forEach(function (sticker) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to rename sticker <b>"{sticker.name}"</b> to <b>"{stickerRenameValue}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerRenameReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [stickerDeleteModalActive, setStickerDeleteModalActive] = useState(false);
+    const [stickerDeleteReasonValue, setStickerDeleteReasonValue] = useState('');
+
+    async function stickerDelete () {
+        setStickerDeleteModalActive(false);
+
+        try {
+            const promises = selectedStickers.map(function (sticker) {
+                return new Promise(async function (resolve) {
+                    try {
+                        await selectedServer?.deleteSticker(sticker.id, stickerDeleteReasonValue || undefined);
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Deleted sticker <b>"{sticker.name}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerDeleteReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to delete sticker <b>"{sticker.name}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerDeleteReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedStickers.forEach(function (sticker) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to delete sticker <b>"{sticker.name}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerDeleteReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [emojiDeleteModalActive, setEmojiDeleteModalActive] = useState(false);
+    const [emojiDeleteReasonValue, setEmojiDeleteReasonValue] = useState('');
+
+    async function emojiDelete () {
+        setEmojiDeleteModalActive(false);
+
+        try {
+            const promises = selectedEmojis.map(function (emoji) {
+                return new Promise(async function (resolve) {
+                    try {
+                        await selectedServer?.deleteEmoji(emoji.id, emojiDeleteReasonValue || undefined);
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Deleted emoji <b>"{emoji.name}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiDeleteReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to delete emoji <b>"{emoji.name}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiDeleteReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedEmojis.forEach(function (emoji) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to delete emoji <b>"{emoji.name}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiDeleteReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [emojiCreateModalActive, setEmojiCreateModalActive] = useState(false);
+    const [emojiCreateNameValue, setEmojiCreateNameValue] = useState('');
+    const [emojiCreateAmountValue, setEmojiCreateAmountValue] = useState('');
+    const [emojiCreateReasonValue, setEmojiCreateReasonValue] = useState('');
+
+    async function emojiCreate () {
+        setEmojiCreateModalActive(false);
+
+        try {
+            const response = await dialog();
+
+            if (response.length < 1) throw 'No file selected.';
+
+            const image = await fs.readFile(response[0].file.path);
+            const imageBuffer = `data:image/${response[0].file.name.split('.').reverse()[0]};base64,${image.toString('base64')}`;
+
+            const promises = [...Array(emojiCreateAmountValue && emojiCreateAmountValue !== "" ? parseInt(emojiCreateAmountValue) : 1)].map(() => new Promise(async function (resolve) {
+                try {
+                    const emoji = await selectedServer?.createEmoji({
+                        name: emojiCreateNameValue,
+                        image: imageBuffer
+                    }, emojiCreateReasonValue || null);
+        
+                    addLog(<p>
+                        <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                        <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                        <span style={{ color: 'lightgreen' }}>Created emoji <b>"{emojiCreateNameValue}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiCreateReasonValue}"</b>)</span>
+                    </p>);
+                }
+                catch {
+                    addLog(<p>
+                        <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                        <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                        <span style={{ color: 'crimson' }}>Failed to create emoji <b>"{emojiCreateNameValue}"</b> (reason: <b>"{emojiCreateReasonValue}"</b>)</span>
+                    </p>);
+                };
+    
+                resolve();
+            }));
+    
+            await Promise.all(promises);
+        }
+        catch {
+            addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to create emoji <b>"{emojiCreateNameValue}"</b> (reason: <b>"{emojiCreateReasonValue}"</b>)</span>
+            </p>);
+        };
+    };
+
+    const [stickerCreateModalActive, setStickerCreateModalActive] = useState(false);
+    const [stickerCreateNameValue, setStickerCreateNameValue] = useState('');
+    const [stickerCreateEmojiValue, setStickerCreateEmojiValue] = useState('');
+    const [stickerCreateAmountValue, setStickerCreateAmountValue] = useState('');
+    const [stickerCreateReasonValue, setStickerCreateReasonValue] = useState('');
+
+    async function stickerCreate () {
+        setStickerCreateModalActive(false);
+
+        try {
+            const response = await dialog();
+
+            if (response.length < 1) throw 'No file selected.';
+
+            const image = await fs.readFile(response[0].file.path);
+
+            const promises = [...Array(stickerCreateAmountValue && stickerCreateAmountValue !== "" ? parseInt(stickerCreateAmountValue) : 1)].map(() => new Promise(async function (resolve) {
+                try {
+                    const sticker = await selectedServer?.createSticker({
+                        name: stickerCreateNameValue,
+                        file: {
+                            file: image,
+                            name: response[0].file.name
+                        },
+                        tags: stickerCreateEmojiValue || '🔥'
+                    }, stickerCreateReasonValue || null);
+        
+                    addLog(<p>
+                        <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                        <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                        <span style={{ color: 'lightgreen' }}>Created sticker <b>"{stickerCreateNameValue}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerCreateReasonValue}"</b>)</span>
+                    </p>);
+                }
+                catch {
+                    addLog(<p>
+                        <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                        <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                        <span style={{ color: 'crimson' }}>Failed to create sticker <b>"{stickerCreateNameValue}"</b> (reason: <b>"{stickerCreateReasonValue}"</b>)</span>
+                    </p>);
+                };
+    
+                resolve();
+            }));
+    
+            await Promise.all(promises);
+        }
+        catch {
+            addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to create sticker <b>"{stickerCreateNameValue}"</b> (reason: <b>"{stickerCreateReasonValue}"</b>)</span>
+            </p>);
+        };
+    };
+
     const tabs = [
         {
             label: 'Servers',
@@ -1694,7 +2018,7 @@ export default function () {
                             </>
                         }
                     >
-                        <div style={{ marginTop: '1rem' }}><Input value={serverUnbanReasonValue} onInput={(e) => setServerUnbanReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                        <Input value={serverUnbanReasonValue} onInput={(e) => setServerUnbanReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} />
                     </Modal>
                     
                     {/* Delete Invite Modal */}
@@ -1707,7 +2031,7 @@ export default function () {
                             </>
                         }
                     >
-                        <div style={{ marginTop: '1rem' }}><Input value={serverInviteDeleteReasonValue} onInput={(e) => setServerInviteDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                        <Input value={serverInviteDeleteReasonValue} onInput={(e) => setServerInviteDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} />
                     </Modal>
 
                     {/* Bans */}
@@ -1931,7 +2255,7 @@ export default function () {
                             </>
                         }
                     >
-                        <div style={{ marginTop: '1rem' }}><Input value={userKickReasonValue} onInput={(e) => setUserKickReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                        <Input value={userKickReasonValue} onInput={(e) => setUserKickReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} />
                     </Modal>
 
                     {/* Ban Modal */}
@@ -2127,7 +2451,7 @@ export default function () {
                             </>
                         }
                     >
-                        <div style={{ marginTop: '1rem' }}><Input value={channelDeleteReasonValue} onInput={(e) => setChannelDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                        <Input value={channelDeleteReasonValue} onInput={(e) => setChannelDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} />
                     </Modal>
 
                     {/* Channels */}
@@ -2335,7 +2659,7 @@ export default function () {
                             </>
                         }
                     >
-                        <div style={{ marginTop: '1rem' }}><Input value={roleDeleteReasonValue} onInput={(e) => setRoleDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                        <Input value={roleDeleteReasonValue} onInput={(e) => setRoleDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} />
                     </Modal>
 
                     {/* Roles */}
@@ -2400,7 +2724,89 @@ export default function () {
             icon: faIcons,
             content: selectedServer ? (
                 <>
-                    {selectedServerInfo?.emojis?.map((emoji) => <p>{emoji?.name} ({emoji?.id})</p>)}
+                    {/* Rename Modal */}
+                    <Modal
+                        active={emojiRenameModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={emojiRename} />
+                                <Button label='Cancel' size='md' onClick={() => { setEmojiRenameModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input value={emojiRenameValue} onInput={(e) => setEmojiRenameValue(e.target.value)} label='Name' customClass={styles.input} />
+                        <div style={{ marginTop: '1rem' }}><Input value={emojiRenameReasonValue} onInput={(e) => setEmojiRenameReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Create Modal */}
+                    <Modal
+                        active={emojiCreateModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={emojiCreate} />
+                                <Button label='Cancel' size='md' onClick={() => { setEmojiCreateModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input label='Name' value={emojiCreateNameValue} onInput={(e) => setEmojiCreateNameValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem'}}><Input label='Amount' value={emojiCreateAmountValue} onInput={(e) => setEmojiCreateAmountValue(e.target.value)} /></div>
+                        <div style={{ marginTop: '1rem' }}><Input value={emojiCreateReasonValue} onInput={(e) => setEmojiCreateReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Delete Modal */}
+                    <Modal
+                        active={emojiDeleteModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={emojiDelete} />
+                                <Button label='Cancel' size='md' onClick={() => { setEmojiDeleteModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input value={emojiDeleteReasonValue} onInput={(e) => setEmojiDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} />
+                    </Modal>
+
+                    {/* Emojis */}
+                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                        <h4>Emojis</h4>
+                        <div className={styles.buttons}>
+                                <Button
+                                    size='sm'
+                                    label='Rename'
+                                    customClass={styles.button}
+                                    onClick={() => { setEmojiRenameValue(''); setEmojiRenameReasonValue(''); setEmojiRenameModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Create'
+                                    customClass={styles.button}
+                                    onClick={() => { setEmojiCreateNameValue(''); setEmojiCreateAmountValue(1); setEmojiCreateReasonValue(''); setEmojiCreateModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Delete'
+                                    customClass={styles.button}
+                                    onClick={() => { setEmojiDeleteReasonValue(''); setEmojiDeleteModalActive(true) }}
+                                />
+                        </div>
+                    </div>
+
+                    <Table
+                        theme='dark'
+                        columns={emojiColumns}
+                        data={selectedServerInfo?.emojis
+                            ?.map((emoji) => ({
+                                id: emoji.id,
+                                name: emoji.name,
+                                available: emoji.available ? '✅' : '🚫'
+                            }))}
+                        dense
+                        selectableRowsHighlight
+                        selectableRows
+                        pagination
+                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                        onSelectedRowsChange={handleEmojiSelected}
+                    />
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         },
@@ -2409,7 +2815,90 @@ export default function () {
             icon: faNoteSticky,
             content: selectedServer ? (
                 <>
-                    {selectedServerInfo?.stickers?.map((sticker) => <p>{sticker?.name} ({sticker?.id})</p>)}
+                    {/* Rename Modal */}
+                    <Modal
+                        active={stickerRenameModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={stickerRename} />
+                                <Button label='Cancel' size='md' onClick={() => { setStickerRenameModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input value={stickerRenameValue} onInput={(e) => setStickerRenameValue(e.target.value)} label='Name' customClass={styles.input} />
+                        <div style={{ marginTop: '1rem' }}><Input value={stickerRenameReasonValue} onInput={(e) => setStickerRenameReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Create Modal */}
+                    <Modal
+                        active={stickerCreateModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={stickerCreate} />
+                                <Button label='Cancel' size='md' onClick={() => { setStickerCreateModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input label='Name' value={stickerCreateNameValue} onInput={(e) => setStickerCreateNameValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem'}}><Input label='Emoji (e.g. 🔥)' value={stickerCreateEmojiValue} onInput={(e) => setStickerCreateEmojiValue(e.target.value)} /></div>
+                        <div style={{ marginTop: '1rem'}}><Input label='Amount' value={stickerCreateAmountValue} onInput={(e) => setStickerCreateAmountValue(e.target.value)} /></div>
+                        <div style={{ marginTop: '1rem' }}><Input value={stickerCreateReasonValue} onInput={(e) => setStickerCreateReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Delete Modal */}
+                    <Modal
+                        active={stickerDeleteModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={stickerDelete} />
+                                <Button label='Cancel' size='md' onClick={() => { setStickerDeleteModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input value={stickerDeleteReasonValue} onInput={(e) => setStickerDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} />
+                    </Modal>
+
+                    {/* Stickers */}
+                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                        <h4>Stickers</h4>
+                        <div className={styles.buttons}>
+                                <Button
+                                    size='sm'
+                                    label='Rename'
+                                    customClass={styles.button}
+                                    onClick={() => { setStickerRenameValue(''); setStickerRenameReasonValue(''); setStickerRenameModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Create'
+                                    customClass={styles.button}
+                                    onClick={() => { setStickerCreateNameValue(''); setStickerCreateEmojiValue(''); setStickerCreateAmountValue(1); setStickerCreateReasonValue(''); setStickerCreateModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Delete'
+                                    customClass={styles.button}
+                                    onClick={() => { setStickerDeleteReasonValue(''); setStickerDeleteModalActive(true) }}
+                                />
+                        </div>
+                    </div>
+
+                    <Table
+                        theme='dark'
+                        columns={stickerColumns}
+                        data={selectedServerInfo?.stickers
+                            ?.map((sticker) => ({
+                                id: sticker.id,
+                                name: sticker.name,
+                                available: sticker.available ? '✅' : '🚫'
+                            }))}
+                        dense
+                        selectableRowsHighlight
+                        selectableRows
+                        pagination
+                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                        onSelectedRowsChange={handleStickerSelected}
+                    />
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         }
