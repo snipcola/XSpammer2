@@ -1,8 +1,7 @@
 import {
   screen,
   BrowserWindow,
-  shell,
-  Menu
+  shell
 } from 'electron';
 import Store from 'electron-store';
 
