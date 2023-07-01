@@ -4,13 +4,8 @@ import { createWindow } from './helpers';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-if (isProd) {
-  serve({ directory: 'app' });
-} else {
-  app.setPath('userData', `${app.getPath('userData')} (development)`);
-}
-
-Menu.setApplicationMenu(false);
+if (isProd) serve({ directory: 'app' });
+else app.setPath('userData', `${app.getPath('userData')} (development)`);
 
 (async () => {
   await app.whenReady();
@@ -26,6 +21,7 @@ Menu.setApplicationMenu(false);
     await mainWindow.loadURL(`http://localhost:${port}/home`);
   };
 
+  mainWindow.removeMenu();
   mainWindow.focus();
 })();
 
