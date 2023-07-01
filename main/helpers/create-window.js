@@ -1,7 +1,8 @@
 import {
   screen,
   BrowserWindow,
-  shell
+  shell,
+  Menu
 } from 'electron';
 import Store from 'electron-store';
 
@@ -75,6 +76,8 @@ export default function createWindow(windowName, options) {
       ...options.webPreferences,
     },
   });
+
+  win.removeMenu(true);
 
   win.on('close', saveState);
 

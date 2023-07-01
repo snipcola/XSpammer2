@@ -1,4 +1,4 @@
-import { app, Menu } from 'electron';
+import { app } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
 
@@ -21,7 +21,6 @@ else app.setPath('userData', `${app.getPath('userData')} (development)`);
     await mainWindow.loadURL(`http://localhost:${port}/home`);
   };
 
-  mainWindow.removeMenu();
   mainWindow.focus();
 })();
 
