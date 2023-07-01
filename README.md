@@ -49,7 +49,7 @@ To use XSpammer, you can follow two methods.
 
 ### Method 1: Install the prebuilt binaries
 
-This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://github.com/snipcola/xspammer-2/releases/tag/latest), where you will find the respective builds for mac, linux, and windows.
+This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://github.com/snipcola/xspammer-2/releases/latest), where you will find the respective builds for mac, linux, and windows.
 
 <b>Note:</b> x86 or arm64 architectures are not provided as prebuilt binaries, so method 2 is the only choice for people with these architectures.
 
