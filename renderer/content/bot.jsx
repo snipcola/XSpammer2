@@ -297,6 +297,11 @@ export default function () {
             name: 'Bot',
             selector: row => row.bot,
             sortable: true
+        },
+        {
+            name: 'Id',
+            selector: row => row.id,
+            sortable: true
         }
     ];
 
@@ -413,6 +418,12 @@ export default function () {
 
     const [selectedRoles, setSelectedRoles] = useState([]);
     const handleRoleSelected = useCallback((s) => setSelectedRoles(s.selectedRows), []);
+
+    const [selectedRemoveMembers, setSelectedRemoveMembers] = useState([]);
+    const handleRemoveMemberSelected = useCallback((s) => setSelectedRemoveMembers(s.selectedRows), []);
+
+    const [selectedAddMembers, setSelectedAddMembers] = useState([]);
+    const handleAddMemberSelected = useCallback((s) => setSelectedAddMembers(s.selectedRows), []);
 
     const [userNicknameModalActive, setUserNicknameModalActive] = useState(false);
     const [userNicknameValue, setUserNicknameValue] = useState('');
@@ -943,14 +954,14 @@ export default function () {
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                                    <span style={{ color: 'lightgreen' }}>Removed role <b>"{role.name}"</b> from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
+                                    <span style={{ color: 'lightgreen' }}>Removed role <b>"{role.name}"</b> from member <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
                                 </p>);
                             }
                             catch {
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                                    <span style={{ color: 'crimson' }}>Failed to remove role <b>"{role.name}"</b> from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
+                                    <span style={{ color: 'crimson' }}>Failed to remove role <b>"{role.name}"</b> from member <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
                                 </p>);
                             };
 
@@ -970,7 +981,7 @@ export default function () {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crimson' }}>Failed to remove <b>{selectedRemoveRoles.length}</b> roles from <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
+                    <span style={{ color: 'crimson' }}>Failed to remove <b>{selectedRemoveRoles.length}</b> roles from member <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
                 </p>);
             });
         };
@@ -994,14 +1005,14 @@ export default function () {
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                                    <span style={{ color: 'lightgreen' }}>Added role <b>"{role.name}"</b> to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
+                                    <span style={{ color: 'lightgreen' }}>Added role <b>"{role.name}"</b> to member <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
                                 </p>);
                             }
                             catch {
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                                    <span style={{ color: 'crimson' }}>Failed to add role <b>"{role.name}"</b> to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
+                                    <span style={{ color: 'crimson' }}>Failed to add role <b>"{role.name}"</b> to member <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
                                 </p>);
                             };
 
@@ -1021,7 +1032,7 @@ export default function () {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crimson' }}>Failed to add <b>{selectedAddRoles.length}</b> roles to <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
+                    <span style={{ color: 'crimson' }}>Failed to add <b>{selectedAddRoles.length}</b> roles to member <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
                 </p>);
             });
         };
@@ -1447,6 +1458,108 @@ export default function () {
         }));
 
         await Promise.all(promises);
+    };
+
+    const [roleAddMemberModalActive, setRoleAddMemberModalActive] = useState(false);
+    const [roleAddMemberReasonValue, setRoleAddMemberReasonValue] = useState('');
+
+    async function roleAddMembers () {
+        setRoleAddMemberModalActive(false);
+
+        try {
+            const members = await selectedServer.fetchMembers({ userIDs: selectedAddMembers.map((u) => u?.id) });
+            const promises = members.map(function (member) {
+                return new Promise(async function (resolve) {
+                    const rolePromises = selectedRoles.map(function (role) {
+                        return new Promise(async function (resolve) {
+                            try {
+                                await member.addRole(role.id, roleAddMemberReasonValue || undefined);
+            
+                                addLog(<p>
+                                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                                    <span style={{ color: 'lightgreen' }}>Added member <b>"{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}"</b> to role <b>{role.name}</b> (reason: <b>"{roleAddMemberReasonValue}"</b>)</span>
+                                </p>);
+                            }
+                            catch {
+                                addLog(<p>
+                                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                                    <span style={{ color: 'crimson' }}>Failed to add member <b>"{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}"</b> to role <b>{role.name}</b> (reason: <b>"{roleAddMemberReasonValue}"</b>)</span>
+                                </p>);
+                            };
+
+                            resolve();
+                        });
+                    });
+
+                    await Promise.all(rolePromises);
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedAddMembers.forEach(function (member) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to add member <b>"{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}"</b> to role <b>{role.name}</b> (reason: <b>"{roleAddMemberReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [roleRemoveMemberModalActive, setRoleRemoveMemberModalActive] = useState(false);
+    const [roleRemoveMemberReasonValue, setRoleRemoveMemberReasonValue] = useState('');
+
+    async function roleRemoveMembers () {
+        setRoleRemoveMemberModalActive(false);
+
+        try {
+            const members = await selectedServer.fetchMembers({ userIDs: selectedRemoveMembers.map((u) => u?.id) });
+            const promises = members.map(function (member) {
+                return new Promise(async function (resolve) {
+                    const rolePromises = selectedRoles.map(function (role) {
+                        return new Promise(async function (resolve) {
+                            try {
+                                await member.removeRole(role.id, roleRemoveMemberReasonValue || undefined);
+            
+                                addLog(<p>
+                                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                                    <span style={{ color: 'lightgreen' }}>Removed member <b>"{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}"</b> from role <b>{role.name}</b> (reason: <b>"{roleRemoveMemberReasonValue}"</b>)</span>
+                                </p>);
+                            }
+                            catch {
+                                addLog(<p>
+                                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                                    <span style={{ color: 'crimson' }}>Failed to remove member <b>"{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}"</b> from role <b>{role.name}</b> (reason: <b>"{roleRemoveMemberReasonValue}"</b>)</span>
+                                </p>);
+                            };
+
+                            resolve();
+                        });
+                    });
+
+                    await Promise.all(rolePromises);
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedRemoveMembers.forEach(function (member) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to remove member <b>"{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}"</b> from role <b>{role.name}</b> (reason: <b>"{roleRemoveMemberReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
     };
 
     const tabs = [
@@ -1886,7 +1999,7 @@ export default function () {
 
                     <Table
                         theme='dark'
-                        columns={userColumns}
+                        columns={userColumns.filter((col) => col.name !== 'Id')}
                         data={selectedServerInfo?.members
                             ?.filter((member) => member.id !== client.user.id)
                             ?.map((member) => ({
@@ -2115,6 +2228,66 @@ export default function () {
             icon: faScroll,
             content: selectedServer ? (
                 <>
+                    {/* Add Member Modal */}
+                    <Modal
+                        active={roleAddMemberModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={roleAddMembers} />
+                                <Button label='Cancel' size='md' onClick={() => { setRoleAddMemberModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <h3 style={{ marginBottom: '.5rem' }}>Members</h3>
+                        <Table
+                            theme='dark'
+                            columns={userColumns.filter((col) => col.name !== 'Online' && col.name !== 'Bot')}
+                            data={selectedServerInfo?.members
+                                ?.filter((member) => member.id !== client.user.id)
+                                ?.map((member) => ({
+                                    id: member.id,
+                                    user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleAddMemberSelected}
+                        />
+                        <div style={{ marginTop: '1rem' }}><Input value={roleAddMemberReasonValue} onInput={(e) => setRoleAddMemberReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Remove Member Modal */}
+                    <Modal
+                        active={roleRemoveMemberModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={roleRemoveMembers} />
+                                <Button label='Cancel' size='md' onClick={() => { setRoleRemoveMemberModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <h3 style={{ marginBottom: '.5rem' }}>Members</h3>
+                        <Table
+                            theme='dark'
+                            columns={userColumns.filter((col) => col.name !== 'Online' && col.name !== 'Bot')}
+                            data={selectedServerInfo?.members
+                                ?.filter((member) => member.id !== client.user.id)
+                                ?.map((member) => ({
+                                    id: member.id,
+                                    user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleRemoveMemberSelected}
+                        />
+                        <div style={{ marginTop: '1rem' }}><Input value={roleRemoveMemberReasonValue} onInput={(e) => setRoleRemoveMemberReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
                     {/* Rename Modal */}
                     <Modal
                         active={roleRenameModalActive}
@@ -2173,13 +2346,13 @@ export default function () {
                                     size='sm'
                                     label='Remove Member'
                                     customClass={styles.button}
-                                    onClick={() => { setRoleRenameValue(''); setRoleRenameReasonValue(''); setRoleRenameModalActive(true) }}
+                                    onClick={() => { setRoleRemoveMemberReasonValue(''); setRoleRemoveMemberModalActive(true) }}
                                 />
                                 <Button
                                     size='sm'
                                     label='Add Member'
                                     customClass={styles.button}
-                                    onClick={() => { setRoleRenameValue(''); setRoleRenameReasonValue(''); setRoleRenameModalActive(true) }}
+                                    onClick={() => { setRoleAddMemberReasonValue(''); setRoleAddMemberModalActive(true) }}
                                 />
                                 <Button
                                     size='sm'
