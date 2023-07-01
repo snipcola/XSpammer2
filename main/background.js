@@ -1,4 +1,4 @@
-import { app } from 'electron';
+import { app, Menu } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
 
@@ -9,6 +9,8 @@ if (isProd) {
 } else {
   app.setPath('userData', `${app.getPath('userData')} (development)`);
 }
+
+Menu.setApplicationMenu(false);
 
 (async () => {
   await app.whenReady();
