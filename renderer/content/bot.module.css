@@ -192,3 +192,26 @@
     width: 1.15rem;
     height: 1.15rem;
 }
+
+/* Select */
+.select {
+    margin-top: .5rem;
+    background-color: var(--input-color);
+    color: white;
+    cursor: pointer;
+
+    padding: .25rem .5rem;
+    border-radius: var(--border-radius);
+    outline: none;
+    border: none;
+    transition: .1s;
+}
+
+.select:hover {
+    opacity: 75%;
+}
+
+.select:active {
+    opacity: 50%;
+    transform: scale(.95);
+}

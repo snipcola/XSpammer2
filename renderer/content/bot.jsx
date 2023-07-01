@@ -302,11 +302,6 @@ export default function () {
 
     const channelColumns = [
         {
-            name: 'Id',
-            selector: row => row.id,
-            sortable: true
-        },
-        {
             name: 'Name',
             selector: row => row.name,
             sortable: true
@@ -315,15 +310,15 @@ export default function () {
             name: 'Type',
             selector: row => row.type,
             sortable: true
-        }
-    ];
-
-    const roleColumns = [
+        },
         {
             name: 'Id',
             selector: row => row.id,
             sortable: true
-        },
+        }
+    ];
+
+    const roleColumns = [
         {
             name: 'Name',
             selector: row => row.name,
@@ -333,15 +328,15 @@ export default function () {
             name: 'Created',
             selector: row => row.created,
             sortable: true
-        }
-    ];
-
-    const banColumns = [
+        },
         {
             name: 'Id',
             selector: row => row.id,
             sortable: true
-        },
+        }
+    ];
+
+    const banColumns = [
         {
             name: 'User',
             selector: row => row.user,
@@ -350,6 +345,11 @@ export default function () {
         {
             name: 'Bot',
             selector: row => row.bot,
+            sortable: true
+        },
+        {
+            name: 'Id',
+            selector: row => row.id,
             sortable: true
         }
     ];
@@ -410,6 +410,9 @@ export default function () {
 
     const [selectedChannels, setSelectedChannels] = useState([]);
     const handleChannelSelected = useCallback((s) => setSelectedChannels(s.selectedRows), []);
+
+    const [selectedRoles, setSelectedRoles] = useState([]);
+    const handleRoleSelected = useCallback((s) => setSelectedRoles(s.selectedRows), []);
 
     const [userNicknameModalActive, setUserNicknameModalActive] = useState(false);
     const [userNicknameValue, setUserNicknameValue] = useState('');
@@ -963,7 +966,7 @@ export default function () {
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function (user) {
+            selectedUsers.forEach(function (member) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1014,7 +1017,7 @@ export default function () {
             await Promise.all(promises);
         }
         catch {
-            selectedUsers.forEach(function (user) {
+            selectedUsers.forEach(function (member) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1044,14 +1047,14 @@ export default function () {
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                            <span style={{ color: 'lightgreen' }}>Messaged in <b>{channel.name}</b>: <b>{channelMessageValue}</b></span>
+                            <span style={{ color: 'lightgreen' }}>Messaged in channel <b>"{channel.name}"</b>: <b>{channelMessageValue}</b></span>
                         </p>);
                     }
                     catch {
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                            <span style={{ color: 'crimson' }}>Failed to message in <b>{channel.name}</b>: <b>{channelMessageValue}</b></span>
+                            <span style={{ color: 'crimson' }}>Failed to message in channel <b>"{channel.name}"</b>: <b>{channelMessageValue}</b></span>
                         </p>);
                     };
 
@@ -1059,14 +1062,14 @@ export default function () {
                 });
             }));
 
-            await Promise.all(...promises);
+            await Promise.all(promises);
         }
         catch {
             selectedChannels.forEach(function (channel) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crimson' }}>Failed to message in <b>{channel.name}</b>: <b>{channelMessageValue}</b></span>
+                    <span style={{ color: 'crimson' }}>Failed to message in channel <b>"{channel.name}"</b>: <b>{channelMessageValue}</b></span>
                 </p>);
             });
         };
@@ -1196,14 +1199,14 @@ export default function () {
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                            <span style={{ color: 'lightgreen' }}>Deleted <b>{channel.name}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
+                            <span style={{ color: 'lightgreen' }}>Deleted channel <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
                         </p>);
                     }
                     catch {
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                            <span style={{ color: 'crismon' }}>Failed to delete <b>{channel.name}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
+                            <span style={{ color: 'crismon' }}>Failed to delete channel <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
                         </p>);
                     };
 
@@ -1218,7 +1221,7 @@ export default function () {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crismon' }}>Failed to delete <b>{channel.name}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
+                    <span style={{ color: 'crismon' }}>Failed to delete channel <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
                 </p>);
             });
         };
@@ -1234,7 +1237,7 @@ export default function () {
         try {
             const channels = await selectedServer?.channels
                 ?.filter((channel) => selectedChannels?.find((_channel) => channel?.id === _channel?.id))
-                ?.filter((channel) => channel?.delete);
+                ?.filter((channel) => channel?.edit);
 
             const promises = channels.map(function (channel) {
                 return new Promise(async function (resolve) {
@@ -1246,14 +1249,14 @@ export default function () {
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                            <span style={{ color: 'lightgreen' }}>Renamed <b>{channelName}</b> to <b>{channel.name}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
+                            <span style={{ color: 'lightgreen' }}>Renamed channel <b>"{channelName}"</b> to <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
                         </p>);
                     }
                     catch {
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                            <span style={{ color: 'crimson' }}>Failed to rename <b>{channel.name}</b> to <b>{channelRenameValue}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
+                            <span style={{ color: 'crimson' }}>Failed to rename channel <b>"{channel.name}"</b> to <b>"{channelRenameValue}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
                         </p>);
                     };
 
@@ -1268,10 +1271,182 @@ export default function () {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                    <span style={{ color: 'crimson' }}>Failed to rename <b>{channel.name}</b> to <b>{channelRenameValue}</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
+                    <span style={{ color: 'crimson' }}>Failed to rename channel <b>"{channel.name}"</b> to <b>"{channelRenameValue}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
                 </p>);
             });
         };
+    };
+
+    const [channelCreateModalActive, setChannelCreateModalActive] = useState(false);
+    const [channelCreateNameValue, setChannelCreateNameValue] = useState('');
+    const [channelCreateTypeValue, setChannelCreateTypeValue] = useState(0);
+    const [channelCreateAmountValue, setChannelCreateAmountValue] = useState(0);
+    const [channelCreateNSFWValue, setChannelCreateNSFWValue] = useState(false);
+    const [channelCreateReasonValue, setChannelCreateReasonValue] = useState('');
+
+    async function channelCreate () {
+        setChannelCreateModalActive(false);
+
+        const promises = [...Array(channelCreateAmountValue && channelCreateAmountValue !== "" ? parseInt(channelCreateAmountValue) : 1)].map(() => new Promise(async function (resolve) {
+            try {
+                const channel = await selectedServer?.createChannel(channelCreateNameValue, channelCreateTypeValue, {
+                    nsfw: channelCreateNSFWValue,
+                    reason: channelCreateReasonValue || null
+                });
+    
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'lightgreen' }}>Created channel <b>"{channelCreateNameValue}"</b> (id: <b>{channel.id}</b>, type: <b>{channelCreateTypeValue}</b>, nsfw: <b>{channelCreateNSFWValue.toString()}</b>, reason: <b>"{channelCreateReasonValue}"</b>)</span>
+                </p>);
+            }
+            catch {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to create channel <b>"{channelCreateNameValue}"</b> (type: <b>{channelCreateTypeValue}</b>, nsfw: <b>{channelCreateNSFWValue.toString()}</b>, reason: <b>"{channelCreateReasonValue}"</b>)</span>
+                </p>);
+            };
+
+            resolve();
+        }));
+
+        await Promise.all(promises);
+    };
+
+    const [roleDeleteModalActive, setRoleDeleteModalActive] = useState(false);
+    const [roleDeleteReasonValue, setRoleDeleteReasonValue] = useState('');
+
+    async function roleDelete () {
+        setRoleDeleteModalActive(false);
+
+        try {
+            const roles = await selectedServer?.roles
+                ?.filter((role) => selectedRoles?.find((_role) => role?.id === _role?.id))
+                ?.filter((role) => role?.delete);
+
+            const promises = roles.map(function (role) {
+                return new Promise(async function (resolve) {
+                    try {
+                        await role.delete(roleDeleteReasonValue || undefined);
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Deleted role <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleDeleteReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crismon' }}>Failed to delete role <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleDeleteReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedRoles.forEach(function (role) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crismon' }}>Failed to delete role <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleDeleteReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [roleRenameModalActive, setRoleRenameModalActive] = useState(false);
+    const [roleRenameValue, setRoleRenameValue] = useState('');
+    const [roleRenameReasonValue, setRoleRenameReasonValue] = useState('');
+
+    async function roleRename () {
+        setRoleRenameModalActive(false);
+
+        try {
+            const roles = await selectedServer?.roles
+                ?.filter((role) => selectedRoles?.find((_role) => role?.id === _role?.id))
+                ?.filter((role) => role?.edit);
+
+            const promises = roles.map(function (role) {
+                return new Promise(async function (resolve) {
+                    try {
+                        const roleName = role.name;
+
+                        await role.edit({ name: roleRenameValue }, roleRenameReasonValue || undefined);
+    
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'lightgreen' }}>Renamed role <b>"{roleName}"</b> to <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleRenameReasonValue}"</b>)</span>
+                        </p>);
+                    }
+                    catch {
+                        addLog(<p>
+                            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                            <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                            <span style={{ color: 'crimson' }}>Failed to rename role <b>"{role.name}"</b> to <b>"{roleRenameValue}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleRenameReasonValue}"</b>)</span>
+                        </p>);
+                    };
+
+                    resolve();
+                });
+            });
+
+            await Promise.all(promises);
+        }
+        catch {
+            selectedRoles.forEach(function (role) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to rename role <b>"{role.name}"</b> to <b>"{roleRenameValue}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleRenameReasonValue}"</b>)</span>
+                </p>);
+            });
+        };
+    };
+
+    const [roleCreateModalActive, setRoleCreateModalActive] = useState(false);
+    const [roleCreateNameValue, setRoleCreateNameValue] = useState('');
+    const [roleCreateAmountValue, setRoleCreateAmountValue] = useState(0);
+    const [roleCreateHoistValue, setRoleCreateHoistValue] = useState(false);
+    const [roleCreateMentionableValue, setRoleCreateMentionableValue] = useState(false);
+    const [roleCreateReasonValue, setRoleCreateReasonValue] = useState('');
+
+    async function roleCreate () {
+        setRoleCreateModalActive(false);
+
+        const promises = [...Array(roleCreateAmountValue && roleCreateAmountValue !== "" ? parseInt(roleCreateAmountValue) : 1)].map(() => new Promise(async function (resolve) {
+            try {
+                const role = await selectedServer?.createRole({
+                    name: roleCreateNameValue,
+                    hoist: roleCreateHoistValue,
+                    mentionable: roleCreateMentionableValue
+                }, roleCreateReasonValue || null);
+    
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'lightgreen' }}>Created role <b>"{roleCreateNameValue}"</b> (id: <b>{role.id}</b>, hoist: <b>{roleCreateHoistValue.toString()}</b>, mentionable: <b>{roleCreateMentionableValue.toString()}</b>, reason: <b>"{roleCreateReasonValue}"</b>)</span>
+                </p>);
+            }
+            catch {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to create role <b>"{roleCreateNameValue}"</b> (hoist: <b>{roleCreateHoistValue.toString()}</b>, mentionable: <b>{roleCreateMentionableValue.toString()}</b>, reason: <b>"{roleCreateReasonValue}"</b>)</span>
+                </p>);
+            };
+
+            resolve();
+        }));
+
+        await Promise.all(promises);
     };
 
     const tabs = [
@@ -1369,7 +1544,7 @@ export default function () {
                                 />
                                 <Button
                                     size='sm'
-                                    label='Prune (avoid overuse)'
+                                    label='Prune (minimize usage)'
                                     customClass={styles.button}
                                     onClick={() => { setServerPruneValue('7'); setServerPruneReasonValue(''); setServerPruneModalActive(true) }}
                                 />
@@ -1800,6 +1975,35 @@ export default function () {
                         <div style={{ marginTop: '1rem' }}><Input value={channelRenameReasonValue} onInput={(e) => setChannelRenameReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
 
+                    {/* Create Modal */}
+                    <Modal
+                        active={channelCreateModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={channelCreate} />
+                                <Button label='Cancel' size='md' onClick={() => { setChannelCreateModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input label='Name' value={channelCreateNameValue} onInput={(e) => setChannelCreateNameValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem' }}>
+                            <h3 className={styles.label}>Type</h3>
+                            <select className={styles.select} value={channelCreateTypeValue} onChange={(e) => setChannelCreateTypeValue(e.target.value)}>
+                                <option className={styles.option} value={0}>Text</option>
+                                <option className={styles.option} value={2}>Voice</option>
+                                <option className={styles.option} value={4}>Category</option>
+                                <option className={styles.option} value={5}>News</option>
+                                <option className={styles.option} value={13}>Stage</option>
+                            </select>
+                        </div>
+                        <div style={{ marginTop: '1rem'}}><Input label='Amount' value={channelCreateAmountValue} onInput={(e) => setChannelCreateAmountValue(e.target.value)} /></div>
+                        <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
+                            <h3 className={styles.label}>NSFW (optional)</h3>
+                            <input className={styles.checkbox} type='checkbox' checked={channelCreateNSFWValue} onChange={(e) => setChannelCreateNSFWValue(e.target.checked)} />
+                        </div>
+                        <div style={{ marginTop: '1rem' }}><Input value={channelCreateReasonValue} onInput={(e) => setChannelCreateReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
                     {/* Delete Modal */}
                     <Modal
                         active={channelDeleteModalActive}
@@ -1845,6 +2049,7 @@ export default function () {
                                     size='sm'
                                     label='Create'
                                     customClass={styles.button}
+                                    onClick={() => { setChannelCreateNameValue(''); setChannelCreateTypeValue(0); setChannelCreateAmountValue(1); setChannelCreateNSFWValue(false); setChannelCreateReasonValue(''); setChannelCreateModalActive(true) }}
                                 />
                                 <Button
                                     size='sm'
@@ -1910,7 +2115,110 @@ export default function () {
             icon: faScroll,
             content: selectedServer ? (
                 <>
-                    {selectedServerInfo?.roles?.map((role) => <p>{role?.name} ({role?.id})</p>)}
+                    {/* Rename Modal */}
+                    <Modal
+                        active={roleRenameModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={roleRename} />
+                                <Button label='Cancel' size='md' onClick={() => { setRoleRenameModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input value={roleRenameValue} onInput={(e) => setRoleRenameValue(e.target.value)} label='Name' customClass={styles.input} />
+                        <div style={{ marginTop: '1rem' }}><Input value={roleRenameReasonValue} onInput={(e) => setRoleRenameReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Create Modal */}
+                    <Modal
+                        active={roleCreateModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={roleCreate} />
+                                <Button label='Cancel' size='md' onClick={() => { setRoleCreateModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input label='Name' value={roleCreateNameValue} onInput={(e) => setRoleCreateNameValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem'}}><Input label='Amount' value={roleCreateAmountValue} onInput={(e) => setRoleCreateAmountValue(e.target.value)} /></div>
+                        <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
+                            <h3 className={styles.label}>Hoist (optional)</h3>
+                            <input className={styles.checkbox} type='checkbox' checked={roleCreateHoistValue} onChange={(e) => setRoleCreateHoistValue(e.target.checked)} />
+                        </div>
+                        <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
+                            <h3 className={styles.label}>Mentionable (optional)</h3>
+                            <input className={styles.checkbox} type='checkbox' checked={roleCreateMentionableValue} onChange={(e) => setRoleCreateMentionableValue(e.target.checked)} />
+                        </div>
+                        <div style={{ marginTop: '1rem' }}><Input value={roleCreateReasonValue} onInput={(e) => setRoleCreateReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Delete Modal */}
+                    <Modal
+                        active={roleDeleteModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={roleDelete} />
+                                <Button label='Cancel' size='md' onClick={() => { setRoleDeleteModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <div style={{ marginTop: '1rem' }}><Input value={roleDeleteReasonValue} onInput={(e) => setRoleDeleteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
+                    </Modal>
+
+                    {/* Roles */}
+                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                        <h4>Roles</h4>
+                        <div className={styles.buttons}>
+                                <Button
+                                    size='sm'
+                                    label='Remove Member'
+                                    customClass={styles.button}
+                                    onClick={() => { setRoleRenameValue(''); setRoleRenameReasonValue(''); setRoleRenameModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Add Member'
+                                    customClass={styles.button}
+                                    onClick={() => { setRoleRenameValue(''); setRoleRenameReasonValue(''); setRoleRenameModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Rename'
+                                    customClass={styles.button}
+                                    onClick={() => { setRoleRenameValue(''); setRoleRenameReasonValue(''); setRoleRenameModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Create'
+                                    customClass={styles.button}
+                                    onClick={() => { setRoleCreateNameValue(''); setRoleCreateAmountValue(1); setRoleCreateHoistValue(false); setRoleCreateMentionableValue(false); setRoleCreateReasonValue(''); setRoleCreateModalActive(true) }}
+                                />
+                                <Button
+                                    size='sm'
+                                    label='Delete'
+                                    customClass={styles.button}
+                                    onClick={() => { setRoleDeleteReasonValue(''); setRoleDeleteModalActive(true) }}
+                                />
+                        </div>
+                    </div>
+
+                    <Table
+                        theme='dark'
+                        columns={roleColumns}
+                        data={selectedServerInfo?.roles
+                            ?.filter((role) => role.id !== selectedServer?.id)
+                            ?.map((role) => ({
+                                id: role.id,
+                                name: role.name,
+                                created: moment(role.createdAt).format('YYYY-MM-DD')
+                            }))}
+                        dense
+                        selectableRowsHighlight
+                        selectableRows
+                        pagination
+                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                        onSelectedRowsChange={handleRoleSelected}
+                    />
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         },
