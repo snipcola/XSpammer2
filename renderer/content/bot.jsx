@@ -211,6 +211,8 @@ export default function () {
             const templates = await server.getTemplates();
             const invites = await server.getInvites();
 
+            await server.fetchAllMembers();
+
             setSelectedServer(server);
             setSelectedServerInfo({
                 members,
@@ -286,11 +288,6 @@ export default function () {
         {
             name: 'User',
             selector: row => row.user,
-            sortable: true
-        },
-        {
-            name: 'Online',
-            selector: row => row.online,
             sortable: true
         },
         {
@@ -942,6 +939,26 @@ export default function () {
         });
 
         await Promise.all(promises);
+    };
+
+    async function serverTemplatesCreate () {
+        try {
+            const template = await selectedServer?.createTemplate(`Tmp. ${moment(Date.now()).format('MM/YYYY HH:mm:ss')}`);
+            await serverTemplatesRefresh();
+
+            addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Created template <b>"{template.name}"</b> (code: <b>"{template.id}"</b>)</span>
+            </p>);
+        }
+        catch {
+            addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to create template</span>
+            </p>);
+        };
     };
 
     const [serverInviteDeleteModalActive, setServerInviteDeleteModalActive] = useState(false);
@@ -2110,6 +2127,12 @@ export default function () {
                                 customClass={styles.button}
                                 onClick={serverTemplatesSync}
                             />
+                            <Button
+                                size='sm'
+                                label='Create'
+                                customClass={styles.button}
+                                onClick={serverTemplatesCreate}
+                            />
                              <Button
                                 size='sm'
                                 label='Delete'
@@ -2329,8 +2352,7 @@ export default function () {
                             ?.map((member) => ({
                                 id: member.id,
                                 user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username,
-                                bot: member.bot ? '✅' : '🚫',
-                                online: member.status !== 'offline' ? '✅' : '🚫'
+                                bot: member.bot ? '✅' : '🚫'
                             }))}
                         dense
                         selectableRowsHighlight
@@ -2565,7 +2587,7 @@ export default function () {
                         <h3 style={{ marginBottom: '.5rem' }}>Members</h3>
                         <Table
                             theme='dark'
-                            columns={userColumns.filter((col) => col.name !== 'Online' && col.name !== 'Bot')}
+                            columns={userColumns.filter((col) => col.name !== 'Bot')}
                             data={selectedServerInfo?.members
                                 ?.filter((member) => member.id !== client.user.id)
                                 ?.map((member) => ({
@@ -2595,7 +2617,7 @@ export default function () {
                         <h3 style={{ marginBottom: '.5rem' }}>Members</h3>
                         <Table
                             theme='dark'
-                            columns={userColumns.filter((col) => col.name !== 'Online' && col.name !== 'Bot')}
+                            columns={userColumns.filter((col) => col.name !== 'Bot')}
                             data={selectedServerInfo?.members
                                 ?.filter((member) => member.id !== client.user.id)
                                 ?.map((member) => ({
