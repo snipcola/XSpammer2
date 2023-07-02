@@ -74,9 +74,8 @@ export default function createWindow(windowName, options) {
       contextIsolation: false,
       ...options.webPreferences,
     },
+    autoHideMenuBar: true
   });
-
-  win.removeMenu(true);
 
   win.on('close', saveState);
 
