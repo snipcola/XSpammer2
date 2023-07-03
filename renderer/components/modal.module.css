@@ -32,7 +32,7 @@
 /* Modal Content */
 .modal-content {
     padding: var(--container-padding);
-    max-height: 15rem;
+    max-height: 30rem;
     overflow-y: auto;
 }
 

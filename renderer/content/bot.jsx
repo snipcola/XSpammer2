@@ -286,8 +286,13 @@ export default function () {
 
     const userColumns = [
         {
-            name: 'User',
+            name: 'Username',
             selector: row => row.user,
+            sortable: true
+        },
+        {
+            name: 'Nickname',
+            selector: row => row.nick,
             sortable: true
         },
         {
@@ -368,6 +373,11 @@ export default function () {
             sortable: true
         },
         {
+            name: 'Creator',
+            selector: row => row.creator,
+            sortable: true
+        },
+        {
             name: 'Uses',
             selector: row => row.uses,
             sortable: true
@@ -383,6 +393,16 @@ export default function () {
         {
             name: 'Name',
             selector: row => row.name,
+            sortable: true
+        },
+        {
+            name: 'Description',
+            selector: row => row.description,
+            sortable: true
+        },
+        {
+            name: 'Uses',
+            selector: row => row.uses,
             sortable: true
         },
         {
@@ -1903,6 +1923,42 @@ export default function () {
         };
     };
 
+    const [usersFilterText, setUsersFilterText] = useState('');
+    const [usersFilterType, setUsersFilterType] = useState('username');
+
+    const [bansFilterText, setBansFilterText] = useState('');
+    const [bansFilterType, setBansFilterType] = useState('username');
+
+    const [invitesFilterText, setInvitesFilterText] = useState('');
+    const [invitesFilterType, setInvitesFilterType] = useState('code');
+
+    const [templatesFilterText, setTemplatesFilterText] = useState('');
+    const [templatesFilterType, setTemplatesFilterType] = useState('code');
+
+    const [channelsFilterText, setChannelsFilterText] = useState('');
+    const [channelsFilterType, setChannelsFilterType] = useState('name');
+
+    const [rolesFilterText, setRolesFilterText] = useState('');
+    const [rolesFilterType, setRolesFilterType] = useState('name');
+
+    const [addRolesFilterText, setAddRolesFilterText] = useState('');
+    const [addRolesFilterType, setAddRolesFilterType] = useState('name');
+
+    const [removeRolesFilterText, setRemoveRolesFilterText] = useState('');
+    const [removeRolesFilterType, setRemoveRolesFilterType] = useState('name');
+
+    const [addMembersFilterText, setAddMembersFilterText] = useState('');
+    const [addMembersFilterType, setAddMembersFilterType] = useState('username');
+
+    const [removeMembersFilterText, setRemoveMembersFilterText] = useState('');
+    const [removeMembersFilterType, setRemoveMembersFilterType] = useState('username');
+
+    const [emojisFilterText, setEmojisFilterText] = useState('');
+    const [emojisFilterType, setEmojisFilterType] = useState('name');
+
+    const [stickersFilterText, setStickersFilterText] = useState('');
+    const [stickersFilterType, setStickersFilterType] = useState('name');
+
     const tabs = [
         {
             label: 'Servers',
@@ -1931,7 +1987,7 @@ export default function () {
                     <div className={styles.servers}>
                         {servers?.map((server) => (
                             <div className={styles.server} key={server?.id}>
-                                <Image className={styles.icon} src={server?.icon ? server.iconURL : 'https://cdn.discordapp.com/embed/avatars/1.png'} width={40} height={40} />
+                                <Image className={styles.icon} src={server?.icon ? server.iconURL : 'https://cdn.discordapp.com/embed/avatars/1.png'} width={50} height={50} />
                                 <div className={styles.info}>
                                     <div className={styles.text}>
                                         <h3 className={styles.name}>{server?.name}</h3>
@@ -2017,11 +2073,11 @@ export default function () {
                         </div>
                     </div>
 
-                    <div className={styles.server} style={{ display: 'flex', alignItems: 'center' }}>
-                        <Image className={styles.icon} src={selectedServer?.icon ? selectedServer.iconURL : 'https://cdn.discordapp.com/embed/avatars/1.png'} width={40} height={40} />
+                    <div className={styles.server}>
+                        <Image className={styles.icon} src={selectedServer?.icon ? selectedServer.iconURL : 'https://cdn.discordapp.com/embed/avatars/1.png'} width={50} height={50} />
                         <div style={{ marginLeft: '1rem' }}>
-                            <h2 style={{ fontSize: '1.25rem' }}>{selectedServer?.name}</h2>
-                            <p style={{ opacity: '50%', fontSize: '.75rem' }}>Id: {selectedServer?.id}</p>
+                            <h2 className={styles.name}>{selectedServer?.name}</h2>
+                            <p className={styles.id}>Id: <b>{selectedServer?.id}</b></p>
                         </div>
                     </div>
 
@@ -2061,25 +2117,45 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={() => { setServerUnbanReasonValue(''); setServerUnbanModalActive(true) }}
                                 />
+                                <div className={styles.filter}>
+                                    <Input
+                                        label=''
+                                        customClass={styles.filterInput}
+                                        placeholder='Filter'
+                                        value={bansFilterText}
+                                        onInput={(e) => setBansFilterText(e.target.value)}
+                                    />
+                                    <select
+                                        className={`${styles.select} ${styles.filterSelect}`}
+                                        value={bansFilterType}
+                                        onChange={(e) => setBansFilterType(e.target.value)}
+                                    >
+                                        <option className={styles.option} value={'username'}>Username</option>
+                                        <option className={styles.option} value={'id'}>Id</option>
+                                    </select>
+                                </div>
                         </div>
                     </div>
 
-                    <Table
-                        theme='dark'
-                        columns={banColumns}
-                        data={selectedServerInfo?.bans
-                            ?.map((ban) => ({
-                                id: ban.user.id,
-                                user: ban.user.discriminator !== '0' ? `${ban.user.username}#${ban.user.discriminator}` : ban.user.username,
-                                bot: ban.user.bot ? '✅' : '🚫'
-                            }))}
-                        dense
-                        selectableRowsHighlight
-                        selectableRows
-                        pagination
-                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                        onSelectedRowsChange={handleBanUserSelected}
-                    />
+                    <div className={styles.table}>
+                        <Table
+                            theme='dark'
+                            columns={banColumns}
+                            data={selectedServerInfo?.bans
+                                ?.filter((ban) => ban.user[bansFilterType] && ban.user[bansFilterType].toLowerCase().includes(bansFilterText.toLowerCase()))
+                                ?.map((ban) => ({
+                                    id: ban.user.id,
+                                    user: ban.user.discriminator !== '0' ? `${ban.user.username}#${ban.user.discriminator}` : ban.user.username,
+                                    bot: ban.user.bot ? 'Yes' : 'No'
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleBanUserSelected}
+                        />
+                    </div>
 
                     {/* Invites */}
                     <div className={styles.title} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
@@ -2091,25 +2167,51 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={() => { setServerInviteDeleteReasonValue(''); setServerInviteDeleteModalActive(true) }}
                                 />
+                                <div className={styles.filter}>
+                                    <Input
+                                        label=''
+                                        customClass={styles.filterInput}
+                                        placeholder='Filter'
+                                        value={invitesFilterText}
+                                        onInput={(e) => setInvitesFilterText(e.target.value)}
+                                    />
+                                    <select
+                                        className={`${styles.select} ${styles.filterSelect}`}
+                                        value={invitesFilterType}
+                                        onChange={(e) => setInvitesFilterType(e.target.value)}
+                                    >
+                                        <option className={styles.option} value={'code'}>Code</option>
+                                        <option className={styles.option} value={'name'}>Channel</option>
+                                        <option className={styles.option} value={'username'}>Creator</option>
+                                    </select>
+                                </div>
                         </div>
                     </div>
 
-                    <Table
-                        theme='dark'
-                        columns={inviteColumns}
-                        data={selectedServerInfo?.invites
-                            ?.map((invite) => ({
-                                id: invite.code,
-                                channel: invite.channel.name,
-                                uses: invite.uses
-                            }))}
-                        dense
-                        selectableRowsHighlight
-                        selectableRows
-                        pagination
-                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                        onSelectedRowsChange={handleInviteSelected}
-                    />
+                    <div className={styles.table}>
+                        <Table
+                            theme='dark'
+                            columns={inviteColumns}
+                            data={selectedServerInfo?.invites
+                                ?.filter((invite) => {
+                                    if (invite[invitesFilterType]) return invite[invitesFilterType].toLowerCase().includes(invitesFilterText.toLowerCase());
+                                    if (invite.channel[invitesFilterType]) return invite.channel[invitesFilterType].toLowerCase().includes(invitesFilterText.toLowerCase());
+                                    if (invite.inviter[invitesFilterType]) return invite.inviter[invitesFilterType].toLowerCase().includes(invitesFilterText.toLowerCase());
+                                })
+                                ?.map((invite) => ({
+                                    id: invite.code,
+                                    channel: invite.channel.name,
+                                    creator: invite.inviter?.discriminator !== '0' ? `${invite.inviter?.username}#${invite.inviter?.discriminator}` : invite.inviter?.username,
+                                    uses: invite.uses
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleInviteSelected}
+                        />
+                    </div>
 
                     {/* Templates */}
                     <div className={styles.title} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
@@ -2139,25 +2241,48 @@ export default function () {
                                 customClass={styles.button}
                                 onClick={serverTemplatesDelete}
                             />
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={templatesFilterText}
+                                    onInput={(e) => setTemplatesFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={templatesFilterType}
+                                    onChange={(e) => setTemplatesFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'code'}>Code</option>
+                                    <option className={styles.option} value={'name'}>Name</option>
+                                    <option className={styles.option} value={'description'}>Description</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
-                    <Table
-                        theme='dark'
-                        columns={templateColumns}
-                        data={selectedServerInfo?.templates
-                            ?.map((template) => ({
-                                id: template.code,
-                                name: template.name,
-                                synced: template.isDirty ? '🚫' : '✅'
-                            }))}
-                        dense
-                        selectableRowsHighlight
-                        selectableRows
-                        pagination
-                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                        onSelectedRowsChange={handleTemplateSelected}
-                    />
+                    <div className={styles.table}>
+                        <Table
+                            theme='dark'
+                            columns={templateColumns}
+                            data={selectedServerInfo?.templates
+                                ?.filter((template) => template[templatesFilterType] && template[templatesFilterType].toLowerCase().includes(templatesFilterText.toLowerCase()))
+                                ?.map((template) => ({
+                                    id: template.code,
+                                    name: template.name,
+                                    description: template.description ? template.description : 'None',
+                                    uses: template.usageCount,
+                                    synced: template.isDirty ? 'No' : 'Yes'
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleTemplateSelected}
+                        />
+                    </div>
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         },
@@ -2218,23 +2343,47 @@ export default function () {
                             </>
                         }
                     >
-                        <h3 style={{ marginBottom: '.5rem' }}>Roles</h3>
-                        <Table
-                            theme='dark'
-                            columns={roleColumns.filter((col) => col.name !== 'Created')}
-                            data={selectedServerInfo?.roles
-                                ?.filter((role) => role.id !== selectedServer?.id)
-                                ?.map((role) => ({
-                                    id: role.id,
-                                    name: role.name
-                                }))}
-                            dense
-                            selectableRowsHighlight
-                            selectableRows
-                            pagination
-                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                            onSelectedRowsChange={handleRemoveRoleSelected}
-                        />
+                        <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                            <h4>Roles</h4>
+                            <div className={styles.buttons}>
+                                    <div className={styles.filter}>
+                                        <Input
+                                            label=''
+                                            customClass={styles.filterInput}
+                                            placeholder='Filter'
+                                            value={removeRolesFilterText}
+                                            onInput={(e) => setRemoveRolesFilterText(e.target.value)}
+                                        />
+                                        <select
+                                            className={`${styles.select} ${styles.filterSelect}`}
+                                            value={removeRolesFilterType}
+                                            onChange={(e) => setRemoveRolesFilterType(e.target.value)}
+                                        >
+                                            <option className={styles.option} value={'name'}>Name</option>
+                                            <option className={styles.option} value={'id'}>Id</option>
+                                        </select>
+                                    </div>
+                            </div>
+                        </div>
+                        <div className={styles.table}>
+                            <Table
+                                theme='dark'
+                                columns={roleColumns.filter((col) => col.name !== 'Created')}
+                                data={selectedServerInfo?.roles
+                                    ?.filter((role) => role.id !== selectedServer?.id)
+                                    ?.filter((role) => role[removeRolesFilterType] && role[removeRolesFilterType].toLowerCase().includes(removeRolesFilterText.toLowerCase()))
+                                    ?.map((role) => ({
+                                        id: role.id,
+                                        name: role.name
+                                    }))}
+                                dense
+                                selectableRowsHighlight
+                                selectableRows
+                                pagination
+                                paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                                onSelectedRowsChange={handleRemoveRoleSelected}
+                            />
+                        </div>
                         <div style={{ marginTop: '1rem' }}><Input value={userRemoveRoleReasonValue} onInput={(e) => setUserRemoveRoleReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
 
@@ -2248,23 +2397,47 @@ export default function () {
                             </>
                         }
                     >
-                        <h3 style={{ marginBottom: '.5rem' }}>Roles</h3>
-                        <Table
-                            theme='dark'
-                            columns={roleColumns.filter((col) => col.name !== 'Created')}
-                            data={selectedServerInfo?.roles
-                                ?.filter((role) => role.id !== selectedServer?.id)
-                                ?.map((role) => ({
-                                    id: role.id,
-                                    name: role.name
-                                }))}
-                            dense
-                            selectableRowsHighlight
-                            selectableRows
-                            pagination
-                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                            onSelectedRowsChange={handleAddRoleSelected}
-                        />
+                        <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                            <h4>Roles</h4>
+                            <div className={styles.buttons}>
+                                    <div className={styles.filter}>
+                                        <Input
+                                            label=''
+                                            customClass={styles.filterInput}
+                                            placeholder='Filter'
+                                            value={addRolesFilterText}
+                                            onInput={(e) => setAddRolesFilterText(e.target.value)}
+                                        />
+                                        <select
+                                            className={`${styles.select} ${styles.filterSelect}`}
+                                            value={addRolesFilterType}
+                                            onChange={(e) => setAddRolesFilterType(e.target.value)}
+                                        >
+                                            <option className={styles.option} value={'name'}>Name</option>
+                                            <option className={styles.option} value={'id'}>Id</option>
+                                        </select>
+                                    </div>
+                            </div>
+                        </div>
+                        <div className={styles.table}>
+                            <Table
+                                theme='dark'
+                                columns={roleColumns.filter((col) => col.name !== 'Created')}
+                                data={selectedServerInfo?.roles
+                                    ?.filter((role) => role.id !== selectedServer?.id)
+                                    ?.filter((role) => role[addRolesFilterType] && role[addRolesFilterType].toLowerCase().includes(addRolesFilterText.toLowerCase()))
+                                    ?.map((role) => ({
+                                        id: role.id,
+                                        name: role.name
+                                    }))}
+                                dense
+                                selectableRowsHighlight
+                                selectableRows
+                                pagination
+                                paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                                onSelectedRowsChange={handleAddRoleSelected}
+                            />
+                        </div>
                         <div style={{ marginTop: '1rem' }}><Input value={userAddRoleReasonValue} onInput={(e) => setUserAddRoleReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
 
@@ -2341,26 +2514,48 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={() => { setUserBanValue('0'); setUserBanReasonValue(''); setUserBanModalActive(true) }}
                                 />
+                                <div className={styles.filter}>
+                                    <Input
+                                        label=''
+                                        customClass={styles.filterInput}
+                                        placeholder='Filter'
+                                        value={usersFilterText}
+                                        onInput={(e) => setUsersFilterText(e.target.value)}
+                                    />
+                                    <select
+                                        className={`${styles.select} ${styles.filterSelect}`}
+                                        value={usersFilterType}
+                                        onChange={(e) => setUsersFilterType(e.target.value)}
+                                    >
+                                        <option className={styles.option} value={'username'}>Username</option>
+                                        <option className={styles.option} value={'nick'}>Nickname</option>
+                                        <option className={styles.option} value={'id'}>Id</option>
+                                    </select>
+                                </div>
                         </div>
                     </div>
 
-                    <Table
-                        theme='dark'
-                        columns={userColumns.filter((col) => col.name !== 'Id')}
-                        data={selectedServerInfo?.members
-                            ?.filter((member) => member.id !== client.user.id)
-                            ?.map((member) => ({
-                                id: member.id,
-                                user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username,
-                                bot: member.bot ? '✅' : '🚫'
-                            }))}
-                        dense
-                        selectableRowsHighlight
-                        selectableRows
-                        pagination
-                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                        onSelectedRowsChange={handleUserSelected}
-                    />
+                    <div className={styles.table}>
+                        <Table
+                            theme='dark'
+                            columns={userColumns}
+                            data={selectedServerInfo?.members
+                                ?.filter((member) => member.id !== client.user.id)
+                                ?.filter((member) => member[usersFilterType] && member[usersFilterType].toLowerCase().includes(usersFilterText.toLowerCase()))
+                                ?.map((member) => ({
+                                    id: member.id,
+                                    user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username,
+                                    nick: member.nick ? member.nick : 'None',
+                                    bot: member.bot ? 'Yes' : 'No'
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleUserSelected}
+                        />
+                    </div>
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         },
@@ -2516,56 +2711,76 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={() => { setChannelDeleteReasonValue(''); setChannelDeleteModalActive(true) }}
                                 />
+                                <div className={styles.filter}>
+                                    <Input
+                                        label=''
+                                        customClass={styles.filterInput}
+                                        placeholder='Filter'
+                                        value={channelsFilterText}
+                                        onInput={(e) => setChannelsFilterText(e.target.value)}
+                                    />
+                                    <select
+                                        className={`${styles.select} ${styles.filterSelect}`}
+                                        value={channelsFilterType}
+                                        onChange={(e) => setChannelsFilterType(e.target.value)}
+                                    >
+                                        <option className={styles.option} value={'name'}>Name</option>
+                                        <option className={styles.option} value={'id'}>Id</option>
+                                    </select>
+                                </div>
                         </div>
                     </div>
 
-                    <Table
-                        theme='dark'
-                        columns={channelColumns}
-                        data={selectedServerInfo?.channels
-                            ?.map((channel) => ({
-                                id: channel.id,
-                                name: channel.name,
-                                type: (function () {
-                                    const type = channel.type;
+                    <div className={styles.table}>
+                        <Table
+                            theme='dark'
+                            columns={channelColumns}
+                            data={selectedServerInfo?.channels
+                                ?.filter((channel) => channel[channelsFilterType] && channel[channelsFilterType].toLowerCase().includes(channelsFilterText.toLowerCase()))
+                                ?.map((channel) => ({
+                                    id: channel.id,
+                                    name: channel.name,
+                                    type: (function () {
+                                        const type = channel.type;
 
-                                    switch (type) {
-                                        case 0:
-                                            return 'Text'
-                                        case 1:
-                                            return 'DM'
-                                        case 2:
-                                            return 'Voice'
-                                        case 3:
-                                            return 'Group DM'
-                                        case 4:
-                                            return 'Category'
-                                        case 5:
-                                            return 'Announcement'
-                                        case 10:
-                                            return 'Announcement Thread'
-                                        case 11:
-                                            return 'Public Thread'
-                                        case 12:
-                                            return 'Private Thread'
-                                        case 13:
-                                            return 'Stage Voice'
-                                        case 14:
-                                            return 'Directory'
-                                        case 15:
-                                            return 'Forum'
-                                        default:
-                                            return 'Unknown'
-                                    };
-                                })()
-                            }))}
-                        dense
-                        selectableRowsHighlight
-                        selectableRows
-                        pagination
-                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                        onSelectedRowsChange={handleChannelSelected}
-                    />
+                                        switch (type) {
+                                            case 0:
+                                                return 'Text'
+                                            case 1:
+                                                return 'DM'
+                                            case 2:
+                                                return 'Voice'
+                                            case 3:
+                                                return 'Group DM'
+                                            case 4:
+                                                return 'Category'
+                                            case 5:
+                                                return 'Announcement'
+                                            case 10:
+                                                return 'Announcement Thread'
+                                            case 11:
+                                                return 'Public Thread'
+                                            case 12:
+                                                return 'Private Thread'
+                                            case 13:
+                                                return 'Stage Voice'
+                                            case 14:
+                                                return 'Directory'
+                                            case 15:
+                                                return 'Forum'
+                                            default:
+                                                return 'Unknown'
+                                        };
+                                    })()
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleChannelSelected}
+                        />
+                    </div>
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         },
@@ -2584,23 +2799,49 @@ export default function () {
                             </>
                         }
                     >
-                        <h3 style={{ marginBottom: '.5rem' }}>Members</h3>
-                        <Table
-                            theme='dark'
-                            columns={userColumns.filter((col) => col.name !== 'Bot')}
-                            data={selectedServerInfo?.members
-                                ?.filter((member) => member.id !== client.user.id)
-                                ?.map((member) => ({
-                                    id: member.id,
-                                    user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username
-                                }))}
-                            dense
-                            selectableRowsHighlight
-                            selectableRows
-                            pagination
-                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                            onSelectedRowsChange={handleAddMemberSelected}
-                        />
+                        <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                            <h4>Members</h4>
+                            <div className={styles.buttons}>
+                                    <div className={styles.filter}>
+                                        <Input
+                                            label=''
+                                            customClass={styles.filterInput}
+                                            placeholder='Filter'
+                                            value={addMembersFilterText}
+                                            onInput={(e) => setAddMembersFilterText(e.target.value)}
+                                        />
+                                        <select
+                                            className={`${styles.select} ${styles.filterSelect}`}
+                                            value={addMembersFilterType}
+                                            onChange={(e) => setAddMembersFilterType(e.target.value)}
+                                        >
+                                            <option className={styles.option} value={'username'}>Username</option>
+                                            <option className={styles.option} value={'nick'}>Nickname</option>
+                                            <option className={styles.option} value={'id'}>Id</option>
+                                        </select>
+                                    </div>
+                            </div>
+                        </div>
+                        <div className={styles.table}>
+                            <Table
+                                theme='dark'
+                                columns={userColumns.filter((col) => col.name !== 'Bot')}
+                                data={selectedServerInfo?.members
+                                    ?.filter((member) => member.id !== client.user.id)
+                                    ?.filter((member) => member[addMembersFilterType] && member[addMembersFilterType].toLowerCase().includes(addMembersFilterText.toLowerCase()))
+                                    ?.map((member) => ({
+                                        id: member.id,
+                                        nick: member.nick ? member.nick : 'None',
+                                        user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username
+                                    }))}
+                                dense
+                                selectableRowsHighlight
+                                selectableRows
+                                pagination
+                                paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                                onSelectedRowsChange={handleAddMemberSelected}
+                            />
+                        </div>
                         <div style={{ marginTop: '1rem' }}><Input value={roleAddMemberReasonValue} onInput={(e) => setRoleAddMemberReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
 
@@ -2614,23 +2855,48 @@ export default function () {
                             </>
                         }
                     >
-                        <h3 style={{ marginBottom: '.5rem' }}>Members</h3>
-                        <Table
-                            theme='dark'
-                            columns={userColumns.filter((col) => col.name !== 'Bot')}
-                            data={selectedServerInfo?.members
-                                ?.filter((member) => member.id !== client.user.id)
-                                ?.map((member) => ({
-                                    id: member.id,
-                                    user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username
-                                }))}
-                            dense
-                            selectableRowsHighlight
-                            selectableRows
-                            pagination
-                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                            onSelectedRowsChange={handleRemoveMemberSelected}
-                        />
+                        <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                            <h4>Members</h4>
+                            <div className={styles.buttons}>
+                                    <div className={styles.filter}>
+                                        <Input
+                                            label=''
+                                            customClass={styles.filterInput}
+                                            placeholder='Filter'
+                                            value={removeMembersFilterText}
+                                            onInput={(e) => setRemoveMembersFilterText(e.target.value)}
+                                        />
+                                        <select
+                                            className={`${styles.select} ${styles.filterSelect}`}
+                                            value={removeMembersFilterType}
+                                            onChange={(e) => setRemoveMembersFilterType(e.target.value)}
+                                        >
+                                            <option className={styles.option} value={'username'}>Username</option>
+                                            <option className={styles.option} value={'nick'}>Nickname</option>
+                                            <option className={styles.option} value={'id'}>Id</option>
+                                        </select>
+                                    </div>
+                            </div>
+                        </div>
+                        <div className={styles.table}>
+                            <Table
+                                theme='dark'
+                                columns={userColumns.filter((col) => col.name !== 'Bot')}
+                                data={selectedServerInfo?.members
+                                    ?.filter((member) => member.id !== client.user.id)
+                                    ?.filter((member) => member[removeMembersFilterType] && member[removeMembersFilterType].toLowerCase().includes(removeMembersFilterText.toLowerCase()))
+                                    ?.map((member) => ({
+                                        id: member.id,
+                                        user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username
+                                    }))}
+                                dense
+                                selectableRowsHighlight
+                                selectableRows
+                                pagination
+                                paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                                onSelectedRowsChange={handleRemoveMemberSelected}
+                            />
+                        </div>
                         <div style={{ marginTop: '1rem' }}><Input value={roleRemoveMemberReasonValue} onInput={(e) => setRoleRemoveMemberReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
 
@@ -2718,26 +2984,46 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={() => { setRoleDeleteReasonValue(''); setRoleDeleteModalActive(true) }}
                                 />
+                                <div className={styles.filter}>
+                                    <Input
+                                        label=''
+                                        customClass={styles.filterInput}
+                                        placeholder='Filter'
+                                        value={rolesFilterText}
+                                        onInput={(e) => setRolesFilterText(e.target.value)}
+                                    />
+                                    <select
+                                        className={`${styles.select} ${styles.filterSelect}`}
+                                        value={rolesFilterType}
+                                        onChange={(e) => setRolesFilterType(e.target.value)}
+                                    >
+                                        <option className={styles.option} value={'name'}>Name</option>
+                                        <option className={styles.option} value={'id'}>Id</option>
+                                    </select>
+                                </div>
                         </div>
                     </div>
 
-                    <Table
-                        theme='dark'
-                        columns={roleColumns}
-                        data={selectedServerInfo?.roles
-                            ?.filter((role) => role.id !== selectedServer?.id)
-                            ?.map((role) => ({
-                                id: role.id,
-                                name: role.name,
-                                created: moment(role.createdAt).format('YYYY-MM-DD')
-                            }))}
-                        dense
-                        selectableRowsHighlight
-                        selectableRows
-                        pagination
-                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                        onSelectedRowsChange={handleRoleSelected}
-                    />
+                    <div className={styles.table}>
+                        <Table
+                            theme='dark'
+                            columns={roleColumns}
+                            data={selectedServerInfo?.roles
+                                ?.filter((role) => role.id !== selectedServer?.id)
+                                ?.filter((role) => role[rolesFilterType] && role[rolesFilterType].toLowerCase().includes(rolesFilterText.toLowerCase()))
+                                ?.map((role) => ({
+                                    id: role.id,
+                                    name: role.name,
+                                    created: moment(role.createdAt).format('YYYY-MM-DD')
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleRoleSelected}
+                        />
+                    </div>
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         },
@@ -2810,25 +3096,45 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={() => { setEmojiDeleteReasonValue(''); setEmojiDeleteModalActive(true) }}
                                 />
+                                <div className={styles.filter}>
+                                    <Input
+                                        label=''
+                                        customClass={styles.filterInput}
+                                        placeholder='Filter'
+                                        value={emojisFilterText}
+                                        onInput={(e) => setEmojisFilterText(e.target.value)}
+                                    />
+                                    <select
+                                        className={`${styles.select} ${styles.filterSelect}`}
+                                        value={emojisFilterType}
+                                        onChange={(e) => setEmojisFilterType(e.target.value)}
+                                    >
+                                        <option className={styles.option} value={'name'}>Name</option>
+                                        <option className={styles.option} value={'id'}>Id</option>
+                                    </select>
+                                </div>
                         </div>
                     </div>
 
-                    <Table
-                        theme='dark'
-                        columns={emojiColumns}
-                        data={selectedServerInfo?.emojis
-                            ?.map((emoji) => ({
-                                id: emoji.id,
-                                name: emoji.name,
-                                available: emoji.available ? '✅' : '🚫'
-                            }))}
-                        dense
-                        selectableRowsHighlight
-                        selectableRows
-                        pagination
-                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                        onSelectedRowsChange={handleEmojiSelected}
-                    />
+                    <div className={styles.table}>
+                        <Table
+                            theme='dark'
+                            columns={emojiColumns}
+                            data={selectedServerInfo?.emojis
+                                ?.filter((emoji) => emoji[emojisFilterType] && emoji[emojisFilterType].toLowerCase().includes(emojisFilterText.toLowerCase()))
+                                ?.map((emoji) => ({
+                                    id: emoji.id,
+                                    name: emoji.name,
+                                    available: emoji.available ? 'Yes' : 'No'
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleEmojiSelected}
+                        />
+                    </div>
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         },
@@ -2902,25 +3208,45 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={() => { setStickerDeleteReasonValue(''); setStickerDeleteModalActive(true) }}
                                 />
+                                <div className={styles.filter}>
+                                    <Input
+                                        label=''
+                                        customClass={styles.filterInput}
+                                        placeholder='Filter'
+                                        value={stickersFilterText}
+                                        onInput={(e) => setStickersFilterText(e.target.value)}
+                                    />
+                                    <select
+                                        className={`${styles.select} ${styles.filterSelect}`}
+                                        value={stickersFilterType}
+                                        onChange={(e) => setStickersFilterType(e.target.value)}
+                                    >
+                                        <option className={styles.option} value={'name'}>Name</option>
+                                        <option className={styles.option} value={'id'}>Id</option>
+                                    </select>
+                                </div>
                         </div>
                     </div>
 
-                    <Table
-                        theme='dark'
-                        columns={stickerColumns}
-                        data={selectedServerInfo?.stickers
-                            ?.map((sticker) => ({
-                                id: sticker.id,
-                                name: sticker.name,
-                                available: sticker.available ? '✅' : '🚫'
-                            }))}
-                        dense
-                        selectableRowsHighlight
-                        selectableRows
-                        pagination
-                        paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
-                        onSelectedRowsChange={handleStickerSelected}
-                    />
+                    <div className={styles.table}>
+                        <Table
+                            theme='dark'
+                            columns={stickerColumns}
+                            data={selectedServerInfo?.stickers
+                                ?.filter((sticker) => sticker[stickersFilterType] && sticker[stickersFilterType].toLowerCase().includes(stickersFilterText.toLowerCase()))
+                                ?.map((sticker) => ({
+                                    id: sticker.id,
+                                    name: sticker.name,
+                                    available: sticker.available ? 'Yes' : 'No'
+                                }))}
+                            dense
+                            selectableRowsHighlight
+                            selectableRows
+                            pagination
+                            paginationComponentOptions={{ selectAllRowsItem: true, selectAllRowsItemText: 'All' }}
+                            onSelectedRowsChange={handleStickerSelected}
+                        />
+                    </div>
                 </>
             ) : <Alert variant='warning' description={<p>No server is currently selected.</p>} />
         }
@@ -2932,7 +3258,10 @@ export default function () {
             <div className={styles.title}>
                 <div className={styles.tabs}>
                     {tabs.map((tab) => (
-                        <div key={tab.label} className={`${styles.tab} ${currentTab === tab.label.toLowerCase() && styles.active}`} onClick={() => setCurrentTab(tab.label.toLowerCase())}>
+                        <div key={tab.label} className={`${styles.tab} ${currentTab === tab.label.toLowerCase() && styles.active}`} onClick={() => {
+                            setCurrentTab(tab.label.toLowerCase());
+                            document.querySelector(`.${styles.content}`).scrollTo(0, 0);
+                        }}>
                             <Icon className={styles.icon} icon={tab.icon} />
                             <p>{tab.label}</p>
                         </div>
@@ -2952,7 +3281,7 @@ export default function () {
                     <div className={styles.content}>{(tabs.find((tab) => tab.label.toLowerCase() === currentTab) || tabs.find((tab) => tab.label.toLowerCase() === 'servers')).content}</div>
                     <div className={styles.logs}>
                         <div className={styles.title}>
-                            <h5>Logs</h5>
+                            <h4>Logs</h4>
                             <div className={styles.buttons}>
                                 <Button
                                     size='sm'

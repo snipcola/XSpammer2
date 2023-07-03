@@ -11,8 +11,8 @@ else app.setPath('userData', `${app.getPath('userData')} (development)`);
   await app.whenReady();
 
   const mainWindow = createWindow('main', {
-    width: 750,
-    height: 450
+    width: 1125,
+    height: 675
   });
 
   if (isProd) await mainWindow.loadURL('app://./home.html');
