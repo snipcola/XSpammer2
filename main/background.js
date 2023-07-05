@@ -11,6 +11,8 @@ else app.setPath('userData', `${app.getPath('userData')} (development)`);
   await app.whenReady();
 
   const mainWindow = createWindow('main', {
+    minWidth: 1125,
+    minHeight: 675,
     width: 1125,
     height: 675
   });

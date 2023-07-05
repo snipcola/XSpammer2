@@ -12,7 +12,7 @@ export default async function (token) {
 
         return await Promise.race([clientReadyPromise, timeoutPromise(2500)]);
     }
-    catch (err) {
+    catch {
         return false;
     };
 };

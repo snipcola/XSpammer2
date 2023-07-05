@@ -35,7 +35,7 @@
     justify-content: space-between;
 
     margin-top: .75rem;
-    height: calc(100% - 2.38rem);
+    height: calc(100% - 2.8rem);
 }
 
 /* Content */
@@ -52,7 +52,7 @@
     background-color: #171616;
     border-radius: var(--border-radius);
 
-    height: 8rem;
+    height: 23%;
     padding: .5rem 1rem;
     font-size: 1rem;
 }
@@ -73,7 +73,7 @@
 .logs .text {
     margin-top: .5rem;
     background-color: #000000;
-    height: 5.5rem;
+    height: calc(100% - 3rem);
 
     box-sizing: border-box;
     padding: .25rem;
