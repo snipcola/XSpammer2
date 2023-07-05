@@ -2474,12 +2474,14 @@ export default function () {
                     <div className={styles.title} style={{ marginBottom: '.5rem' }}>
                         <h4>Users</h4>
                         <div className={styles.buttons}>
-                                <Button
-                                    size='sm'
-                                    label='DM'
-                                    customClass={styles.button}
-                                    onClick={() => { setUserDMValue(''); setUserDMAmountValue('1'); setUserDMModalActive(true) }}
-                                />
+                                {client?.bot && (
+                                    <Button
+                                        size='sm'
+                                        label='DM'
+                                        customClass={styles.button}
+                                        onClick={() => { setUserDMValue(''); setUserDMAmountValue('1'); setUserDMModalActive(true) }}
+                                    />
+                                )}
                                 <Button
                                     size='sm'
                                     label='Nickname'
