@@ -2,7 +2,15 @@ export default function () {
     return (
         <>
             <h2><b>XSpammer 2</b></h2>
-            <p style={{ opacity: '75%' }}>Version 0.0.3</p>
+            <p style={{ opacity: '75%' }}>Version 0.0.4</p>
+            <br />
+            <h3>What's new in 0.0.4:</h3>
+            <ul>
+                <li>Fix content height.</li>
+                <li>Make window resizable.</li>
+                <li>Add user account functionality.</li>
+                <li>Linux binaries no longer provided, will have to be built.</li>
+            </ul>
             <br />
             <h3>What's new in 0.0.3:</h3>
             <ul>
