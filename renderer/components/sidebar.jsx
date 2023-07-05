@@ -33,8 +33,8 @@ export default function ({ customClass }) {
         new Tab('Home', faHome, function () {    
             setContextData(_context, 'content', 'home');
         }),
-        new Tab('Bots', faBoxesStacked, function () {    
-            setContextData(_context, 'content', 'bots');
+        new Tab('Instances', faBoxesStacked, function () {    
+            setContextData(_context, 'content', 'instances');
         })
     ];
     

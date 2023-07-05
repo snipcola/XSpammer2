@@ -2,43 +2,43 @@ import Store from 'electron-store';
 
 export const store = new Store();
 
-export function getBots () {
-    let bots = store.get('bots');
+export function getInstances () {
+    let instances = store.get('instances');
 
-    if (!bots || !Array.isArray(bots)) {
-        const emptyBots = [];
+    if (!instances || !Array.isArray(instances)) {
+        const emptyInstances = [];
 
-        store.set('bots', emptyBots);
-        bots = emptyBots;
+        store.set('instances', emptyInstances);
+        instances = emptyInstances;
     };
 
-    return bots;
+    return instances;
 };
 
-export function setBots (array) {
-    return store.set('bots', array);
+export function setInstances (array) {
+    return store.set('instances', array);
 };
 
-export function findBot (id) {
-    let bots = getBots();
+export function findInstance (id) {
+    let instances = getInstances();
 
-    return bots.find((bot) => bot.id === id);
+    return instances.find((instance) => instance.id === id);
 };
 
-export function addBot ({ token, id, tag, avatarURL }) {
-    if (findBot(id)) removeBot(id);
+export function addInstance ({ token, bot, id, tag, avatarURL }) {
+    if (findInstance(id)) removeInstance(id);
 
-    let bots = getBots();
+    let instances = getInstances();
 
-    bots.push({ token, id, tag, avatarURL });
+    instances.push({ token, bot, id, tag, avatarURL });
 
-    return setBots(bots);
+    return setInstances(instances);
 };
 
-export function removeBot (id) {
-    let bots = getBots();
+export function removeInstance (id) {
+    let instances = getInstances();
 
-    bots = bots.filter((bot) => bot.id !== id);
+    instances = instances.filter((instance) => instance.id !== id);
 
-    return setBots(bots);
+    return setInstances(instances);
 };

@@ -1,10 +1,5 @@
-/* Bots */
-.bots {
-    margin-top: 1rem;
-}
-
-/* Add Bot */
-.add-bot {    
+/* Add Instance */
+.add-instance {    
     border: 1px dashed var(--primary-color);
     background-color: transparent !important;
     color: var(--primary-color) !important;
@@ -17,8 +12,8 @@
     justify-content: space-between;
 }
 
-/* Bot Preview */
-.bot-preview {
+/* Instance Preview */
+.instance-preview {
     background-color: var(--background-color);
     border-radius: var(--border-radius);
     border: 1px dashed var(--primary-color);
@@ -28,34 +23,34 @@
     padding: 1rem;
 }
 
-.bot-preview .image {
+.instance-preview .image {
     border: 2px dotted var(--primary-color) !important;
     border-radius: 100%;
 }
 
-.bot-preview .info {
+.instance-preview .info {
     opacity: 85%;
     margin-left: 1rem;
 }
 
-.bot-preview .tag {
+.instance-preview .tag {
     font-weight: 500;
     font-size: 1.25rem;
 }
 
-.bot-preview .description {
+.instance-preview .description {
     margin-top: .25rem;
 }
 
-/* Bots */
-.bots {
+/* Instances */
+.instances {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
     gap: 1rem;
 }
 
-.bot {
+.instance {
     display: flex;
     align-items: flex-start;
     padding: 1rem;
@@ -66,30 +61,43 @@
     box-sizing: border-box;
 }
 
-.bot .avatar {
+.instance .avatar {
     border-radius: 100%;
     min-height: 50px !important;
 }
 
-.bot .info {
+.instance .info {
     margin-left: 1rem;
 }
 
-.bot .tag {
+.instance .tag {
     font-size: 1.25rem;
 }
 
-.bot .id {
+.instance .id {
     font-size: .9rem;
     opacity: 75%;
 }
 
-.bot .buttons {
+.instance .buttons {
     display: flex;
     gap: 8px;
     margin-top: .75rem;
 }
 
-.bot .trashButton {
+.instance .trashButton {
     background-color: var(--alert-danger)
+}
+
+/* Checkbox */
+.checkboxContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkboxContainer .checkbox {
+    display: block;
+    width: 1.15rem;
+    height: 1.15rem;
 }

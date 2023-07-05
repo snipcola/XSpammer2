@@ -2,8 +2,8 @@ import styles from './layout.module.css';
 import Sidebar from './sidebar';
 
 import Home from '../content/home';
-import Bots from '../content/bots';
-import Bot from '../content/bot';
+import Instances from '../content/instances';
+import Instance from '../content/instance';
 
 import { useContext } from 'react';
 import { Context } from '../lib/context';
@@ -17,11 +17,11 @@ export default function () {
         case 'home':
             content = <Home />;
             break;
-        case 'bots':
-            content = <Bots />;
+        case 'instances':
+            content = <Instances />;
             break;
-        case 'bot':
-            content = <Bot />;
+        case 'instance':
+            content = <Instance />;
             break;
         default:
             content = <p>Not found</p>;

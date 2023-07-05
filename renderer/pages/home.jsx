@@ -15,9 +15,9 @@ export default function Page ({ data }) {
 export async function getStaticProps () {
   const data = {
     elementsDisabled: false,
-    content: 'bots',
+    content: 'instances',
     sidebarDisabled: false,
-    bot: {
+    instance: {
       client: null,
       servers: null
     }

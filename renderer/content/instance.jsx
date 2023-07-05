@@ -1,4 +1,4 @@
-import styles from './bot.module.css';
+import styles from './instance.module.css';
 import { faCheck, faIcons, faList, faNoteSticky, faPowerOff, faScroll, faServer, faTrash, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 import { useCallback, useContext, useEffect, useState } from 'react';
@@ -24,8 +24,8 @@ export default function () {
     const _context = useContext(Context);
     const [context, setContext] = _context;
 
-    const client = context.bot.client;
-    const servers = context.bot.servers;
+    const client = context.instance.client;
+    const servers = context.instance.servers;
 
     const dialog = useOpenFileDialog();
 
@@ -46,7 +46,7 @@ export default function () {
 
     useEffect(function () {
         client.on('guildCreate', function () {
-            setContext((state) => ({ ...state, bot: { ...state.bot, servers: client.guilds } }))
+            setContext((state) => ({ ...state, instance: { ...state.instance, servers: client.guilds } }))
         });
 
         client.on('guildUpdate', function (server) {
@@ -54,7 +54,7 @@ export default function () {
                 setSelectedServer(server);
             };
 
-            setContext((state) => ({ ...state, bot: { ...state.bot, servers: client.guilds } }))
+            setContext((state) => ({ ...state, instance: { ...state.instance, servers: client.guilds } }))
         });
 
         client.on('guildDelete', function (server) {
@@ -72,7 +72,7 @@ export default function () {
                 });
             };
 
-            setContext((state) => ({ ...state, bot: { ...state.bot, servers: client.guilds } }))
+            setContext((state) => ({ ...state, instance: { ...state.instance, servers: client.guilds } }))
         });
         
         client.on('guildMemberAdd', function (server) {
@@ -824,14 +824,14 @@ export default function () {
 
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
-                <span style={{ color: 'gold' }}>[{client.user.discriminator ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
+                <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
                 <span style={{ color: 'lightgreen' }}>Copied bot invite link</span>
             </p>);
         }
         catch {
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
-                <span style={{ color: 'gold' }}>[{client.user.discriminator ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
+                <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
                 <span style={{ color: 'crimson' }}>Failed to copy bot invite link</span>
             </p>);
         };
@@ -846,14 +846,14 @@ export default function () {
 
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
-                <span style={{ color: 'gold' }}>[{client.user.discriminator ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
+                <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
                 <span style={{ color: 'lightgreen' }}>Opened bot invite link</span>
             </p>);
         }
         catch {
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
-                <span style={{ color: 'gold' }}>[{client.user.discriminator ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
+                <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
                 <span style={{ color: 'crimson' }}>Failed to open bot invite link</span>
             </p>);
         };
@@ -1968,7 +1968,8 @@ export default function () {
                     {/* Servers */}
                     <div className={styles.title} style={{ marginBottom: '.5rem' }}>
                         <h4>Servers</h4>
-                        <div className={styles.buttons}>
+                        {client?.bot && (
+                            <div className={styles.buttons}>
                                 <Button
                                     size='sm'
                                     label='Copy Invite Link'
@@ -1981,7 +1982,8 @@ export default function () {
                                     customClass={styles.button}
                                     onClick={serversOpenInviteLink}
                                 />
-                        </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className={styles.servers}>
@@ -3300,7 +3302,7 @@ export default function () {
                         <div className={styles.text}>{logs.sort((a, b) => b.id - a.id).map(({ log }) => log)}</div>
                     </div>
                 </div>
-            ) : <Alert variant='warning' description={<p>No bot is currently connected.</p>} style={{ marginTop: '1rem' }} />}
+            ) : <Alert variant='warning' description={<p>No instance is currently connected.</p>} style={{ marginTop: '1rem' }} />}
         </>
     );
 };
