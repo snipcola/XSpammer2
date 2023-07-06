@@ -296,6 +296,11 @@ export default function () {
             sortable: true
         },
         {
+            name: 'Joined',
+            selector: row => row.joined,
+            sortable: true
+        },
+        {
             name: 'Bot',
             selector: row => row.bot,
             sortable: true
@@ -319,6 +324,11 @@ export default function () {
             sortable: true
         },
         {
+            name: 'Created',
+            selector: row => row.created,
+            sortable: true
+        },
+        {
             name: 'Id',
             selector: row => row.id,
             sortable: true
@@ -337,6 +347,11 @@ export default function () {
             sortable: true
         },
         {
+            name: 'Managed',
+            selector: row => row.managed,
+            sortable: true
+        },
+        {
             name: 'Id',
             selector: row => row.id,
             sortable: true
@@ -347,6 +362,11 @@ export default function () {
         {
             name: 'User',
             selector: row => row.user,
+            sortable: true
+        },
+        {
+            name: 'Reason',
+            selector: row => row.reason,
             sortable: true
         },
         {
@@ -373,6 +393,11 @@ export default function () {
             sortable: true
         },
         {
+            name: 'Created',
+            selector: row => row.created,
+            sortable: true
+        },
+        {
             name: 'Creator',
             selector: row => row.creator,
             sortable: true
@@ -396,18 +421,23 @@ export default function () {
             sortable: true
         },
         {
-            name: 'Description',
-            selector: row => row.description,
+            name: 'Created',
+            selector: row => row.created,
             sortable: true
         },
         {
-            name: 'Uses',
-            selector: row => row.uses,
+            name: 'Creator',
+            selector: row => row.creator,
             sortable: true
         },
         {
             name: 'Synced',
             selector: row => row.synced,
+            sortable: true
+        },
+        {
+            name: 'Uses',
+            selector: row => row.uses,
             sortable: true
         }
     ];
@@ -416,6 +446,11 @@ export default function () {
         {
             name: 'Name',
             selector: row => row.name,
+            sortable: true
+        },
+        {
+            name: 'Created',
+            selector: row => row.created,
             sortable: true
         },
         {
@@ -434,6 +469,11 @@ export default function () {
         {
             name: 'Name',
             selector: row => row.name,
+            sortable: true
+        },
+        {
+            name: 'Created',
+            selector: row => row.created,
             sortable: true
         },
         {
@@ -2148,6 +2188,7 @@ export default function () {
                                 ?.map((ban) => ({
                                     id: ban.user.id,
                                     user: ban.user.discriminator !== '0' ? `${ban.user.username}#${ban.user.discriminator}` : ban.user.username,
+                                    reason: ban.reason ? ban.reason : 'None',
                                     bot: ban.user.bot ? 'Yes' : 'No'
                                 }))}
                             dense
@@ -2203,6 +2244,7 @@ export default function () {
                                 ?.map((invite) => ({
                                     id: invite.code,
                                     channel: invite.channel.name,
+                                    created: moment(invite.createdAt).format('YYYY-MM-DD'),
                                     creator: invite.inviter?.discriminator !== '0' ? `${invite.inviter?.username}#${invite.inviter?.discriminator}` : invite.inviter?.username,
                                     uses: invite.uses
                                 }))}
@@ -2258,7 +2300,6 @@ export default function () {
                                 >
                                     <option className={styles.option} value={'code'}>Code</option>
                                     <option className={styles.option} value={'name'}>Name</option>
-                                    <option className={styles.option} value={'description'}>Description</option>
                                 </select>
                             </div>
                         </div>
@@ -2273,8 +2314,9 @@ export default function () {
                                 ?.map((template) => ({
                                     id: template.code,
                                     name: template.name,
-                                    description: template.description ? template.description : 'None',
                                     uses: template.usageCount,
+                                    created: moment(template.createdAt).format('YYYY-MM-DD'),
+                                    creator: template.creator?.discriminator !== '0' ? `${template.creator?.username}#${template.creator?.discriminator}` : template.creator?.username,
                                     synced: template.isDirty ? 'No' : 'Yes'
                                 }))}
                             dense
@@ -2550,6 +2592,7 @@ export default function () {
                                     id: member.id,
                                     user: member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username,
                                     nick: member.nick ? member.nick : 'None',
+                                    joined: moment(member.joinedAt).format('YYYY-MM-DD HH:mm:ss'),
                                     bot: member.bot ? 'Yes' : 'No'
                                 }))}
                             dense
@@ -2775,7 +2818,8 @@ export default function () {
                                             default:
                                                 return 'Unknown'
                                         };
-                                    })()
+                                    })(),
+                                    created: moment(channel.createdAt).format('YYYY-MM-DD')
                                 }))}
                             dense
                             selectableRowsHighlight
@@ -3018,7 +3062,8 @@ export default function () {
                                 ?.map((role) => ({
                                     id: role.id,
                                     name: role.name,
-                                    created: moment(role.createdAt).format('YYYY-MM-DD')
+                                    created: moment(role.createdAt).format('YYYY-MM-DD'),
+                                    managed: role.managed ? 'Yes' : 'No'
                                 }))}
                             dense
                             selectableRowsHighlight
@@ -3129,6 +3174,7 @@ export default function () {
                                 ?.map((emoji) => ({
                                     id: emoji.id,
                                     name: emoji.name,
+                                    created: moment(emoji.createdAt).format('YYYY-MM-DD'),
                                     available: emoji.available ? 'Yes' : 'No'
                                 }))}
                             dense
@@ -3241,6 +3287,7 @@ export default function () {
                                 ?.map((sticker) => ({
                                     id: sticker.id,
                                     name: sticker.name,
+                                    created: moment(sticker.createdAt).format('YYYY-MM-DD'),
                                     available: sticker.available ? 'Yes' : 'No'
                                 }))}
                             dense

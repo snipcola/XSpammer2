@@ -1,5 +1,5 @@
 import styles from './instances.module.css';
-import { faLink, faPlus, faServer, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faClipboard, faLink, faPlus, faServer, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import Modal from '../components/modal';
 import Input from '../components/input';
@@ -16,6 +16,8 @@ import { getInstances, addInstance, removeInstance, findInstance } from '../lib/
 
 import Image from 'next/image';
 import { createClient, validateToken } from '../lib/discord';
+
+import { clipboard } from 'electron';
 
 export default function () {
     const _context = useContext(Context);
@@ -34,6 +36,7 @@ export default function () {
     const [instanceAlerts, setInstanceAlerts] = useState([]);
 
     const [userAccountValue, setUserAccountValue] = useState(false);
+    const [copiedToken, setCopiedToken] = useState([]);
 
     useEffect(() => setInstances(getInstances()), []);
 
@@ -48,7 +51,15 @@ export default function () {
             setInstancePreviewInfo(instanceInfo);
             setConfirmInstanceModalActive(true); 
         }
-        else showAlert(_addInstanceModalAlert, 'danger', 'Failed', 'Invalid token provided.');
+        else showAlert(_addInstanceModalAlert, 'danger', 'Failed', (
+            <>
+                <p>Failed to login with instance; possible reasons:</p>
+                <ul>
+                    <li>Invalid token.</li>
+                    <li>Not enabled all intents.</li>
+                </ul>
+            </>
+        ));
 
         enableElements(_context);
     };
@@ -70,6 +81,16 @@ export default function () {
         setInstances(getInstances());
 
         enableElements(_context);
+    };
+
+    function copyInstanceToken (id, token) {
+        clipboard.writeText(token);
+
+        setCopiedToken((state) => ({ ...state, [id]: true }));
+
+        setTimeout(function () {
+            setCopiedToken((state) => ({ ...state, [id]: false }));
+        }, 1000);
     };
 
     async function connectInstance (id) {
@@ -196,6 +217,11 @@ export default function () {
                             <div className={styles.buttons}>
                                 <Button label='Connect' iconLeft={faServer} variant='primary' size='sm' onClick={() => connectInstance(instance.id)} />
                                 <Button label='Delete' iconLeft={faTrash} customClass={styles.trashButton} size='sm' onClick={() => _removeInstance(instance.id)} />
+                                {copiedToken[instance.id] ? (
+                                    <Button label='Copied Token' iconLeft={faCheck} size='sm' disabled />
+                                ) : (
+                                    <Button label='Copy Token' iconLeft={faClipboard} size='sm' onClick={() => copyInstanceToken(instance.id, instance.token)} />
+                                )}
                             </div>
                         </div>
                     </div>
