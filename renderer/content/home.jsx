@@ -2,13 +2,20 @@ export default function () {
     return (
         <>
             <h2><b>XSpammer 2</b></h2>
-            <p style={{ opacity: '75%' }}>Version 0.0.4</p>
+            <p style={{ opacity: '75%' }}>Version 0.0.5</p>
+            <br />
+            <h3>What's new in 0.0.5:</h3>
+            <ul>
+                <li>Added ability to copy instance tokens.</li>
+                <li>Added more information to most tables.</li>
+                <li>Fixed content height, again.</li>
+            </ul>
             <br />
             <h3>What's new in 0.0.4:</h3>
             <ul>
-                <li>Fix content height.</li>
-                <li>Make window resizable.</li>
-                <li>Add user account functionality.</li>
+                <li>Fixed content height.</li>
+                <li>Made window resizable.</li>
+                <li>Added user account functionality.</li>
                 <li>Linux binaries no longer provided, will have to be built.</li>
             </ul>
             <br />

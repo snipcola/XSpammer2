@@ -9,4 +9,7 @@ files:
     filter:
       - package.json
       - app
+win:
+  target:
+    - {target: nsis}
 publish: null

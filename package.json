@@ -1,7 +1,8 @@
 {
   "private": true,
   "name": "xspammer",
-  "version": "0.0.4",
+  "version": "0.0.5",
+  "description": "Utility for automated discord actions",
   "author": "Snipcola <snipcola@gmail.com>",
   "main": "app/background.js",
   "scripts": {
@@ -9,6 +10,7 @@
     "build": "nextron build",
     "postinstall": "electron-builder install-app-deps"
   },
+  "repository": "https://github.com/snipcola/xspammer-2",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
