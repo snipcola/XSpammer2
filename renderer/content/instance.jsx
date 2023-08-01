@@ -1,5 +1,5 @@
 import styles from './instance.module.css';
-import { faCheck, faIcons, faList, faNoteSticky, faPowerOff, faScroll, faServer, faTrash, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft, faCheck, faIcons, faList, faNoteSticky, faPowerOff, faScroll, faServer, faTrash, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Context, disableElements, enableElements } from '../lib/context';
@@ -144,51 +144,39 @@ export default function () {
         });
 
         client.on('guildBanAdd', async function (server) {
-            try {
-                let bans;
+            let bans;
 
-                try { bans = await server.getBans() }
-                catch { bans = null };
+            try { bans = await server.getBans() }
+            catch { bans = null };
 
-                setSelectedServerInfo((state) => ({ ...state, bans }));
-            }
-            catch { }; 
+            setSelectedServerInfo((state) => ({ ...state, bans }));
         });
 
         client.on('guildBanRemove', async function (server) {
-            try {
-                let bans;
+            let bans;
 
-                try { bans = await server.getBans() }
-                catch { bans = null };
+            try { bans = await server.getBans() }
+            catch { bans = null };
 
-                setSelectedServerInfo((state) => ({ ...state, bans }));
-            }
-            catch { }; 
+            setSelectedServerInfo((state) => ({ ...state, bans }));
         });
 
         client.on('inviteCreate', async function (server) {
-            try {
-                let invites;
+            let invites;
 
-                try { invites = await server.getInvites() }
-                catch { invites = null };
+            try { invites = await server.getInvites() }
+            catch { invites = null };
 
-                setSelectedServerInfo((state) => ({ ...state, invites }));
-            }
-            catch { }; 
+            setSelectedServerInfo((state) => ({ ...state, invites }));
         });
 
         client.on('inviteDelete', async function (server) {
-            try {
-                let invites;
+            let invites;
 
-                try { invites = await server.getInvites() }
-                catch { invites = null };
+            try { invites = await server.getInvites() }
+            catch { invites = null };
 
-                setSelectedServerInfo((state) => ({ ...state, invites }));
-            }
-            catch { }; 
+            setSelectedServerInfo((state) => ({ ...state, invites }));
         });
     }, [selectedServer, setContext, setSelectedServer, setSelectedServerInfo]);
 
@@ -245,16 +233,25 @@ export default function () {
             let invites;
 
             try { bans = await server.getBans() }
-            catch { bans = null };
+            catch (error) {
+                console.error(error);
+                bans = null;
+            };
 
             try { templates = await server.getTemplates() }
-            catch { templates = null };
+            catch (error) {
+                console.error(error);
+                templates = null;
+            };
 
             try { invites = await server.getInvites() }
-            catch { invites = null };
+            catch (error) {
+                console.error(error);
+                invites = null
+            };
 
             try { await server.fetchAllMembers(); members = server.members || null }
-            catch { };
+            catch (error) { console.error(error) };
 
             setSelectedServer(server);
             setSelectedServerInfo({
@@ -297,11 +294,38 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Left server</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{name}]</span>&nbsp;
                 <span style={{ color: 'crimson' }}>Failed to leave server</span>
+            </p>);
+        };
+
+        enableElements(_context);
+    };
+
+    async function deleteServer (server) {
+        disableElements(_context);
+
+        const name = server.name;
+
+        try {
+            await server?.delete();
+
+            addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Deleted server</span>
+            </p>);
+        }
+        catch (error) {
+            console.error(error);
+            addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to delete server</span>
             </p>);
         };
 
@@ -591,7 +615,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Nicknamed <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> to <b>"{userNicknameValue}"</b> (reason: <b>"{userNicknameReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -605,7 +630,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -637,7 +663,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Timed out <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> for <b>"{userTimeoutValue}"</b> (reason: <b>"{userTimeoutReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -651,7 +678,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -681,7 +709,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Kicked <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userKickReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -695,7 +724,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -726,7 +756,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Banned <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> and deleted messages from last <b>{userBanValue && userBanValue !== "" ? parseInt(userBanValue) : 0}</b> days (reason: <b>"{userBanReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -740,7 +771,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -773,7 +805,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>DMed <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> with <b>{userDMValue}</b></span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -787,7 +820,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedUsers.forEach(function (user) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -814,7 +848,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Renamed to <b>"{serverNameValue}"</b> (reason: <b>"{serverNameReasonValue}"</b>)</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -840,7 +875,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Changed server icon to <b>"{response[0].file.name}"</b></span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -866,7 +902,8 @@ export default function () {
                         <span style={{ color: 'lightgreen' }}>Unbanned <b>{user.user}</b> (reason: <b>"{serverUnbanReasonValue}"</b>)</span>
                     </p>);
                 }
-                catch {
+                catch (error) {
+                    console.error(error);
                     addLog(<p>
                         <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                         <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -893,7 +930,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Left server</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{name}]</span>&nbsp;
@@ -915,7 +953,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Copied bot invite link</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
@@ -937,7 +976,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Opened bot invite link</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
@@ -962,7 +1002,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Pruned guild (days: <b>"{serverPruneValue && serverPruneValue !== "" ? parseInt(serverPruneValue) : 7}"</b>, reason: <b>"{serverPruneReasonValue}"</b>)</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -986,7 +1027,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Refreshed templates</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1008,7 +1050,8 @@ export default function () {
                         <span style={{ color: 'lightgreen' }}>Synced template <b>"{template.name}"</b> (code: <b>"{template.id}"</b>)</span>
                     </p>);
                 }
-                catch {
+                catch (error) {
+                    console.error(error);
                     addLog(<p>
                         <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                         <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1036,7 +1079,8 @@ export default function () {
                         <span style={{ color: 'lightgreen' }}>Deleted template <b>"{template.name}"</b> (code: <b>"{template.id}"</b>)</span>
                     </p>);
                 }
-                catch {
+                catch (error) {
+                    console.error(error);
                     addLog(<p>
                         <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                         <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1062,7 +1106,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Created template <b>"{template.name}"</b> (code: <b>"{template.id}"</b>)</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1090,7 +1135,8 @@ export default function () {
                         <span style={{ color: 'lightgreen' }}>Deleted invite <b>"{invite.id}"</b> (reason: <b>"{serverInviteDeleteReasonValue}"</b>)</span>
                     </p>);
                 }
-                catch {
+                catch (error) {
+                    console.error(error);
                     addLog(<p>
                         <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                         <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1126,7 +1172,8 @@ export default function () {
                                     <span style={{ color: 'lightgreen' }}>Removed role <b>"{role.name}"</b> from member <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userRemoveRoleReasonValue}"</b>)</span>
                                 </p>);
                             }
-                            catch {
+                            catch (error) {
+                                console.error(error);
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1145,7 +1192,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedUsers.forEach(function (member) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1177,7 +1225,8 @@ export default function () {
                                     <span style={{ color: 'lightgreen' }}>Added role <b>"{role.name}"</b> to member <b>{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}</b> (reason: <b>"{userAddRoleReasonValue}"</b>)</span>
                                 </p>);
                             }
-                            catch {
+                            catch (error) {
+                                console.error(error);
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1196,7 +1245,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedUsers.forEach(function (member) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1230,7 +1280,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Messaged in channel <b>"{channel.name}"</b>: <b>{channelMessageValue}</b></span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1244,7 +1295,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedChannels.forEach(function (channel) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1278,7 +1330,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Purged channel <b>"{channel.name}"</b> (limit: {channelPurgeValue && channelPurgeValue !== "" ? parseInt(channelPurgeValue) : -1}, reason: <b>"{channelPurgeReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1292,7 +1345,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedChannels.forEach(function (channel) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1335,7 +1389,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Created invite for channel <b>"{channel.name}"</b> (code: <b>"{invite.code}"</b>, max age: <b>"{channelCreateInviteMaxAgeValue}"</b>, max uses: <b>"{channelCreateInviteMaxUsesValue}"</b>, temporary?: <b>"{channelCreateInviteTemporaryValue.toString()}"</b>, unique?: <b>"{channelCreateInviteUniqueValue.toString()}"</b>, reason: <b>"{channelCreateInviteReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1349,7 +1404,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedChannels.forEach(function (channel) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1382,7 +1438,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Deleted channel <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelDeleteReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1396,7 +1453,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedChannels.forEach(function (channel) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1432,7 +1490,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Renamed channel <b>"{channelName}"</b> to <b>"{channel.name}"</b> (id: <b>{channel.id}</b>, reason: <b>"{channelRenameReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1446,7 +1505,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedChannels.forEach(function (channel) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1480,7 +1540,8 @@ export default function () {
                     <span style={{ color: 'lightgreen' }}>Created channel <b>"{channelCreateNameValue}"</b> (id: <b>{channel.id}</b>, type: <b>{channelCreateTypeValue}</b>, nsfw: <b>{channelCreateNSFWValue.toString()}</b>, reason: <b>"{channelCreateReasonValue}"</b>)</span>
                 </p>);
             }
-            catch {
+            catch (error) {
+                console.error(error);
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1516,7 +1577,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Deleted role <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleDeleteReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1530,7 +1592,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedRoles.forEach(function (role) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1566,7 +1629,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Renamed role <b>"{roleName}"</b> to <b>"{role.name}"</b> (id: <b>{role.id}</b>, reason: <b>"{roleRenameReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1580,7 +1644,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedRoles.forEach(function (role) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1615,7 +1680,8 @@ export default function () {
                     <span style={{ color: 'lightgreen' }}>Created role <b>"{roleCreateNameValue}"</b> (id: <b>{role.id}</b>, hoist: <b>{roleCreateHoistValue.toString()}</b>, mentionable: <b>{roleCreateMentionableValue.toString()}</b>, reason: <b>"{roleCreateReasonValue}"</b>)</span>
                 </p>);
             }
-            catch {
+            catch (error) {
+                console.error(error);
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1650,7 +1716,8 @@ export default function () {
                                     <span style={{ color: 'lightgreen' }}>Added member <b>"{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}"</b> to role <b>{role.name}</b> (reason: <b>"{roleAddMemberReasonValue}"</b>)</span>
                                 </p>);
                             }
-                            catch {
+                            catch (error) {
+                                console.error(error);
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1669,7 +1736,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedAddMembers.forEach(function (member) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1701,7 +1769,8 @@ export default function () {
                                     <span style={{ color: 'lightgreen' }}>Removed member <b>"{member.discriminator !== '0' ? `${member.username}#${member.discriminator}` : member.username}"</b> from role <b>{role.name}</b> (reason: <b>"{roleRemoveMemberReasonValue}"</b>)</span>
                                 </p>);
                             }
-                            catch {
+                            catch (error) {
+                                console.error(error);
                                 addLog(<p>
                                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                                     <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1720,7 +1789,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedRemoveMembers.forEach(function (member) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1765,7 +1835,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedEmojis.forEach(function (emoji) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1810,7 +1881,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedStickers.forEach(function (sticker) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1839,7 +1911,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Deleted sticker <b>"{sticker.name}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerDeleteReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1853,7 +1926,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedStickers.forEach(function (sticker) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1882,7 +1956,8 @@ export default function () {
                             <span style={{ color: 'lightgreen' }}>Deleted emoji <b>"{emoji.name}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiDeleteReasonValue}"</b>)</span>
                         </p>);
                     }
-                    catch {
+                    catch (error) {
+                        console.error(error);
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                             <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1896,7 +1971,8 @@ export default function () {
 
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             selectedEmojis.forEach(function (emoji) {
                 addLog(<p>
                     <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1936,7 +2012,8 @@ export default function () {
                         <span style={{ color: 'lightgreen' }}>Created emoji <b>"{emojiCreateNameValue}"</b> (id: <b>{emoji.id}</b>, reason: <b>"{emojiCreateReasonValue}"</b>)</span>
                     </p>);
                 }
-                catch {
+                catch (error) {
+                    console.error(error);
                     addLog(<p>
                         <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                         <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1949,7 +2026,8 @@ export default function () {
     
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -1991,7 +2069,8 @@ export default function () {
                         <span style={{ color: 'lightgreen' }}>Created sticker <b>"{stickerCreateNameValue}"</b> (id: <b>{sticker.id}</b>, reason: <b>"{stickerCreateReasonValue}"</b>)</span>
                     </p>);
                 }
-                catch {
+                catch (error) {
+                    console.error(error);
                     addLog(<p>
                         <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                         <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -2004,7 +2083,8 @@ export default function () {
     
             await Promise.all(promises);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -2046,7 +2126,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Refreshed bans</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -2070,7 +2151,8 @@ export default function () {
                 <span style={{ color: 'lightgreen' }}>Refreshed invites</span>
             </p>);
         }
-        catch {
+        catch (error) {
+            console.error(error);
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
@@ -2139,6 +2221,39 @@ export default function () {
         </p>);
     };
 
+    const [serverCreateModalActive, setServerCreateModalActive] = useState(false);
+    const [serverCreateNameValue, setServerCreateNameValue] = useState('');
+    const [serverCreateAmountValue, setServerCreateAmountValue] = useState(0);
+
+    async function serverCreate () {
+        setServerCreateModalActive(false);
+
+        const promises = [...Array(serverCreateAmountValue && serverCreateAmountValue !== "" ? parseInt(serverCreateAmountValue) : 1)].map(() => new Promise(async function (resolve) {
+            try {
+                const server = await client?.createGuild(serverCreateNameValue, {});
+    
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
+                    <span style={{ color: 'lightgreen' }}>Created server <b>"{serverCreateNameValue}"</b> (id: <b>{server.id}</b>)</span>
+                </p>);
+            }
+            catch (error) {
+                console.error(error);
+
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to create server <b>"{serverCreateNameValue}"</b></span>
+                </p>);
+            };
+
+            resolve();
+        }));
+
+        await Promise.all(promises);
+    };
+
     const [usersFilterText, setUsersFilterText] = useState('');
     const [usersFilterType, setUsersFilterType] = useState('username');
 
@@ -2192,6 +2307,20 @@ export default function () {
                     )}
 
                     {/* Servers */}
+                    {/* Create Modal */}
+                    <Modal
+                        active={serverCreateModalActive}
+                        footer={
+                            <>
+                                <Button label='Confirm' variant='primary' size='md' onClick={serverCreate} />
+                                <Button label='Cancel' size='md' onClick={() => { setServerCreateModalActive(false) }} />
+                            </>
+                        }
+                    >
+                        <Input label='Name' value={serverCreateNameValue} onInput={(e) => setServerCreateNameValue(e.target.value)} />
+                        <div style={{ marginTop: '1rem'}}><Input label='Amount' value={serverCreateAmountValue} onInput={(e) => setServerCreateAmountValue(e.target.value)} /></div>
+                    </Modal>
+
                     <div className={styles.title} style={{ marginBottom: '.5rem' }}>
                         <h4>Servers</h4>
                         <div className={styles.buttons}>
@@ -2216,6 +2345,12 @@ export default function () {
                                                 label='Open Invite Link'
                                                 customClass={styles.button}
                                                 onClick={serversOpenInviteLink}
+                                            />
+                                            <Button
+                                                size='sm'
+                                                label='Create'
+                                                customClass={styles.button}
+                                                onClick={() => { setServerCreateNameValue(''); setServerCreateAmountValue(1); setServerCreateModalActive(true) }}
                                             />
                                         </>
                                     ))}
@@ -2257,7 +2392,11 @@ export default function () {
                                         ) : (
                                             <Button label='Select' customClass={styles.button} iconLeft={faCheck} variant='secondary' size='sm' onClick={() => selectServer(server.id)} />
                                         )}
-                                        <Button label='Leave' customClass={styles.button} iconLeft={faTrash} variant='secondary' size='sm' onClick={() => leaveServer(server)} />
+                                        {server?.ownerID === client?.user?.id ? (
+                                            <Button label='Delete' customClass={styles.button} iconLeft={faTrash} variant='secondary' size='sm' onClick={() => deleteServer(server)} />
+                                        ) : (
+                                            <Button label='Leave' customClass={styles.button} iconLeft={faAnglesLeft} variant='secondary' size='sm' onClick={() => leaveServer(server)} />
+                                        )}
                                     </div>
                                 </div>
                             </div>

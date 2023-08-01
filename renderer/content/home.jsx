@@ -4,11 +4,25 @@ export default function () {
             <h2><b>XSpammer 2</b></h2>
             <p style={{ opacity: '75%' }}>Version 0.0.6</p>
             <br />
+            <h3>What's new in 0.0.6:</h3>
+            <ul>
+                <li>Changed user interface.</li>
+                <li>Added ability to disable timeout.</li>
+                <li>Added ability to create instance without intents.</li>
+                <li>Added ability to refresh nearly all content (useful for user accounts).</li>
+                <li>Added ability to filter servers.</li>
+                <li>Logs errors to console for easier debugging (CTRL+SHIFT+I to open).</li>
+                <li>Added ability to load content individually, e.g. does not fail if users load and channels do not.</li>
+                <li>Fixed loading information in several modals (e.g. add/remove member, role).</li>
+                <li>Added ability to create servers.</li>
+            </ul>
+            <br />
             <h3>What's new in 0.0.5:</h3>
             <ul>
                 <li>Added ability to copy instance tokens.</li>
                 <li>Added more information to most tables.</li>
                 <li>Fixed content height, again.</li>
+                <li>Linux and macOS binaries provided once again.</li>
             </ul>
             <br />
             <h3>What's new in 0.0.4:</h3>
