@@ -185,7 +185,7 @@ export default function () {
     };
 
     function copyLogs () {
-        const logs = document.querySelector(`.${styles.text}`);
+        const logs = document.querySelector(`.${styles.logs} .${styles.text}`);
         const text = Array.from(logs.childNodes)
             .map((log) => log.textContent)
             .reverse()
