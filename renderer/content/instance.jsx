@@ -2345,6 +2345,12 @@ export default function () {
                                         <>
                                             <Button
                                                 size='sm'
+                                                label='Create'
+                                                customClass={styles.button}
+                                                onClick={() => { setServerCreateNameValue(''); setServerCreateAmountValue(1); setServerCreateModalActive(true) }}
+                                            />
+                                            <Button
+                                                size='sm'
                                                 label='Copy Invite Link'
                                                 customClass={styles.button}
                                                 onClick={serversCopyInviteLink}
@@ -2354,12 +2360,6 @@ export default function () {
                                                 label='Open Invite Link'
                                                 customClass={styles.button}
                                                 onClick={serversOpenInviteLink}
-                                            />
-                                            <Button
-                                                size='sm'
-                                                label='Create'
-                                                customClass={styles.button}
-                                                onClick={() => { setServerCreateNameValue(''); setServerCreateAmountValue(1); setServerCreateModalActive(true) }}
                                             />
                                         </>
                                     ))}
