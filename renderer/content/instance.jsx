@@ -1017,7 +1017,10 @@ export default function () {
             let templates;
 
             try { templates = await selectedServer?.getTemplates() }
-            catch { templates = null };
+            catch (error) {
+                console.error(error);
+                templates = null;
+            };
             
             setSelectedServerInfo((state) => ({ ...state, templates }));
 
@@ -2116,7 +2119,10 @@ export default function () {
             let bans;
 
             try { bans = await selectedServer?.getBans() }
-            catch { bans = null };
+            catch (error) {
+                console.error(error);
+                bans = null;
+            };
 
             setSelectedServerInfo((state) => ({ ...state, bans }));
 
@@ -2141,7 +2147,10 @@ export default function () {
             let invites;
 
             try { invites = await selectedServer?.getInvites() }
-            catch { invites = null };
+            catch (error) {
+                console.error(error);
+                invites = null;
+            };
 
             setSelectedServerInfo((state) => ({ ...state, invites }));
 
