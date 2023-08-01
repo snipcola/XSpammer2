@@ -84,12 +84,12 @@
     font-size: .85rem;
 }
 
-.logs .text::-webkit-scrollbar {
-    background: var(--tab-bg-color);
+.logs .text::-webkit-scrollbar-track {
+    background-color: var(--tab-bg-color) !important;
 }
 
 .logs .text::-webkit-scrollbar-thumb {
-    background: rgb(212, 202, 202);
+    background-color: rgba(255, 255, 255, .75) !important;
 }
 
 /* Tabs */

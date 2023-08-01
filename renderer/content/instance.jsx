@@ -197,6 +197,8 @@ export default function () {
     function unselectServer () {
         disableElements(_context);
 
+        const name = selectedServer?.name;
+
         setSelectedServer(null);
         setSelectedServerInfo({
             members: null,
@@ -209,6 +211,12 @@ export default function () {
             invites: null
         });
 
+        addLog(<p>
+            <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+            <span style={{ color: 'cyan' }}>[{name}]</span>&nbsp;
+            <span style={{ color: 'lightgreen' }}>Unselected server</span>
+        </p>);
+
         enableElements(_context);
     };
 
@@ -220,13 +228,86 @@ export default function () {
         try {
             const server = servers.get(id);
 
-            if (!server) throw 'No server.';
+            if (!server) {
+                addLog(<p>
+                    <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                    <span style={{ color: 'gold' }}>[{client.user.discriminator !== '0'  ? `${client.user.username}#${client.user.discriminator}` : client.user.username}]</span>&nbsp;
+                    <span style={{ color: 'crimson' }}>Failed to fetch server (id: <b>{id}</b>)</span>
+                </p>);
 
-            let members = server.members || null;
+                throw 'No server.';
+            };
+
+            addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'gold' }}>Selecting server... (this might take a while)</span>
+            </p>);
+
             const channels = server.channels || null;
             const roles = server.roles || null;
             const emojis = server.emojis || null;
             const stickers = server.stickers || null;
+
+            let members;
+
+            try { await server.fetchAllMembers(); members = server.members || null }
+            catch (error) { console.error(error) };
+
+            if (members) addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Fetched members</span>
+            </p>);
+            else addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to fetch members</span>
+            </p>);
+
+            if (channels) addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Fetched channels</span>
+            </p>);
+            else addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to fetch channels</span>
+            </p>);
+
+            if (roles) addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Fetched roles</span>
+            </p>);
+            else addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to fetch roles</span>
+            </p>);
+
+            if (emojis) addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Fetched emojis</span>
+            </p>);
+            else addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to fetch emojis</span>
+            </p>);
+
+            if (stickers) addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Fetched stickers</span>
+            </p>);
+            else addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to fetch stickers</span>
+            </p>);
 
             let bans;
             let templates;
@@ -238,11 +319,33 @@ export default function () {
                 bans = null;
             };
 
+            if (bans) addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Fetched bans</span>
+            </p>);
+            else addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to fetch bans</span>
+            </p>);
+
             try { templates = await server.getTemplates() }
             catch (error) {
                 console.error(error);
                 templates = null;
             };
+
+            if (templates) addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Fetched templates</span>
+            </p>);
+            else addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to fetch templates</span>
+            </p>);
 
             try { invites = await server.getInvites() }
             catch (error) {
@@ -250,8 +353,16 @@ export default function () {
                 invites = null
             };
 
-            try { await server.fetchAllMembers(); members = server.members || null }
-            catch (error) { console.error(error) };
+            if (invites) addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Fetched invites</span>
+            </p>);
+            else addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'crimson' }}>Failed to fetch invites</span>
+            </p>);
 
             setSelectedServer(server);
             setSelectedServerInfo({
@@ -264,6 +375,12 @@ export default function () {
                 templates,
                 invites
             });
+
+            addLog(<p>
+                <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
+                <span style={{ color: 'cyan' }}>[{server?.name}]</span>&nbsp;
+                <span style={{ color: 'lightgreen' }}>Selected server</span>
+            </p>);
 
             setSelectingServer(false);
             enableElements(_context);
@@ -796,8 +913,14 @@ export default function () {
                 return new Promise(async function (resolve) {
                     try {
                         const dmChannel = await member.user.getDMChannel();
+
+                        const formattedMessageValue = userDMValue
+                            .replace(/%server%/g, selectedServer?.name)
+                            .replace(/%instance%/g, `<@${client?.user?.id}>`)
+                            .replace(/%owner%/g, `<@${selectedServer?.ownerID}>`)
+                            .replace(/%member%/g, `<@${member?.id}>`);
     
-                        await dmChannel.createMessage(userDMValue);
+                        await dmChannel.createMessage({ content: formattedMessageValue, allowedMentions: { everyone: true, roles: true, users: true } });
     
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
@@ -1275,7 +1398,12 @@ export default function () {
             const promises = [...Array(channelMessageAmountValue && channelMessageAmountValue !== "" ? parseInt(channelMessageAmountValue) : 1)].map(() => channels.map(function (channel) {
                 return new Promise(async function (resolve) {
                     try {
-                        await channel.createMessage({ content: channelMessageValue, allowedMentions: { everyone: true } });
+                        const formattedMessageValue = channelMessageValue
+                            .replace(/%server%/g, selectedServer?.name)
+                            .replace(/%instance%/g, `<@${client?.user?.id}>`)
+                            .replace(/%owner%/g, `<@${selectedServer?.ownerID}>`);
+
+                        await channel.createMessage({ content: formattedMessageValue, allowedMentions: { everyone: true, roles: true, users: true } });
     
                         addLog(<p>
                             <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
