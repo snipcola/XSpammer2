@@ -1,0 +1,15 @@
+appId: com.snipcola.xspammer
+productName: XSpammer
+copyright: Copyright © 2023 Snipcola
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+win:
+  target:
+    - {target: nsis}
+publish: null

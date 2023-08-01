@@ -1,0 +1,106 @@
+@import './normalize.min.css';
+
+/* Variables */
+:root {
+    --background-color: rgb(56, 57, 58);
+    --background-color-dark: #202124;
+
+    --primary-color: #5F85DB;
+    --primary-color-light: #90B8F8;
+
+    --secondary-color: #2d2f31;
+
+    --body-padding: 0px;
+
+    --text-color: white;
+    --text-margin: 0;
+
+    --container-gap: 1px;
+    --container-padding: .5rem;
+
+    --sidebar-width: 13vw;
+    --content-width: 87vw;
+    
+    --border-radius: 0;
+
+    --button-sm-padding: .25rem 1rem;
+    --button-sm-font-size: .9rem;
+    
+    --button-md-padding: .4rem 1.5rem;
+    --button-md-font-size: .95rem;
+
+    --button-lg-padding: .5rem 1.75rem;
+    --button-lg-font-size: 1rem;
+
+    --input-color: #111214;
+    --input-padding: .5rem .75rem;
+    --input-font-size: .95rem;
+
+    --alert-success: #2ecc71;
+    --alert-success-bg: #04140b;
+
+    --alert-info: #0084ff;
+    --alert-info-bg: #040f14;
+
+    --alert-warning: #f39c12;
+    --alert-warning-bg: #180f01;
+
+    --alert-danger: #e74c3c;
+    --alert-danger-bg: #190503;
+
+    --tab-bg-color: #606161;
+    --tab-bg-color-light: #7b7c7c;
+
+    --table-bg-color: #32353a;
+    --table-head-bg-color: #16181c;
+}
+
+/* Fonts */
+@font-face {
+    font-family: 'Assistant';
+    src: url('../fonts/assistant.ttf') format('truetype');
+    font-weight: 1 999;
+    font-stretch: 75% 200%;
+}
+
+/* Text */
+* {
+    font-family: 'Assistant', Arial, sans-serif !important;
+}
+
+textarea, th, tr, input, li, button, a, p, h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+
+    color: var(--text-color) !important;
+    margin: var(--text-margin);
+}
+
+/* Body */
+body {
+    background-color: var(--background-color);
+    padding: var(--body-padding);
+}
+
+/* Global */
+* {
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--tab-bg-color);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--input-color);
+}
+
+/* Selection */
+::selection {
+    background-color: var(--primary-color);
+}

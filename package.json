@@ -1,0 +1,42 @@
+{
+  "private": true,
+  "name": "xspammer",
+  "version": "0.0.6",
+  "description": "Utility for automated discord actions",
+  "author": "Snipcola <snipcola@gmail.com>",
+  "main": "app/background.js",
+  "scripts": {
+    "dev": "nextron",
+    "build": "nextron build",
+    "postinstall": "electron-builder install-app-deps",
+    "clean-unix": "sudo rm -rf ./app ./dist ./node_modules ./renderer/.next"
+  },
+  "repository": "https://github.com/snipcola/xspammer-2",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "electron-serve": "^1.1.0",
+    "electron-store": "^8.1.0",
+    "eris": "0.17.2",
+    "erlpack": "^0.1.4",
+    "eventemitter3": "^5.0.1",
+    "ignore-loader": "^0.1.2",
+    "moment": "^2.29.4",
+    "pako": "^2.1.0",
+    "react-data-table-component": "^7.5.3",
+    "react-use-open-file-dialog": "^1.0.2",
+    "sodium-native": "^4.0.4",
+    "styled-components": "^6.0.1",
+    "zlib-sync": "^0.1.8"
+  },
+  "devDependencies": {
+    "electron": "^21.3.3",
+    "electron-builder": "^23.6.0",
+    "next": "^12.3.4",
+    "nextron": "^8.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

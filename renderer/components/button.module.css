@@ -1,0 +1,58 @@
+/* Button */
+.button {
+    all: unset;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    
+    gap: 10px;
+}
+
+.button:disabled {
+    opacity: 25%;
+    pointer-events: none;
+}
+
+/* Button Sizes */
+.button.size-sm {
+    padding: var(--button-sm-padding);
+    font-size: var(--button-sm-font-size);
+}
+
+.button.size-md {
+    padding: var(--button-md-padding);
+    font-size: var(--button-md-font-size);
+}
+
+.button.size-lg {
+    padding: var(--button-lg-padding);
+    font-size: var(--button-lg-font-size);
+}
+
+/* Button Variants */
+.button.variant-primary {
+    background-color: var(--primary-color);
+}
+
+.button.variant-secondary {
+    background-color: var(--secondary-color);
+}
+
+/* Button Events */
+.button:hover {
+    transition: .1s;
+    opacity: 75%;
+}
+
+.button:active {
+    opacity: 50%;
+}
+
+/* Button Icon */
+.button .icon {
+    height: .75rem;
+}

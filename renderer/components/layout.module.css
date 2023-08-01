@@ -1,0 +1,25 @@
+/* Main */
+.main {
+    display: flex;
+    gap: var(--container-gap);
+}
+
+/* Containers */
+.container {
+    padding: var(--container-padding);
+    height: calc(100vh - (2 * var(--body-padding)));
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-dark);
+    box-sizing: border-box;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width) !important;
+}
+
+/* Content */
+.content {
+    width: var(--content-width) !important;
+    overflow-y: auto;
+}

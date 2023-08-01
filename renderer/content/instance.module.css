@@ -1,0 +1,259 @@
+/* Title */
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.1rem;
+}
+
+.title .buttons {
+    height: 2rem;
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.title .button {
+    background-color: var(--tab-bg-color);
+    padding: .25rem .75rem;
+    font-size: .85rem;
+}
+
+/* Sign Out */
+.exit {    
+    border: 1px dashed var(--alert-danger);
+    background-color: var(--alert-danger-bg) !important;
+    color: var(--alert-danger) !important;
+    font-size: 1rem !important;
+    padding: .55rem 1rem !important;
+}
+
+/* Flex */
+.flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    margin-top: .75rem;
+    height: calc(100% - 2.87rem);
+}
+
+/* Content */
+.content {
+    max-height: 72%;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: .5rem;
+    border-radius: var(--border-radius);
+}
+
+/* Logs */
+.logs {
+    background-color: var(--input-color);
+    border-radius: var(--border-radius);
+
+    height: 23%;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+}
+
+.logs .text * {
+    user-select: text !important;
+}
+
+.logs .buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.logs .button {
+    background-color: var(--tab-bg-color);
+}
+
+.logs .text {
+    margin-top: .5rem;
+    background-color: #000000;
+    height: calc(100% - 3rem);
+
+    box-sizing: border-box;
+    padding: .25rem;
+    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column-reverse;
+    font-size: .85rem;
+}
+
+.logs .text::-webkit-scrollbar {
+    background: var(--tab-bg-color);
+}
+
+.logs .text::-webkit-scrollbar-thumb {
+    background: rgb(212, 202, 202);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    background-color: var(--tab-bg-color);
+    border-radius: var(--border-radius);
+
+    overflow: hidden;
+    width: fit-content;
+}
+
+/* Tab */
+.tab {
+    padding: .5rem 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    
+    transition: .1s;
+    color: white;
+    border-right: 1px solid var(--background-color);
+    font-size: 1rem;
+}
+
+.tab:last-child {
+    border-right: none;
+}
+
+.tab:hover {
+    opacity: 75%;
+}
+
+.tab:active {
+    opacity: 50%;
+}
+
+.tab.active {
+    background-color: var(--tab-bg-color-light);
+}
+
+.tab .icon {
+    height: 1rem;
+}
+
+/* Servers */
+.servers {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.server {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    width: 100%;
+
+    background-color: var(--input-color);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+}
+
+.server .icon {
+    border-radius: 100%;
+    min-height: 50px !important;
+}
+
+.server .info {
+    margin-left: 1rem;
+}
+
+.server .text * {
+    user-select: text !important;
+}
+
+.server .name {
+    font-size: 1.25rem;
+}
+
+.server .id {
+    margin-top: .25rem;
+    font-size: .85rem;
+    opacity: 75%;
+}
+
+.server .buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: .75rem;
+}
+
+/* Checkbox */
+.checkboxContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkboxContainer .checkbox {
+    display: block;
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+/* Select */
+.select {
+    margin-top: .5rem;
+    background-color: var(--input-color);
+    color: white;
+    cursor: pointer;
+
+    padding: .25rem .5rem;
+    border-radius: var(--border-radius);
+    outline: none;
+    border: none;
+    transition: .1s;
+}
+
+.select:hover {
+    opacity: 75%;
+}
+
+.select:active {
+    opacity: 50%;
+}
+
+/* Table */
+.table {
+    border-radius: var(--border-radius);
+    overflow: none;
+}
+
+.table * {
+    user-select: text !important;
+}
+
+/* Filter */
+.filter {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    height: 1.6rem;
+    border-radius: var(--border-radius);
+}
+
+.filterInput {
+    margin-top: 0;
+    padding: .25rem .75rem;
+    
+    width: 5rem;
+    font-size: .85rem;
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.filterSelect {
+    margin-top: 0;
+    padding: .25rem .75rem;
+    font-size: .85rem;
+    
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 1px solid black;
+}

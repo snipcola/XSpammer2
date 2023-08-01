@@ -1,0 +1,28 @@
+/* Input */
+.input {
+    all: unset;
+    margin-top: .5rem;
+
+    background-color: var(--input-color);
+    border-radius: var(--border-radius);
+    padding: var(--input-padding);
+
+    font-size: var(--input-font-size);
+    width: 20rem;
+
+    transition: .1s;
+    border: 1px solid transparent;
+}
+
+.input:disabled {
+    opacity: 25%;
+    pointer-events: none;
+}
+
+.input:hover, .input:focus {
+    opacity: 75%;
+}
+
+.input:focus {
+    border-color: var(--primary-color);
+}

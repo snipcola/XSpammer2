@@ -1,0 +1,48 @@
+/* Modal */
+.modal {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    
+    position: fixed;
+    z-index: 1000;
+
+    top: 0px;
+    left: 0px;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.modal-active {
+    display: flex;
+}
+
+/* Modal Container */
+.modal .container {
+    padding: 0;
+    height: fit-content;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color-dark);
+    border: 1px solid var(--background-color);
+    box-sizing: border-box;
+}
+
+/* Modal Content */
+.modal-content {
+    padding: var(--container-padding);
+    max-height: 30rem;
+    overflow-y: auto;
+}
+
+/* Modal Footer */
+.modal .footer {
+    display: flex;
+    gap: 10px;
+
+    padding: var(--container-padding);
+    margin-top: .25rem;
+    border-top: 1px solid var(--background-color);
+}
