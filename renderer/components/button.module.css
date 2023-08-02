@@ -54,5 +54,8 @@
 
 /* Button Icon */
 .button .icon {
-    height: .75rem;
+    min-height: .75rem !important;
+    min-width: .75rem !important;
+    max-height: .75rem !important;
+    max-width: .75rem !important;
 }

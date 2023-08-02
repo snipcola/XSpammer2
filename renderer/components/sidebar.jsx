@@ -1,7 +1,7 @@
 import styles from './sidebar.module.css';
 import Image from 'next/image';
 
-import { faHome, faBoxesStacked, faTerminal, faLink } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faBoxesStacked, faLink } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import Button from './button';
 

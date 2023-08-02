@@ -151,15 +151,21 @@ export default function () {
                     </>
                 }
             >
-                <Input label='Token' value={token} onInput={(e) => setToken(e.target.value)} />
-                <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
-                        <h3 className={styles.label}>User Account</h3>
+                <Input label='Token' value={token} onInput={(e) => setToken(e.target.value)} style={{ width: 'calc(100% - 1.5rem)' }} />
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                    <div className={styles.checkboxContainer}>
                         <input className={styles.checkbox} type='checkbox' checked={userAccountValue} onChange={(e) => setUserAccountValue(e.target.checked)} />
-                        <h3 className={styles.label}>Disable Timeout</h3>
-                        <input className={styles.checkbox} type='checkbox' checked={disableTimeoutValue} onChange={(e) => setDisableTimeoutValue(e.target.checked)} />
-                        <h3 className={styles.label}>No Intents</h3>
-                        <input className={styles.checkbox} type='checkbox' checked={noIntentsValue} onChange={(e) => setNoIntentsValue(e.target.checked)} />
+                        <h3 className={styles.label}>User Account</h3>
                     </div>
+                    <div className={styles.checkboxContainer}>
+                        <input className={styles.checkbox} type='checkbox' checked={disableTimeoutValue} onChange={(e) => setDisableTimeoutValue(e.target.checked)} />
+                        <h3 className={styles.label}>Disable Timeout</h3>
+                    </div>
+                    <div className={styles.checkboxContainer}>
+                        <input className={styles.checkbox} type='checkbox' checked={noIntentsValue} onChange={(e) => setNoIntentsValue(e.target.checked)} />
+                        <h3 className={styles.label}>No Intents</h3>
+                    </div>
+                </div>
                 <Alert variant={addInstanceModalAlert.variant} description={<p>{addInstanceModalAlert.description}</p>} style={{ marginTop: '1rem', display: addInstanceModalAlert.visible ? 'flex' : 'none' }} />
             </Modal>
 

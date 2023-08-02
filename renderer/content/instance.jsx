@@ -3203,12 +3203,12 @@ export default function () {
                         <Input label='Max age (days, optional)' value={channelCreateInviteMaxAgeValue} onInput={(e) => setChannelCreateInviteMaxAgeValue(e.target.value)} />
                         <div style={{ marginTop: '1rem' }}><Input label='Max uses (number, optional)' value={channelCreateInviteMaxUsesValue} onInput={(e) => setChannelCreateInviteMaxUsesValue(e.target.value)} /></div>
                         <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
-                            <h3 className={styles.label}>Temporary membership (optional)</h3>
                             <input className={styles.checkbox} type='checkbox' checked={channelCreateInviteTemporaryValue} onChange={(e) => setChannelCreateInviteTemporaryValue(e.target.checked)} />
+                            <h3 className={styles.label}>Temporary membership (optional)</h3>
                         </div>
                         <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
-                            <h3 className={styles.label}>Unique invite (optional)</h3>
                             <input className={styles.checkbox} type='checkbox' checked={channelCreateInviteUniqueValue} onChange={(e) => setChannelCreateInviteUniqueValue(e.target.checked)} />
+                            <h3 className={styles.label}>Unique invite (optional)</h3>
                         </div>
                         <div style={{ marginTop: '1rem' }}><Input value={channelCreateInviteReasonValue} onInput={(e) => setChannelCreateInviteReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
@@ -3250,8 +3250,8 @@ export default function () {
                         </div>
                         <div style={{ marginTop: '1rem'}}><Input label='Amount' value={channelCreateAmountValue} onInput={(e) => setChannelCreateAmountValue(e.target.value)} /></div>
                         <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
-                            <h3 className={styles.label}>NSFW (optional)</h3>
                             <input className={styles.checkbox} type='checkbox' checked={channelCreateNSFWValue} onChange={(e) => setChannelCreateNSFWValue(e.target.checked)} />
+                            <h3 className={styles.label}>NSFW (optional)</h3>
                         </div>
                         <div style={{ marginTop: '1rem' }}><Input value={channelCreateReasonValue} onInput={(e) => setChannelCreateReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>
@@ -3558,12 +3558,12 @@ export default function () {
                         <Input label='Name' value={roleCreateNameValue} onInput={(e) => setRoleCreateNameValue(e.target.value)} />
                         <div style={{ marginTop: '1rem'}}><Input label='Amount' value={roleCreateAmountValue} onInput={(e) => setRoleCreateAmountValue(e.target.value)} /></div>
                         <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
-                            <h3 className={styles.label}>Hoist (optional)</h3>
                             <input className={styles.checkbox} type='checkbox' checked={roleCreateHoistValue} onChange={(e) => setRoleCreateHoistValue(e.target.checked)} />
+                            <h3 className={styles.label}>Hoist (optional)</h3>
                         </div>
                         <div style={{ marginTop: '1rem' }} className={styles.checkboxContainer}>
-                            <h3 className={styles.label}>Mentionable (optional)</h3>
                             <input className={styles.checkbox} type='checkbox' checked={roleCreateMentionableValue} onChange={(e) => setRoleCreateMentionableValue(e.target.checked)} />
+                            <h3 className={styles.label}>Mentionable (optional)</h3>
                         </div>
                         <div style={{ marginTop: '1rem' }}><Input value={roleCreateReasonValue} onInput={(e) => setRoleCreateReasonValue(e.target.value)} label='Reason (optional)' customClass={styles.input} /></div>
                     </Modal>

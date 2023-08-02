@@ -2,7 +2,6 @@
 .sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -26,19 +25,35 @@
 
 /* Buttons */
 .buttons, .tabs {
+    width: 100%;
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 5px;
 }
 
+.buttons {
+    margin-top: auto;
+}
+
 /* Button */
 .button {
-    width: 5rem !important;
+    width: calc(100% - 3.5rem) !important;
     height: 1.5rem !important;
+}
+
+/* Link */
+.link {
+    width: 100% !important;
+}
+
+.link .button {
+    width: calc(100% - 3rem) !important;
 }
 
 /* Tabs */
 .tabs {
+    margin-top: 1rem;
     gap: 10px;
 }
 
