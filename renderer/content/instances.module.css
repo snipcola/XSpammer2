@@ -90,6 +90,12 @@
 }
 
 /* Checkbox */
+.checkboxes {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
 .checkboxContainer {
     display: flex;
     align-items: center;
@@ -100,4 +106,25 @@
     display: block;
     width: 1.15rem;
     height: 1.15rem;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    .title {
+        flex-direction: column !important;
+        align-items: start !important;
+        gap: 10px !important;
+    }
+
+    .instance > span {
+        display: none !important;
+    }
+
+    .instance .info {
+        margin-left: 0 !important;
+    }
+
+    .checkboxes {
+        flex-direction: column !important;
+    }
 }

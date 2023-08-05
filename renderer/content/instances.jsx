@@ -125,6 +125,8 @@ export default function () {
                     }
                 }));
             });
+
+            console.log('Client connected!');
                         
             setContext((state) => ({
                 ...state,
@@ -152,7 +154,7 @@ export default function () {
                 }
             >
                 <Input label='Token' value={token} onInput={(e) => setToken(e.target.value)} style={{ width: 'calc(100% - 1.5rem)' }} />
-                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                <div className={styles.checkboxes}>
                     <div className={styles.checkboxContainer}>
                         <input className={styles.checkbox} type='checkbox' checked={userAccountValue} onChange={(e) => setUserAccountValue(e.target.checked)} />
                         <h3 className={styles.label}>User Account</h3>
@@ -197,7 +199,7 @@ export default function () {
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <Button
                         size='sm'
-                        label='Discord Developer Portal'
+                        label='Developer Portal'
                         iconLeft={faLink}
                         onClick={() => { window.open('https://discord.com/developers/applications') }}
                     />
@@ -236,9 +238,9 @@ export default function () {
                                 <Button label='Connect' iconLeft={faServer} variant='primary' size='sm' onClick={() => connectInstance(instance.id)} />
                                 <Button label='Delete' iconLeft={faTrash} customClass={styles.trashButton} size='sm' onClick={() => _removeInstance(instance.id)} />
                                 {copiedToken[instance.id] ? (
-                                    <Button label='Copied Token' iconLeft={faCheck} size='sm' disabled />
+                                    <Button label='Copied' iconLeft={faCheck} size='sm' disabled />
                                 ) : (
-                                    <Button label='Copy Token' iconLeft={faClipboard} size='sm' onClick={() => copyInstanceToken(instance.id, instance.token)} />
+                                    <Button label='Token' iconLeft={faClipboard} size='sm' onClick={() => copyInstanceToken(instance.id, instance.token)} />
                                 )}
                             </div>
                         </div>

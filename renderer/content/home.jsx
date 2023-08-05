@@ -2,7 +2,13 @@ export default function () {
     return (
         <>
             <h2><b>XSpammer 2</b></h2>
-            <p style={{ opacity: '75%' }}>Version 0.0.6</p>
+            <p style={{ opacity: '75%' }}>Version 0.0.7</p>
+            <br />
+            <h3>What's new in 0.0.7:</h3>
+            <ul>
+                <li>Modified user interface to accomodate for smaller screen sizes.</li>
+                <li>Created a web-based version of the software with practically the same functionality.</li>
+            </ul>
             <br />
             <h3>What's new in 0.0.6:</h3>
             <ul>

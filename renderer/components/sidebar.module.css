@@ -5,24 +5,6 @@
     align-items: center;
 }
 
-/* Branding Icon */
-.branding {
-    width: 75%;
-}
-
-/* Branding Info */
-.branding .info {
-    text-align: center;
-    margin-top: -.25rem;
-    font-size: .9rem;
-    opacity: 75%;
-}
-
-/* Link */
-.link {
-    text-decoration: none;
-}
-
 /* Buttons */
 .buttons, .tabs {
     width: 100%;
@@ -42,18 +24,8 @@
     height: 1.5rem !important;
 }
 
-/* Link */
-.link {
-    width: 100% !important;
-}
-
-.link .button {
-    width: calc(100% - 3rem) !important;
-}
-
 /* Tabs */
 .tabs {
-    margin-top: 1rem;
     gap: 10px;
 }
 
@@ -70,4 +42,25 @@
 .tab-disabled {
     pointer-events: none !important;
     opacity: 25% !important;
+}
+
+/* Link */
+.link {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    .button {
+        padding: .4rem 1rem !important;
+        width: calc(100% - 2rem) !important;
+    }
+
+    .button span {
+        display: none !important;
+    }
 }

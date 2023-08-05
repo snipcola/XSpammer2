@@ -26,6 +26,7 @@
     color: var(--alert-danger) !important;
     font-size: 1rem !important;
     padding: .55rem 1rem !important;
+    gap: 0 !important;
 }
 
 /* Flex */
@@ -40,7 +41,7 @@
 
 /* Content */
 .content {
-    max-height: 72%;
+    max-height: 73%;
     height: 100%;
     overflow-y: auto;
     padding-right: .5rem;
@@ -109,7 +110,6 @@
     gap: 1rem;
     align-items: center;
     
-    transition: .1s;
     color: white;
     border-right: 1px solid var(--background-color);
     font-size: 1rem;
@@ -145,7 +145,7 @@
 .server {
     display: flex;
     align-items: flex-start;
-    padding: 1rem;
+    padding: .75rem;
     width: 100%;
 
     background-color: var(--input-color);
@@ -206,7 +206,6 @@
     border-radius: var(--border-radius);
     outline: none;
     border: none;
-    transition: .1s;
 }
 
 .select:hover {
@@ -256,4 +255,93 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-left: 1px solid black;
+}
+
+.mobile .filter {
+    display: none !important;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    .mainTitle {
+        flex-direction: column-reverse !important;
+        align-items: start !important;
+        gap: 10px !important;
+    }
+
+    .tab {
+        padding: calc(.5rem - 2px) calc(1rem - 2px) !important;
+    }
+
+    .tabLabel {
+        display: none !important;
+    }
+
+    .tab svg {
+        width: .75rem !important;
+        height: .75rem !important;
+    }
+
+    .exit {
+        width: calc(100% - 2rem) !important;
+        height: 1rem !important;
+    }
+    
+    .flex {
+        height: calc(100% - 4.3rem) !important;
+    }
+
+    .logs {
+        padding: .5rem .75rem !important;
+    }
+
+    .servers {
+        gap: .5rem !important;
+    }
+    
+    .server {
+        padding: .5rem !important;
+    }
+
+    .filter {
+        height: 1.25rem !important;
+    }
+
+    .filterSelect {
+        font-size: .75rem !important;
+    }
+
+    .filterInput {
+        font-size: .75rem !important;
+        height: .64rem !important;
+        width: 3.5rem !important;
+    }
+
+    .topLabel {
+        flex-direction: column !important;
+        align-items: start !important;
+    }
+
+    .topLabel .filter {
+        display: none !important
+    }
+
+    .topLabel .mobile {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 5px !important;
+    }
+
+    .topLabel .mobile .filter {
+        display: flex !important;
+    }
+
+    .topLabel .buttons {
+        margin-top: .5rem !important;
+        display: grid !important;
+        max-width: 100% !important;
+        gap: .5rem !important;
+        grid-template-columns: repeat(auto-fit, minmax(80px, auto)) !important;
+        height: fit-content !important;
+    }
 }

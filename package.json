@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "xspammer",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Utility for automated discord actions",
   "author": "Snipcola <snipcola@gmail.com>",
   "main": "app/background.js",

@@ -49,3 +49,14 @@
 .alert .description {
     font-size: .95rem;
 }
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    .alert {
+        padding: .5rem .75rem !important;
+    }
+
+    .alert .description {
+        font-size: .86rem !important;
+    }
+}

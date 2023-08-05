@@ -45,20 +45,21 @@ export default function () {
     const [logs, setLogs] = useState([]);
 
     const [selectingServer, setSelectingServer] = useState(false);
+    const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
 
     useEffect(function () {
         client.on('guildCreate', function () {
             setContext((state) => ({ ...state, instance: { ...state.instance, servers: client.guilds } }))
         });
-
+    
         client.on('guildUpdate', function (server) {
             if (server.id === selectedServer?.id) {
                 setSelectedServer(server);
             };
-
+    
             setContext((state) => ({ ...state, instance: { ...state.instance, servers: client.guilds } }))
         });
-
+    
         client.on('guildDelete', function (server) {
             if (server.id === selectedServer?.id) {
                 setSelectedServer(null);
@@ -73,7 +74,7 @@ export default function () {
                     invites: null
                 });
             };
-
+    
             setContext((state) => ({ ...state, instance: { ...state.instance, servers: client.guilds } }))
         });
         
@@ -82,102 +83,113 @@ export default function () {
                 setSelectedServerInfo((state) => ({ ...state, members: server.members }));
             };
         });
-
+    
         client.on('guildMemberUpdate', function (server) {
             if (server.id === selectedServer?.id) {
+                console.log('i fired');
                 setSelectedServerInfo((state) => ({ ...state, members: server.members }));
             };
         });
-
+    
         client.on('guildMemberRemove', function (server) {
             if (server.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, members: server.members }));
             };
         });
-
+    
         client.on('channelCreate', function (channel) {
             if (channel?.guild?.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, channels: channel.guild.channels }));
             };
         });
-
+    
         client.on('channelUpdate', function (channel) {
             if (channel?.guild?.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, channels: channel.guild.channels }));
             };
         });
-
+    
         client.on('channelDelete', function (channel) {
             if (channel?.guild?.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, channels: channel.guild.channels }));
             };
         });
-
+    
         client.on('guildRoleCreate', function (server) {
             if (server?.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, roles: server.roles }));
             };
         });
-
+    
         client.on('guildRoleUpdate', function (server) {
             if (server?.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, roles: server.roles }));
             };
         });
-
+    
         client.on('guildRoleDelete', function (server) {
             if (server?.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, roles: server.roles }));
             };
         });
-
+    
         client.on('guildEmojisUpdate', function (server) {
             if (server?.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, emojis: server.emojis }));
             };
         });
-
+    
         client.on('guildStickersUpdate', function (server) {
             if (server?.id === selectedServer?.id) {
                 setSelectedServerInfo((state) => ({ ...state, stickers: server.stickers }));
             };
         });
-
+    
         client.on('guildBanAdd', async function (server) {
             let bans;
-
+    
             try { bans = await server.getBans() }
             catch { bans = null };
-
+    
             setSelectedServerInfo((state) => ({ ...state, bans }));
         });
-
+    
         client.on('guildBanRemove', async function (server) {
             let bans;
-
+    
             try { bans = await server.getBans() }
             catch { bans = null };
-
+    
             setSelectedServerInfo((state) => ({ ...state, bans }));
         });
-
+    
         client.on('inviteCreate', async function (server) {
             let invites;
-
+    
             try { invites = await server.getInvites() }
             catch { invites = null };
-
+    
             setSelectedServerInfo((state) => ({ ...state, invites }));
         });
-
+    
         client.on('inviteDelete', async function (server) {
             let invites;
-
+    
             try { invites = await server.getInvites() }
             catch { invites = null };
-
+    
             setSelectedServerInfo((state) => ({ ...state, invites }));
         });
+        
+        function onResize () {
+            setDimensions({ width: this.window.innerWidth, height: this.window.innerHeight });
+        };
+
+        window.addEventListener('resize', onResize);
+
+        return function () {
+            window.removeEventListener('resize', onResize)
+        };
     }, [selectedServer, setContext, setSelectedServer, setSelectedServerInfo]);
 
     function addLog (log) {
@@ -2458,8 +2470,27 @@ export default function () {
                         <div style={{ marginTop: '1rem'}}><Input label='Amount' value={serverCreateAmountValue} onInput={(e) => setServerCreateAmountValue(e.target.value)} /></div>
                     </Modal>
 
-                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
-                        <h4>Servers</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Servers</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={serversFilterText}
+                                    onInput={(e) => setServersFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={serversFilterType}
+                                    onChange={(e) => setServersFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'name'}>Name</option>
+                                    <option className={styles.option} value={'id'}>Id</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                             <Button
                                 size='sm'
@@ -2579,7 +2610,7 @@ export default function () {
                     <Alert style={{ marginBottom: '.5rem' }} variant='info' description={<p>Do not excessively use the <b>Prune</b> option.</p>} />
                     
                     {/* Server */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem' }}>
                         <h4>Server</h4>
                         <div className={styles.buttons}>
                                 <Button
@@ -2596,7 +2627,7 @@ export default function () {
                                 />
                                 <Button
                                     size='sm'
-                                    label='Change Icon'
+                                    label='Icon'
                                     customClass={styles.button}
                                     onClick={serverChangeIcon}
                                 />
@@ -2644,8 +2675,27 @@ export default function () {
                     </Modal>
 
                     {/* Bans */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
-                        <h4>Bans</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Bans</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={bansFilterText}
+                                    onInput={(e) => setBansFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={bansFilterType}
+                                    onChange={(e) => setBansFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'username'}>Username</option>
+                                    <option className={styles.option} value={'id'}>Id</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                                 <Button
                                     size='sm'
@@ -2686,7 +2736,9 @@ export default function () {
                     {selectedServerInfo?.bans ? <div className={styles.table}>
                         <Table
                             theme='dark'
-                            columns={banColumns}
+                            columns={dimensions.width > 1000
+                                ? banColumns
+                                : banColumns.filter((c) => ['User', 'Id'].includes(c.name))}
                             data={selectedServerInfo?.bans
                                 ?.filter((ban) => ban.user[bansFilterType] && ban.user[bansFilterType].toLowerCase().includes(bansFilterText.toLowerCase()))
                                 ?.map((ban) => ({
@@ -2705,8 +2757,28 @@ export default function () {
                     </div> : <Alert variant='warning' description={<p>This content could not be accessed, perhaps you're missing permissions.</p>} />}
 
                     {/* Invites */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
-                        <h4>Invites</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Invites</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={invitesFilterText}
+                                    onInput={(e) => setInvitesFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={invitesFilterType}
+                                    onChange={(e) => setInvitesFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'code'}>Code</option>
+                                    <option className={styles.option} value={'name'}>Channel</option>
+                                    <option className={styles.option} value={'username'}>Creator</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                             <Button
                                 size='sm'
@@ -2748,7 +2820,9 @@ export default function () {
                     {selectedServerInfo?.invites ? <div className={styles.table}>
                         <Table
                             theme='dark'
-                            columns={inviteColumns}
+                            columns={dimensions.width > 1000
+                                ? inviteColumns
+                                : inviteColumns.filter((c) => ['Code', 'Channel', 'Creator'].includes(c.name))}
                             data={selectedServerInfo?.invites
                                 ?.filter((invite) => {
                                     if (invite[invitesFilterType]) return invite[invitesFilterType].toLowerCase().includes(invitesFilterText.toLowerCase());
@@ -2772,8 +2846,27 @@ export default function () {
                     </div> : <Alert variant='warning' description={<p>This content could not be accessed, perhaps you're missing permissions.</p>} />}
 
                     {/* Templates */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
-                        <h4>Templates</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem', marginTop: '1rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Templates</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={templatesFilterText}
+                                    onInput={(e) => setTemplatesFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={templatesFilterType}
+                                    onChange={(e) => setTemplatesFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'code'}>Code</option>
+                                    <option className={styles.option} value={'name'}>Name</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                             <Button
                                 size='sm'
@@ -2826,7 +2919,9 @@ export default function () {
                     {selectedServerInfo?.templates ? <div className={styles.table}>
                         <Table
                             theme='dark'
-                            columns={templateColumns}
+                            columns={dimensions.width > 1000
+                                ? templateColumns
+                                : templateColumns.filter((c) => ['Code', 'Name'].includes(c.name))}
                             data={selectedServerInfo?.templates
                                 ?.filter((template) => template[templatesFilterType] && template[templatesFilterType].toLowerCase().includes(templatesFilterText.toLowerCase()))
                                 ?.map((template) => ({
@@ -2936,10 +3031,12 @@ export default function () {
                             </div>
                         </div>
 
-                        {selectedServerInfo?.roles ? <div className={styles.table} style={{ width: '50rem' }}>
+                        {selectedServerInfo?.roles ? <div className={styles.table} style={{ width: dimensions.width > 1000 ? '50rem' : 'fit-content' }}>
                             <Table
                                 theme='dark'
-                                columns={roleColumns}
+                                columns={dimensions.width > 1000
+                                    ? roleColumns
+                                    : roleColumns.filter((c) => ['Name', 'Id'].includes(c.name))}
                                 data={selectedServerInfo?.roles
                                     ?.filter((role) => role.id !== selectedServer?.id)
                                     ?.filter((role) => role[removeRolesFilterType] && role[removeRolesFilterType].toLowerCase().includes(removeRolesFilterText.toLowerCase()))
@@ -3001,10 +3098,12 @@ export default function () {
                             </div>
                         </div>
 
-                        {selectedServerInfo?.roles ? <div className={styles.table} style={{ width: '50rem' }}>
+                        {selectedServerInfo?.roles ? <div className={styles.table} style={{ width: dimensions.width > 1000 ? '50rem' : 'fit-content' }}>
                             <Table
                                 theme='dark'
-                                columns={roleColumns}
+                                columns={dimensions.width > 1000
+                                    ? roleColumns
+                                    : roleColumns.filter((c) => ['Name', 'Id'].includes(c.name))}
                                 data={selectedServerInfo?.roles
                                     ?.filter((role) => role.id !== selectedServer?.id)
                                     ?.filter((role) => role[addRolesFilterType] && role[addRolesFilterType].toLowerCase().includes(addRolesFilterText.toLowerCase()))
@@ -3056,8 +3155,28 @@ export default function () {
                     {!client?.bot && <Alert style={{ marginBottom: '.5rem' }} variant='info' description={<p>You might be terminated for using the <b>DM</b> option on an user account.</p>} />}
 
                     {/* Members */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
-                        <h4>Members</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Members</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={usersFilterText}
+                                    onInput={(e) => setUsersFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={usersFilterType}
+                                    onChange={(e) => setUsersFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'username'}>Username</option>
+                                    <option className={styles.option} value={'nick'}>Nickname</option>
+                                    <option className={styles.option} value={'id'}>Id</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                             <Button
                                 size='sm'
@@ -3087,13 +3206,13 @@ export default function () {
                                     />
                                     <Button
                                         size='sm'
-                                        label='Add Role'
+                                        label='+ Role'
                                         customClass={styles.button}
                                         onClick={() => { setUserAddRoleReasonValue(''); setUserAddRoleModalActive(true) }}
                                     />
                                     <Button
                                         size='sm'
-                                        label='Remove Role'
+                                        label='- Role'
                                         customClass={styles.button}
                                         onClick={() => { setUserRemoveRoleReasonValue(''); setUserRemoveRoleModalActive(true) }}
                                     />
@@ -3135,7 +3254,9 @@ export default function () {
                     {selectedServerInfo?.members ? <div className={styles.table}>
                         <Table
                             theme='dark'
-                            columns={userColumns}
+                            columns={dimensions.width > 1000
+                                ? userColumns
+                                : userColumns.filter((c) => ['Username', 'Id'].includes(c.name))}
                             data={selectedServerInfo?.members
                                 ?.filter((member) => member.id !== client.user.id)
                                 ?.filter((member) => member[usersFilterType] && member[usersFilterType].toLowerCase().includes(usersFilterText.toLowerCase()))
@@ -3270,8 +3391,27 @@ export default function () {
                     </Modal>
 
                     {/* Channels */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
-                        <h4>Channels</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Channels</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={channelsFilterText}
+                                    onInput={(e) => setChannelsFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={channelsFilterType}
+                                    onChange={(e) => setChannelsFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'name'}>Name</option>
+                                    <option className={styles.option} value={'id'}>Id</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                             <Button
                                 size='sm'
@@ -3342,7 +3482,9 @@ export default function () {
                     {selectedServerInfo?.channels ? <div className={styles.table}>
                         <Table
                             theme='dark'
-                            columns={channelColumns}
+                            columns={dimensions.width > 1000
+                                ? channelColumns
+                                : channelColumns.filter((c) => ['Name', 'Id'].includes(c.name))}
                             data={selectedServerInfo?.channels
                                 ?.filter((channel) => channel[channelsFilterType] && channel[channelsFilterType].toLowerCase().includes(channelsFilterText.toLowerCase()))
                                 ?.map((channel) => ({
@@ -3440,10 +3582,12 @@ export default function () {
                             </div>
                         </div>
                         
-                        {selectedServerInfo?.members ? <div className={styles.table} style={{ width: '50rem' }}>
+                        {selectedServerInfo?.members ? <div className={styles.table} style={{ width: dimensions.width > 1000 ? '50rem' : 'fit-content' }}>
                             <Table
                                 theme='dark'
-                                columns={userColumns}
+                                columns={dimensions.width > 1000
+                                    ? userColumns
+                                    : userColumns.filter((c) => ['Username', 'Id'].includes(c.name))}
                                 data={selectedServerInfo?.members
                                     ?.filter((member) => member.id !== client.user.id)
                                     ?.filter((member) => member[addMembersFilterType] && member[addMembersFilterType].toLowerCase().includes(addMembersFilterText.toLowerCase()))
@@ -3506,10 +3650,12 @@ export default function () {
                                 )}
                             </div>
                         </div>
-                        {selectedServerInfo?.members ? <div className={styles.table} style={{ width: '50rem' }}>
+                        {selectedServerInfo?.members ? <div className={styles.table} style={{ width: dimensions.width > 1000 ? '50rem' : 'fit-content' }}>
                             <Table
                                 theme='dark'
-                                columns={userColumns}
+                                columns={dimensions.width > 1000
+                                    ? userColumns
+                                    : userColumns.filter((c) => ['Username', 'Id'].includes(c.name))}
                                 data={selectedServerInfo?.members
                                     ?.filter((member) => member.id !== client.user.id)
                                     ?.filter((member) => member[removeMembersFilterType] && member[removeMembersFilterType].toLowerCase().includes(removeMembersFilterText.toLowerCase()))
@@ -3582,8 +3728,27 @@ export default function () {
                     </Modal>
 
                     {/* Roles */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
-                        <h4>Roles</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Roles</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={rolesFilterText}
+                                    onInput={(e) => setRolesFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={rolesFilterType}
+                                    onChange={(e) => setRolesFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'name'}>Name</option>
+                                    <option className={styles.option} value={'id'}>Id</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                             <Button
                                 size='sm'
@@ -3595,13 +3760,13 @@ export default function () {
                                 <>
                                     <Button
                                         size='sm'
-                                        label='Add Member'
+                                        label='+ Member'
                                         customClass={styles.button}
                                         onClick={() => { setRoleAddMemberReasonValue(''); setRoleAddMemberModalActive(true) }}
                                     />
                                     <Button
                                         size='sm'
-                                        label='Remove Member'
+                                        label='- Member'
                                         customClass={styles.button}
                                         onClick={() => { setRoleRemoveMemberReasonValue(''); setRoleRemoveMemberModalActive(true) }}
                                     />
@@ -3648,7 +3813,9 @@ export default function () {
                     {selectedServerInfo?.roles ? <div className={styles.table}>
                         <Table
                             theme='dark'
-                            columns={roleColumns}
+                            columns={dimensions.width > 1000
+                                ? roleColumns
+                                : roleColumns.filter((c) => ['Name', 'Id'].includes(c.name))}
                             data={selectedServerInfo?.roles
                                 ?.filter((role) => role.id !== selectedServer?.id)
                                 ?.filter((role) => role[rolesFilterType] && role[rolesFilterType].toLowerCase().includes(rolesFilterText.toLowerCase()))
@@ -3717,8 +3884,27 @@ export default function () {
                     </Modal>
 
                     {/* Emojis */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
-                        <h4>Emojis</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Emojis</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={emojisFilterText}
+                                    onInput={(e) => setEmojisFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={emojisFilterType}
+                                    onChange={(e) => setEmojisFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'name'}>Name</option>
+                                    <option className={styles.option} value={'id'}>Id</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                             <Button
                                 size='sm'
@@ -3771,7 +3957,9 @@ export default function () {
                     {selectedServerInfo?.emojis ? <div className={styles.table}>
                         <Table
                             theme='dark'
-                            columns={emojiColumns}
+                            columns={dimensions.width > 1000
+                                ? emojiColumns
+                                : emojiColumns.filter((c) => ['Name', 'Id'].includes(c.name))}
                             data={selectedServerInfo?.emojis
                                 ?.filter((emoji) => emoji[emojisFilterType] && emoji[emojisFilterType].toLowerCase().includes(emojisFilterText.toLowerCase()))
                                 ?.map((emoji) => ({
@@ -3840,8 +4028,27 @@ export default function () {
                     </Modal>
 
                     {/* Stickers */}
-                    <div className={styles.title} style={{ marginBottom: '.5rem' }}>
-                        <h4>Stickers</h4>
+                    <div className={`${styles.title} ${styles.topLabel}`} style={{ marginBottom: '.5rem' }}>
+                        <div className={styles.mobile}>
+                            <h4>Stickers</h4>
+                            <div className={styles.filter}>
+                                <Input
+                                    label=''
+                                    customClass={styles.filterInput}
+                                    placeholder='Filter'
+                                    value={stickersFilterText}
+                                    onInput={(e) => setStickersFilterText(e.target.value)}
+                                />
+                                <select
+                                    className={`${styles.select} ${styles.filterSelect}`}
+                                    value={stickersFilterType}
+                                    onChange={(e) => setStickersFilterType(e.target.value)}
+                                >
+                                    <option className={styles.option} value={'name'}>Name</option>
+                                    <option className={styles.option} value={'id'}>Id</option>
+                                </select>
+                            </div>
+                        </div>
                         <div className={styles.buttons}>
                             <Button
                                 size='sm'
@@ -3894,7 +4101,9 @@ export default function () {
                     {selectedServerInfo?.stickers ? <div className={styles.table}>
                         <Table
                             theme='dark'
-                            columns={stickerColumns}
+                            columns={dimensions.width > 1000
+                                ? stickerColumns
+                                : stickerColumns.filter((c) => ['Name', 'Id'].includes(c.name))}
                             data={selectedServerInfo?.stickers
                                 ?.filter((sticker) => sticker[stickersFilterType] && sticker[stickersFilterType].toLowerCase().includes(stickersFilterText.toLowerCase()))
                                 ?.map((sticker) => ({
@@ -3919,7 +4128,7 @@ export default function () {
     return (
         <>
             {/* Content */}
-            <div className={styles.title}>
+            <div className={`${styles.title} ${styles.mainTitle}`}>
                 <div className={styles.tabs}>
                     {tabs.map((tab) => (
                         <div key={tab.label} className={`${styles.tab} ${currentTab === tab.label.toLowerCase() && styles.active}`} onClick={() => {
@@ -3927,7 +4136,7 @@ export default function () {
                             document.querySelector(`.${styles.content}`).scrollTo(0, 0);
                         }}>
                             <Icon className={styles.icon} icon={tab.icon} />
-                            <p>{tab.label}</p>
+                            <p className={styles.tabLabel}>{tab.label}</p>
                         </div>
                     ))}
                 </div>

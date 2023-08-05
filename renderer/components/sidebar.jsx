@@ -1,5 +1,4 @@
 import styles from './sidebar.module.css';
-import Image from 'next/image';
 
 import { faHome, faBoxesStacked, faLink } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord, faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -45,10 +44,6 @@ export default function ({ customClass }) {
 
     return (
         <div className={`${styles.sidebar} ${customClass}`}>
-            <div className={styles.branding}>
-                <Image alt='XSpammer 2' src='/images/icon-text.png' className={styles.icon} width={180} height={40} />
-                <p className={styles.info}>Snipcola ~ v0.0.6</p>
-            </div>
             <div className={styles.tabs}>
                 {tabs.map((tab) => {
                     return (

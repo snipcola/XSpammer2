@@ -7,7 +7,7 @@ export default function ({ Component, pageProps: props }) {
             <Head>
                 <meta name='viewport' content='width=device-width,initial-scale=1' />
                 <link rel='icon' type='image/png' href='/favicon.ico' />
-                <title>XSpammer</title>
+                <title>Snipcola ~ XSpammer v0.0.7</title>
             </Head>
             <Component {...props} />
         </>

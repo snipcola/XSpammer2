@@ -44,7 +44,6 @@
 
 /* Button Events */
 .button:hover {
-    transition: .1s;
     opacity: 75%;
 }
 
@@ -58,4 +57,12 @@
     min-width: .75rem !important;
     max-height: .75rem !important;
     max-width: .75rem !important;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    .button.size-sm {
+        padding: calc(.25rem - 2px) calc(1rem - 2px) !important;
+        font-size: calc(.9rem - 2px) !important;
+    }
 }

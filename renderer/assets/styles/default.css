@@ -104,3 +104,11 @@ body {
 ::selection {
     background-color: var(--primary-color);
 }
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    :root {
+        --sidebar-width: 4rem !important;
+        --content-width: calc(100vw - 3rem) !important;
+    }
+}

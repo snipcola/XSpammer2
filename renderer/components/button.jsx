@@ -18,7 +18,7 @@ export default function ({
     return (
         <button disabled={context.elementsDisabled} className={`${styles.button} ${styles[`size-${size}`]} ${styles[`variant-${variant}`]} ${customClass}`} {...props}>
             {iconLeft && <Icon className={styles.icon} icon={iconLeft} />}
-            {label}
+            <span>{label}</span>
             {iconRight && <Icon className={styles.icon} icon={iconRight} />}
         </button>
     );
