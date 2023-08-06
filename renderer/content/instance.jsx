@@ -86,7 +86,6 @@ export default function () {
     
         client.on('guildMemberUpdate', function (server) {
             if (server.id === selectedServer?.id) {
-                console.log('i fired');
                 setSelectedServerInfo((state) => ({ ...state, members: server.members }));
             };
         });
