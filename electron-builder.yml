@@ -1,6 +1,6 @@
 appId: com.snipcola.xspammer
 productName: XSpammer
-copyright: Copyright © 2023 Snipcola
+copyright: Copyright © 2024 Snipcola
 directories:
   output: dist
   buildResources: resources

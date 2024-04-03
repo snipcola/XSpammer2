@@ -10,9 +10,7 @@
 ## Advantages
 
 - <b>👌 Reliability:</b> Thoroughly tested and multiple bugs have been resolved. 
-
 - <b>🔥 Performance:</b> Limited use of third-party components to prevent bloat.
-
 - <b>📙 Additions:</b> New features implemented that were not in XSpammer. 
 - <b>⚡ Speed:</b> Compared to XSpammer, many actions are noticeably faster.
 
@@ -49,9 +47,7 @@ To use XSpammer, you can follow two methods.
 
 ### Method 1: Install the prebuilt binaries
 
-This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://github.com/snipcola/xspammer-2/releases/latest), where you will find the respective builds for all platforms.
-
-<b>Note:</b> x86 and arm64 are not provided as prebuilt binaries, so method 2 is the only choice for people with these architectures.
+This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://git.snipcola.com/snipcola/XSpammer2/releases/tag/latest), where you will find the respective builds for `Windows (x64)` only.
 
 ### Method 2: Build the application
 
@@ -81,7 +77,7 @@ On Windows:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/snipcola/xspammer-2.git
+git clone https://git.snipcola.com/snipcola/XSpammer2.git
 ```
 
 2. Enter the directory:
@@ -116,16 +112,16 @@ yarn build
 
 ## Contributing
 
-If you're interested in contributing to XSpammer, feel free to submit pull requests or open issues on the GitHub repository; your contributions are greatly appreciated.
+If you're interested in contributing to XSpammer, feel free to submit pull requests on the Git repository; your contributions are greatly appreciated.
 
 ---
 
 ## License
 
-XSpammer 2 is licensed under the [MIT License](https://github.com/snipcola/xspammer-2/blob/main/LICENSE), please review the license for more information.
+XSpammer 2 is licensed under the [MIT License](https://git.snipcola.com/snipcola/XSpammer2/raw/branch/main/LICENSE), please review the license for more information.
 
 ---
 
 <div align='center'>
-    <p>© 2023 Snipcola</p>
+    <p>© 2024 Snipcola</p>
 </div>

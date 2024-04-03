@@ -38,8 +38,8 @@ export default function ({ customClass }) {
     ];
     
     const buttons = [
-        new _Button('Discord', undefined, faDiscord, 'https://discord.gg/aVYw6h2SYb'),
-        new _Button('YouTube', 'secondary', faYoutube, 'https://youtube.com/snipcola')
+        new _Button('Discord', undefined, faDiscord, 'https://url.snipcola.com/discord'),
+        new _Button('YouTube', 'secondary', faYoutube, 'https://url.snipcola.com/youtube')
     ];
 
     return (

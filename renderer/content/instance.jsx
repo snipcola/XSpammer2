@@ -8,7 +8,7 @@ import Button from '../components/button';
 import Alert from '../components/alert';
 
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
-import { clipboard } from 'electron';
+import { clipboard, ipcRenderer } from 'electron';
 
 import Image from 'next/image';
 import Table from 'react-data-table-component';
@@ -18,7 +18,6 @@ import Modal from '../components/modal';
 import Input from '../components/input';
 
 import fs from 'fs/promises';
-import { useOpenFileDialog } from 'react-use-open-file-dialog';
 
 export default function () {
     const _context = useContext(Context);
@@ -26,8 +25,6 @@ export default function () {
 
     const client = context.instance.client;
     let servers = context.instance.servers;
-
-    const dialog = useOpenFileDialog();
 
     const [selectedServer, setSelectedServer] = useState(null);
     const [selectedServerInfo, setSelectedServerInfo] = useState({
@@ -994,19 +991,18 @@ export default function () {
 
     async function serverChangeIcon () {
         try {
-            const response = await dialog();
+            const response = await ipcRenderer.invoke("select-file", "Select Icon");
+            if (!response) throw 'No file selected.';
 
-            if (response.length < 1) throw 'No file selected.';
-
-            const icon = await fs.readFile(response[0].file.path);
-            const iconBuffer = `data:image/${response[0].file.name.split('.').reverse()[0]};base64,${icon.toString('base64')}`;
+            const icon = await fs.readFile(response.path);
+            const iconBuffer = `data:image/${response.name.split('.').reverse()[0]};base64,${icon.toString('base64')}`;
 
             await selectedServer?.edit({ icon: iconBuffer });
 
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                <span style={{ color: 'lightgreen' }}>Changed server icon to <b>"{response[0].file.name}"</b></span>
+                <span style={{ color: 'lightgreen' }}>Changed server icon to <b>"{response.name}"</b></span>
             </p>);
         }
         catch (error) {
@@ -1014,7 +1010,7 @@ export default function () {
             addLog(<p>
                 <span style={{ color: 'lightblue' }}>({moment(Date.now()).format('HH:mm:ss')})</span>&nbsp;
                 <span style={{ color: 'cyan' }}>[{selectedServer.name}]</span>&nbsp;
-                <span style={{ color: 'lightgreen' }}>Failed to change server icon</span>
+                <span style={{ color: 'crimson' }}>Failed to change server icon</span>
             </p>);
         };
     };
@@ -2134,12 +2130,11 @@ export default function () {
         setEmojiCreateModalActive(false);
 
         try {
-            const response = await dialog();
+            const response = await ipcRenderer.invoke("select-file", "Select Emoji");
+            if (!response) throw 'No file selected.';
 
-            if (response.length < 1) throw 'No file selected.';
-
-            const image = await fs.readFile(response[0].file.path);
-            const imageBuffer = `data:image/${response[0].file.name.split('.').reverse()[0]};base64,${image.toString('base64')}`;
+            const image = await fs.readFile(response.path);
+            const imageBuffer = `data:image/${response.name.split('.').reverse()[0]};base64,${image.toString('base64')}`;
 
             const promises = [...Array(emojiCreateAmountValue && emojiCreateAmountValue !== "" ? parseInt(emojiCreateAmountValue) : 1)].map(() => new Promise(async function (resolve) {
                 try {
@@ -2188,11 +2183,10 @@ export default function () {
         setStickerCreateModalActive(false);
 
         try {
-            const response = await dialog();
+            const response = await ipcRenderer.invoke("select-file", "Select Sticker");
+            if (!response) throw 'No file selected.';
 
-            if (response.length < 1) throw 'No file selected.';
-
-            const image = await fs.readFile(response[0].file.path);
+            const image = await fs.readFile(response.path);
 
             const promises = [...Array(stickerCreateAmountValue && stickerCreateAmountValue !== "" ? parseInt(stickerCreateAmountValue) : 1)].map(() => new Promise(async function (resolve) {
                 try {
@@ -2200,7 +2194,7 @@ export default function () {
                         name: stickerCreateNameValue,
                         file: {
                             file: image,
-                            name: response[0].file.name
+                            name: response.name
                         },
                         tags: stickerCreateEmojiValue || '🔥'
                     }, stickerCreateReasonValue || null);

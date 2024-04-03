@@ -11,7 +11,7 @@
     "postinstall": "electron-builder install-app-deps",
     "clean-unix": "sudo rm -rf ./app ./dist ./node_modules ./renderer/.next"
   },
-  "repository": "https://github.com/snipcola/xspammer-2",
+  "repository": "https://git.snipcola.com/snipcola/XSpammer2",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
@@ -26,7 +26,6 @@
     "moment": "^2.29.4",
     "pako": "^2.1.0",
     "react-data-table-component": "^7.5.3",
-    "react-use-open-file-dialog": "^1.0.2",
     "sodium-native": "^4.0.4",
     "styled-components": "^6.0.1",
     "zlib-sync": "^0.1.8"
