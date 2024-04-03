@@ -47,7 +47,7 @@ To use XSpammer, you can follow two methods.
 
 ### Method 1: Install the prebuilt binaries
 
-This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://git.snipcola.com/snipcola/XSpammer2/releases/tag/latest), where you will find the respective builds for `Windows (x64)` only.
+This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://git.snipcola.com/snipcola/XSpammer2/releases/latest), where you will find the respective builds for `Windows (x64)` only.
 
 ### Method 2: Build the application
 
