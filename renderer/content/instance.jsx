@@ -724,11 +724,24 @@ export default function () {
     const [userNicknameValue, setUserNicknameValue] = useState('');
     const [userNicknameReasonValue, setUserNicknameReasonValue] = useState('');
 
+    async function fetchMembers(users) {
+        const ids = users.map((u) => u?.id);
+        const batches = [];
+
+        for (let i = 0; i < ids.length; i += 100) {
+            const batchIds = ids.slice(i, i + 100);
+            batches.push(selectedServer.fetchMembers({ userIDs: batchIds }));
+        }
+
+        const response = await Promise.all(batches);
+        return response.flat();
+    }
+
     async function usersNickname () {
         setUserNicknameModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedUsers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedUsers);
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     try {
@@ -775,7 +788,7 @@ export default function () {
         setUserTimeoutModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedUsers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedUsers);
             const time = convertStringToDate(userTimeoutValue);
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
@@ -822,7 +835,7 @@ export default function () {
         setUserKickModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedUsers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedUsers);
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     try {
@@ -869,7 +882,7 @@ export default function () {
         setUserBanModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedUsers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedUsers);
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     try {
@@ -916,7 +929,7 @@ export default function () {
         setUserDMModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedUsers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedUsers);
             const promises = [...Array(userDMAmountValue && userDMAmountValue !== "" ? parseInt(userDMAmountValue) : 1)].map(() => members.map(function (member) {
                 return new Promise(async function (resolve) {
                     try {
@@ -1291,7 +1304,7 @@ export default function () {
         setUserRemoveRoleModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedUsers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedUsers);
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     const rolePromises = selectedRemoveRoles.map(function (role) {
@@ -1344,7 +1357,7 @@ export default function () {
         setUserAddRoleModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedUsers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedUsers);
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     const rolePromises = selectedAddRoles.map(function (role) {
@@ -1840,7 +1853,7 @@ export default function () {
         setRoleAddMemberModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedAddMembers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedAddMembers);
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     const rolePromises = selectedRoles.map(function (role) {
@@ -1893,7 +1906,7 @@ export default function () {
         setRoleRemoveMemberModalActive(false);
 
         try {
-            const members = await selectedServer.fetchMembers({ userIDs: selectedRemoveMembers.map((u) => u?.id) });
+            const members = await fetchMembers(selectedRemoveMembers);
             const promises = members.map(function (member) {
                 return new Promise(async function (resolve) {
                     const rolePromises = selectedRoles.map(function (role) {
