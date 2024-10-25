@@ -11,5 +11,7 @@ files:
       - app
 win:
   target:
-    - {target: nsis}
+    - { target: nsis }
+mac:
+  mergeASARs: false
 publish: null

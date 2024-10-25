@@ -7,53 +7,19 @@
 
 ---
 
-## Advantages
-
-- <b>👌 Reliability:</b> Thoroughly tested and multiple bugs have been resolved. 
-- <b>🔥 Performance:</b> Limited use of third-party components to prevent bloat.
-- <b>📙 Additions:</b> New features implemented that were not in XSpammer. 
-- <b>⚡ Speed:</b> Compared to XSpammer, many actions are noticeably faster.
-
----
-
-## Screenshots
-
-#### Servers Preview
-![preview-servers](https://snipcola.github.io/XSpammer2/1.png)
-
-#### Server Preview
-![preview-server](https://snipcola.github.io/XSpammer2/2.png)
-
-#### Users Preview
-![preview-users](https://snipcola.github.io/XSpammer2/3.png)
-
-#### Channels Preview
-![preview-channels](https://snipcola.github.io/XSpammer2/4.png)
-
-#### Roles Preview
-![preview-roles](https://snipcola.github.io/XSpammer2/5.png)
-
-#### Emojis Preview
-![preview-emoji](https://snipcola.github.io/XSpammer2/6.png)
-
-#### Stickers Preview
-![preview-stickers](https://snipcola.github.io/XSpammer2/7.png)
-
----
-
 ## Installation
 
 To use XSpammer, you can follow two methods.
 
 ### Method 1: Install the prebuilt binaries
 
-This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://git.snipcola.com/snipcola/XSpammer2/releases/latest), where you will find the respective builds for `Windows (x64)` only.
+This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://git.snipcola.com/snipcola/XSpammer2/releases/latest), where you will find the respective builds for `Linux`, `macOS`, and `Windows`.
 
 ### Method 2: Build the application
 
 #### Dependencies:
 
-On Unix:
+On Linux:
 - Git
 - Node v18+
 - Python v3.7+
@@ -104,9 +70,34 @@ yarn
 yarn build
 ```
 
-<b>Note:</b> You can append platforms to the command, such as ``--linux``, ``--mac``, ``--windows``; and also architectures, ``--ia32``, ``--x64``, ``--arm64``.
+<b>Note:</b> You can append platforms to the command, such as ``--linux``, ``--mac``, ``--win``; and also architectures, ``--ia32``, ``--x64``, ``--arm64``.
 
-6. The binaries should be located inside of the ``dist`` folder.
+1. The binaries should be located inside of the ``dist`` folder.
+
+---
+
+## Screenshots
+
+#### Servers Preview
+![preview-servers](https://snipcola.github.io/XSpammer2/1.png)
+
+#### Server Preview
+![preview-server](https://snipcola.github.io/XSpammer2/2.png)
+
+#### Users Preview
+![preview-users](https://snipcola.github.io/XSpammer2/3.png)
+
+#### Channels Preview
+![preview-channels](https://snipcola.github.io/XSpammer2/4.png)
+
+#### Roles Preview
+![preview-roles](https://snipcola.github.io/XSpammer2/5.png)
+
+#### Emojis Preview
+![preview-emoji](https://snipcola.github.io/XSpammer2/6.png)
+
+#### Stickers Preview
+![preview-stickers](https://snipcola.github.io/XSpammer2/7.png)
 
 ---
 

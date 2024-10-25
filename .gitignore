@@ -11,3 +11,4 @@ app
 dist
 private
 .DS_Store
+pnpm-lock.yaml
