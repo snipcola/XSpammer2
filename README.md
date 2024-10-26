@@ -1,9 +1,11 @@
-<div align='center'>
+<div align="center">
     <h1>XSpammer 2</h1>
-    <p">Discord automation utility and much more 🚀</p>
+    <p>Discord automation utility and much more 🚀</p>
 </div>
 
-![preview](https://snipcola.github.io/XSpammer2/preview.png)
+<div align="center">
+    <img src="https://snipcola.github.io/XSpammer2/preview.png" />
+</div>
 
 ---
 
@@ -20,6 +22,7 @@ This method is the easiest and is recommended for most. You can find the latest 
 #### Dependencies:
 
 On Linux:
+
 - Git
 - Node v18+
 - Python v3.7+
@@ -27,12 +30,14 @@ On Linux:
 - A C/C++ compiler, e.g. GCC
 
 On macOS:
+
 - Git
 - Node v18+
 - Python v3.7+
 - XCode Command Line Tools
 
 On Windows:
+
 - Git
 - Node v18+
 - Current Python from the MS Store
@@ -70,34 +75,55 @@ yarn
 yarn build
 ```
 
-<b>Note:</b> You can append platforms to the command, such as ``--linux``, ``--mac``, ``--win``; and also architectures, ``--ia32``, ``--x64``, ``--arm64``.
+<b>Note:</b> You can append platforms to the command, such as `--linux`, `--mac`, `--win`; and also architectures, `--ia32`, `--x64`, `--arm64`.
 
-1. The binaries should be located inside of the ``dist`` folder.
+6. The binaries should be located inside of the `dist` folder.
 
 ---
 
 ## Screenshots
 
-#### Servers Preview
-![preview-servers](https://snipcola.github.io/XSpammer2/1.png)
+<h4 align="center">Servers Preview</h4>
 
-#### Server Preview
-![preview-server](https://snipcola.github.io/XSpammer2/2.png)
+<div align="center">
+    <img src="https://snipcola.github.io/XSpammer2/1.png" />
+</div>
 
-#### Users Preview
-![preview-users](https://snipcola.github.io/XSpammer2/3.png)
+<h4 align="center">Server Preview</h4>
 
-#### Channels Preview
-![preview-channels](https://snipcola.github.io/XSpammer2/4.png)
+<div align="center">
+    <img src="https://snipcola.github.io/XSpammer2/2.png" />
+</div>
 
-#### Roles Preview
-![preview-roles](https://snipcola.github.io/XSpammer2/5.png)
+<h4 align="center">Users Preview</h4>
 
-#### Emojis Preview
-![preview-emoji](https://snipcola.github.io/XSpammer2/6.png)
+<div align="center">
+    <img src="https://snipcola.github.io/XSpammer2/3.png" />
+</div>
 
-#### Stickers Preview
-![preview-stickers](https://snipcola.github.io/XSpammer2/7.png)
+<h4 align="center">Channels Preview</h4>
+
+<div align="center">
+    <img src="https://snipcola.github.io/XSpammer2/4.png" />
+</div>
+
+<h4 align="center">Roles Preview</h4>
+
+<div align="center">
+    <img src="https://snipcola.github.io/XSpammer2/5.png" />
+</div>
+
+<h4 align="center">Emojis Preview</h4>
+
+<div align="center">
+    <img src="https://snipcola.github.io/XSpammer2/6.png" />
+</div>
+
+<h4 align="center">Stickers Preview</h4>
+
+<div align="center">
+    <img src="https://snipcola.github.io/XSpammer2/7.png" />
+</div>
 
 ---
 
@@ -113,6 +139,6 @@ XSpammer 2 is licensed under the [MIT License](https://git.snipcola.com/snipcola
 
 ---
 
-<div align='center'>
+<div align="center">
     <p>© 2024 Snipcola</p>
 </div>
