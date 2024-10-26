@@ -1,12 +1,8 @@
-import {
-  screen,
-  BrowserWindow,
-  shell
-} from 'electron';
-import Store from 'electron-store';
+import { screen, BrowserWindow, shell } from "electron";
+import Store from "electron-store";
 
 export default function createWindow(windowName, options) {
-  const key = 'window-state';
+  const key = "window-state";
   const name = `window-state-${windowName}`;
   const store = new Store({ name });
   const defaultSize = {
@@ -42,13 +38,13 @@ export default function createWindow(windowName, options) {
     const bounds = screen.getPrimaryDisplay().bounds;
     return Object.assign({}, defaultSize, {
       x: (bounds.width - defaultSize.width) / 2,
-      y: (bounds.height - defaultSize.height) / 2
+      y: (bounds.height - defaultSize.height) / 2,
     });
   };
 
   const ensureVisibleOnSomeDisplay = (windowState) => {
-    const visible = screen.getAllDisplays().some(display => {
-      return windowWithinBounds(windowState, display.bounds)
+    const visible = screen.getAllDisplays().some((display) => {
+      return windowWithinBounds(windowState, display.bounds);
     });
     if (!visible) {
       return resetToDefaults();
@@ -74,15 +70,15 @@ export default function createWindow(windowName, options) {
       contextIsolation: false,
       ...options.webPreferences,
     },
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
   });
 
-  win.on('close', saveState);
+  win.on("close", saveState);
 
   win.webContents.setWindowOpenHandler(function ({ url }) {
     shell.openExternal(url);
-    return { action: 'deny' };
+    return { action: "deny" };
   });
 
   return win;
-};
+}

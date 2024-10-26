@@ -1,130 +1,130 @@
 /* Add Instance */
-.add-instance {    
-    border: 1px dashed var(--primary-color);
-    background-color: transparent !important;
-    color: var(--primary-color) !important;
+.add-instance {
+  border: 1px dashed var(--primary-color);
+  background-color: transparent !important;
+  color: var(--primary-color) !important;
 }
 
 /* Title */
 .title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Instance Preview */
 .instance-preview {
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
-    border: 1px dashed var(--primary-color);
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
-    padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  border: 1px dashed var(--primary-color);
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 1rem;
 }
 
 .instance-preview .image {
-    border: 2px dotted var(--primary-color) !important;
-    border-radius: 100%;
+  border: 2px dotted var(--primary-color) !important;
+  border-radius: 100%;
 }
 
 .instance-preview .info {
-    opacity: 85%;
-    margin-left: 1rem;
+  opacity: 85%;
+  margin-left: 1rem;
 }
 
 .instance-preview .tag {
-    font-weight: 500;
-    font-size: 1.25rem;
+  font-weight: 500;
+  font-size: 1.25rem;
 }
 
 .instance-preview .description {
-    margin-top: .25rem;
+  margin-top: 0.25rem;
 }
 
 /* Instances */
 .instances {
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  gap: 1rem;
 }
 
 .instance {
-    display: flex;
-    align-items: flex-start;
-    padding: 1rem;
-    width: 100%;
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  width: 100%;
 
-    background-color: var(--input-color);
-    border-radius: var(--border-radius);
-    box-sizing: border-box;
+  background-color: var(--input-color);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
 }
 
 .instance .avatar {
-    border-radius: 100%;
-    min-height: 50px !important;
+  border-radius: 100%;
+  min-height: 50px !important;
 }
 
 .instance .info {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 .instance .tag {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }
 
 .instance .id {
-    font-size: .9rem;
-    opacity: 75%;
+  font-size: 0.9rem;
+  opacity: 75%;
 }
 
 .instance .buttons {
-    display: flex;
-    gap: 8px;
-    margin-top: .75rem;
+  display: flex;
+  gap: 8px;
+  margin-top: 0.75rem;
 }
 
 .instance .trashButton {
-    background-color: var(--alert-danger)
+  background-color: var(--alert-danger);
 }
 
 /* Checkbox */
 .checkboxes {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .checkboxContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .checkboxContainer .checkbox {
-    display: block;
-    width: 1.15rem;
-    height: 1.15rem;
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 /* Responsive */
 @media only screen and (max-width: 1000px) {
-    .title {
-        flex-direction: column !important;
-        align-items: start !important;
-        gap: 10px !important;
-    }
+  .title {
+    flex-direction: column !important;
+    align-items: start !important;
+    gap: 10px !important;
+  }
 
-    .instance > span {
-        display: none !important;
-    }
+  .instance > span {
+    display: none !important;
+  }
 
-    .instance .info {
-        margin-left: 0 !important;
-    }
+  .instance .info {
+    margin-left: 0 !important;
+  }
 
-    .checkboxes {
-        flex-direction: column !important;
-    }
+  .checkboxes {
+    flex-direction: column !important;
+  }
 }

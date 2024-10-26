@@ -1,5 +1,5 @@
 export default {
-    visible: false,
-    variant: '',
-    description: ''
+  visible: false,
+  variant: "",
+  description: "",
 };

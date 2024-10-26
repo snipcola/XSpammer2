@@ -1,27 +1,28 @@
 /* Input */
 .input {
-    all: unset;
-    margin-top: .5rem;
+  all: unset;
+  margin-top: 0.5rem;
 
-    background-color: var(--input-color);
-    border-radius: var(--border-radius);
-    padding: var(--input-padding);
+  background-color: var(--input-color);
+  border-radius: var(--border-radius);
+  padding: var(--input-padding);
 
-    font-size: var(--input-font-size);
-    width: 20rem;
+  font-size: var(--input-font-size);
+  width: 20rem;
 
-    border: 1px solid transparent;
+  border: 1px solid transparent;
 }
 
 .input:disabled {
-    opacity: 25%;
-    pointer-events: none;
+  opacity: 25%;
+  pointer-events: none;
 }
 
-.input:hover, .input:focus {
-    opacity: 75%;
+.input:hover,
+.input:focus {
+  opacity: 75%;
 }
 
 .input:focus {
-    border-color: var(--primary-color);
+  border-color: var(--primary-color);
 }

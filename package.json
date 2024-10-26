@@ -1,41 +1,43 @@
 {
-  "private": true,
   "name": "xspammer",
-  "version": "0.0.7",
+  "author": "Snipcola",
   "description": "Utility for automated discord actions",
-  "author": "Snipcola <snipcola@gmail.com>",
+  "version": "0.0.7",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://git.snipcola.com/snipcola/XSpammer2.git"
+  },
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
-    "build": "nextron build",
-    "postinstall": "electron-builder install-app-deps",
-    "clean-unix": "sudo rm -rf ./app ./dist ./node_modules ./renderer/.next"
+    "build": "nextron build"
   },
-  "repository": "https://git.snipcola.com/snipcola/XSpammer2",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.0",
-    "@fortawesome/free-brands-svg-icons": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "electron-serve": "^1.1.0",
-    "electron-store": "^8.1.0",
+    "@babel/runtime-corejs3": "7.26.0",
+    "@fortawesome/fontawesome-svg-core": "6.6.0",
+    "@fortawesome/free-brands-svg-icons": "6.6.0",
+    "@fortawesome/free-solid-svg-icons": "6.6.0",
+    "@fortawesome/react-fontawesome": "0.2.2",
+    "electron-serve": "1.3.0",
+    "electron-store": "8.2.0",
     "eris": "0.17.2",
-    "erlpack": "^0.1.4",
-    "eventemitter3": "^5.0.1",
-    "ignore-loader": "^0.1.2",
-    "moment": "^2.29.4",
-    "pako": "^2.1.0",
-    "react-data-table-component": "^7.5.3",
-    "sodium-native": "^4.0.4",
-    "styled-components": "^6.0.1",
-    "zlib-sync": "^0.1.8"
+    "erlpack": "0.1.4",
+    "eventemitter3": "5.0.1",
+    "ignore-loader": "0.1.2",
+    "moment": "2.30.1",
+    "pako": "2.1.0",
+    "react-data-table-component": "7.6.2",
+    "sodium-native": "4.2.2",
+    "styled-components": "6.1.13",
+    "zlib-sync": "0.1.9"
   },
   "devDependencies": {
-    "electron": "^21.3.3",
-    "electron-builder": "^25.1.8",
-    "next": "^12.3.4",
-    "nextron": "^8.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "electron": "31.7.2",
+    "electron-builder": "25.1.8",
+    "next": "14.2.4",
+    "nextron": "9.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }

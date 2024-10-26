@@ -1,48 +1,48 @@
 /* Modal */
 .modal {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    
-    position: fixed;
-    z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
 
-    top: 0px;
-    left: 0px;
+  position: fixed;
+  z-index: 1000;
 
-    width: 100vw;
-    height: 100vh;
+  top: 0px;
+  left: 0px;
 
-    background-color: rgba(0, 0, 0, .5);
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-active {
-    display: flex;
+  display: flex;
 }
 
 /* Modal Container */
 .modal .container {
-    padding: 0;
-    height: fit-content;
-    border-radius: var(--border-radius);
-    background-color: var(--background-color-dark);
-    border: 1px solid var(--background-color);
-    box-sizing: border-box;
+  padding: 0;
+  height: fit-content;
+  border-radius: var(--border-radius);
+  background-color: var(--background-color-dark);
+  border: 1px solid var(--background-color);
+  box-sizing: border-box;
 }
 
 /* Modal Content */
 .modal-content {
-    padding: var(--container-padding);
-    max-height: 30rem;
-    overflow-y: auto;
+  padding: var(--container-padding);
+  max-height: 30rem;
+  overflow-y: auto;
 }
 
 /* Modal Footer */
 .modal .footer {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 
-    padding: var(--container-padding);
-    margin-top: .25rem;
-    border-top: 1px solid var(--background-color);
+  padding: var(--container-padding);
+  margin-top: 0.25rem;
+  border-top: 1px solid var(--background-color);
 }

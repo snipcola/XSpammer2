@@ -1,114 +1,127 @@
-@import './normalize.min.css';
+@import "./normalize.min.css";
 
 /* Variables */
 :root {
-    --background-color: rgb(56, 57, 58);
-    --background-color-dark: #202124;
+  --background-color: rgb(56, 57, 58);
+  --background-color-dark: #202124;
 
-    --primary-color: #5F85DB;
-    --primary-color-light: #90B8F8;
+  --primary-color: #5f85db;
+  --primary-color-light: #90b8f8;
 
-    --secondary-color: #2d2f31;
+  --secondary-color: #2d2f31;
 
-    --body-padding: 0px;
+  --body-padding: 0px;
 
-    --text-color: white;
-    --text-margin: 0;
+  --text-color: white;
+  --text-margin: 0;
 
-    --container-gap: 1px;
-    --container-padding: .5rem;
+  --container-gap: 1px;
+  --container-padding: 0.5rem;
 
-    --sidebar-width: 13vw;
-    --content-width: 87vw;
-    
-    --border-radius: 0;
+  --sidebar-width: 13vw;
+  --content-width: 87vw;
 
-    --button-sm-padding: .25rem 1rem;
-    --button-sm-font-size: .9rem;
-    
-    --button-md-padding: .4rem 1.5rem;
-    --button-md-font-size: .95rem;
+  --border-radius: 0;
 
-    --button-lg-padding: .5rem 1.75rem;
-    --button-lg-font-size: 1rem;
+  --button-sm-padding: 0.25rem 1rem;
+  --button-sm-font-size: 0.9rem;
 
-    --input-color: #111214;
-    --input-padding: .5rem .75rem;
-    --input-font-size: .95rem;
+  --button-md-padding: 0.4rem 1.5rem;
+  --button-md-font-size: 0.95rem;
 
-    --alert-success: #2ecc71;
-    --alert-success-bg: #04140b;
+  --button-lg-padding: 0.5rem 1.75rem;
+  --button-lg-font-size: 1rem;
 
-    --alert-info: #0084ff;
-    --alert-info-bg: #040f14;
+  --input-color: #111214;
+  --input-padding: 0.5rem 0.75rem;
+  --input-font-size: 0.95rem;
 
-    --alert-warning: #f39c12;
-    --alert-warning-bg: #180f01;
+  --alert-success: #2ecc71;
+  --alert-success-bg: #04140b;
 
-    --alert-danger: #e74c3c;
-    --alert-danger-bg: #190503;
+  --alert-info: #0084ff;
+  --alert-info-bg: #040f14;
 
-    --tab-bg-color: #606161;
-    --tab-bg-color-light: #7b7c7c;
+  --alert-warning: #f39c12;
+  --alert-warning-bg: #180f01;
 
-    --table-bg-color: #32353a;
-    --table-head-bg-color: #16181c;
+  --alert-danger: #e74c3c;
+  --alert-danger-bg: #190503;
+
+  --tab-bg-color: #606161;
+  --tab-bg-color-light: #7b7c7c;
+
+  --table-bg-color: #32353a;
+  --table-head-bg-color: #16181c;
 }
 
 /* Fonts */
 @font-face {
-    font-family: 'Assistant';
-    src: url('../fonts/assistant.ttf') format('truetype');
-    font-weight: 1 999;
-    font-stretch: 75% 200%;
+  font-family: "Assistant";
+  src: url("../fonts/assistant.ttf") format("truetype");
+  font-weight: 1 999;
+  font-stretch: 75% 200%;
 }
 
 /* Text */
 * {
-    font-family: 'Assistant', Arial, sans-serif !important;
+  font-family: "Assistant", Arial, sans-serif !important;
 }
 
-textarea, th, tr, input, li, button, a, p, h1, h2, h3, h4, h5, h6 {
-    font-weight: 300;
+textarea,
+th,
+tr,
+input,
+li,
+button,
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
 
-    color: var(--text-color) !important;
-    margin: var(--text-margin);
+  color: var(--text-color) !important;
+  margin: var(--text-margin);
 }
 
 /* Body */
 body {
-    background-color: var(--background-color);
-    padding: var(--body-padding);
+  background-color: var(--background-color);
+  padding: var(--body-padding);
 }
 
 /* Global */
 * {
-    user-select: none;
-    -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--tab-bg-color);
+  background-color: var(--tab-bg-color);
 }
 
 ::-webkit-scrollbar-track {
-    background-color: var(--input-color);
+  background-color: var(--input-color);
 }
 
 /* Selection */
 ::selection {
-    background-color: var(--primary-color);
+  background-color: var(--primary-color);
 }
 
 /* Responsive */
 @media only screen and (max-width: 1000px) {
-    :root {
-        --sidebar-width: 4rem !important;
-        --content-width: calc(100vw - 3rem) !important;
-    }
+  :root {
+    --sidebar-width: 4rem !important;
+    --content-width: calc(100vw - 3rem) !important;
+  }
 }

@@ -1,5 +1,6 @@
-export const timeoutPromise = (timeout) => new Promise((_, reject) => {
+export const timeoutPromise = (timeout) =>
+  new Promise((_, reject) => {
     setTimeout(() => {
-        reject(new Error('Promise timed out'));
+      reject(new Error("Promise timed out"));
     }, timeout);
-});
+  });

@@ -1,68 +1,68 @@
 /* Button */
 .button {
-    all: unset;
-    display: flex;
+  all: unset;
+  display: flex;
 
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    
-    gap: 10px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+
+  gap: 10px;
 }
 
 .button:disabled {
-    opacity: 25%;
-    pointer-events: none;
+  opacity: 25%;
+  pointer-events: none;
 }
 
 /* Button Sizes */
 .button.size-sm {
-    padding: var(--button-sm-padding);
-    font-size: var(--button-sm-font-size);
+  padding: var(--button-sm-padding);
+  font-size: var(--button-sm-font-size);
 }
 
 .button.size-md {
-    padding: var(--button-md-padding);
-    font-size: var(--button-md-font-size);
+  padding: var(--button-md-padding);
+  font-size: var(--button-md-font-size);
 }
 
 .button.size-lg {
-    padding: var(--button-lg-padding);
-    font-size: var(--button-lg-font-size);
+  padding: var(--button-lg-padding);
+  font-size: var(--button-lg-font-size);
 }
 
 /* Button Variants */
 .button.variant-primary {
-    background-color: var(--primary-color);
+  background-color: var(--primary-color);
 }
 
 .button.variant-secondary {
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 
 /* Button Events */
 .button:hover {
-    opacity: 75%;
+  opacity: 75%;
 }
 
 .button:active {
-    opacity: 50%;
+  opacity: 50%;
 }
 
 /* Button Icon */
 .button .icon {
-    min-height: .75rem !important;
-    min-width: .75rem !important;
-    max-height: .75rem !important;
-    max-width: .75rem !important;
+  min-height: 0.75rem !important;
+  min-width: 0.75rem !important;
+  max-height: 0.75rem !important;
+  max-width: 0.75rem !important;
 }
 
 /* Responsive */
 @media only screen and (max-width: 1000px) {
-    .button.size-sm {
-        padding: calc(.25rem - 2px) calc(1rem - 2px) !important;
-        font-size: calc(.9rem - 2px) !important;
-    }
+  .button.size-sm {
+    padding: calc(0.25rem - 2px) calc(1rem - 2px) !important;
+    font-size: calc(0.9rem - 2px) !important;
+  }
 }
