@@ -54,7 +54,7 @@ git clone https://git.snipcola.com/snipcola/XSpammer2.git
 2. Enter the directory:
 
 ```bash
-cd xspammer-2
+cd XSpammer2
 ```
 
 3. If not installed, install yarn:
