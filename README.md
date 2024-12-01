@@ -124,21 +124,3 @@ yarn build
 <div align="center">
     <img src="https://snipcola.github.io/XSpammer2/7.png" />
 </div>
-
----
-
-## Contributing
-
-If you're interested in contributing to XSpammer, feel free to submit pull requests on the Git repository; your contributions are greatly appreciated.
-
----
-
-## License
-
-XSpammer 2 is licensed under the [MIT License](https://git.snipcola.com/snipcola/XSpammer2/raw/branch/main/LICENSE), please review the license for more information.
-
----
-
-<div align="center">
-    <p>© 2024 Snipcola</p>
-</div>
