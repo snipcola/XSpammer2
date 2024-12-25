@@ -4,7 +4,7 @@
 </div>
 
 <div align="center">
-    <img src="https://snipcola.github.io/XSpammer2/preview.png" />
+    <img src="./assets/screenshots/preview.png" />
 </div>
 
 ---
@@ -86,41 +86,41 @@ yarn build
 <h4 align="center">Servers Preview</h4>
 
 <div align="center">
-    <img src="https://snipcola.github.io/XSpammer2/1.png" />
+    <img src="./assets/screenshots/1.png" />
 </div>
 
 <h4 align="center">Server Preview</h4>
 
 <div align="center">
-    <img src="https://snipcola.github.io/XSpammer2/2.png" />
+    <img src="./assets/screenshots/2.png" />
 </div>
 
 <h4 align="center">Users Preview</h4>
 
 <div align="center">
-    <img src="https://snipcola.github.io/XSpammer2/3.png" />
+    <img src="./assets/screenshots/3.png" />
 </div>
 
 <h4 align="center">Channels Preview</h4>
 
 <div align="center">
-    <img src="https://snipcola.github.io/XSpammer2/4.png" />
+    <img src="./assets/screenshots/4.png" />
 </div>
 
 <h4 align="center">Roles Preview</h4>
 
 <div align="center">
-    <img src="https://snipcola.github.io/XSpammer2/5.png" />
+    <img src="./assets/screenshots/5.png" />
 </div>
 
 <h4 align="center">Emojis Preview</h4>
 
 <div align="center">
-    <img src="https://snipcola.github.io/XSpammer2/6.png" />
+    <img src="./assets/screenshots/6.png" />
 </div>
 
 <h4 align="center">Stickers Preview</h4>
 
 <div align="center">
-    <img src="https://snipcola.github.io/XSpammer2/7.png" />
+    <img src="./assets/screenshots/7.png" />
 </div>
