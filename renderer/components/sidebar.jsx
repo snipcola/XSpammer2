@@ -41,21 +41,6 @@ export default function ({ customClass }) {
     }),
   ];
 
-  const buttons = [
-    new _Button(
-      "Discord",
-      undefined,
-      faDiscord,
-      "https://url.snipcola.com/discord",
-    ),
-    new _Button(
-      "YouTube",
-      "secondary",
-      faYoutube,
-      "https://url.snipcola.com/youtube",
-    ),
-  ];
-
   return (
     <div className={`${styles.sidebar} ${customClass}`}>
       <div className={styles.tabs}>
@@ -71,26 +56,6 @@ export default function ({ customClass }) {
               iconLeft={tab.icon}
               onClick={tab.onClick}
             />
-          );
-        })}
-      </div>
-      <div className={styles.buttons}>
-        {buttons.map((button) => {
-          return (
-            <a
-              key={button.label}
-              className={styles.link}
-              target="_blank"
-              href={button.link}
-            >
-              <Button
-                customClass={styles.button}
-                label={button.label}
-                size="md"
-                variant={button.variant}
-                iconLeft={button.icon}
-              />
-            </a>
           );
         })}
       </div>

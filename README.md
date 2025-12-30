@@ -15,7 +15,7 @@ To use XSpammer, you can follow two methods.
 
 ### Method 1: Install the prebuilt binaries
 
-This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://git.snipcola.com/snipcola/XSpammer2/releases/latest), where you will find the respective builds for `Linux`, `macOS`, and `Windows`.
+This method is the easiest and is recommended for most. You can find the latest binaries on [this page](https://code.snipcola.st/snipcola/XSpammer2/releases/latest), where you will find the respective builds for `Linux`, `macOS`, and `Windows`.
 
 ### Method 2: Build the application
 
@@ -48,7 +48,7 @@ On Windows:
 1. Clone the repository:
 
 ```bash
-git clone https://git.snipcola.com/snipcola/XSpammer2.git
+git clone https://code.snipcola.st/snipcola/XSpammer2
 ```
 
 2. Enter the directory:
